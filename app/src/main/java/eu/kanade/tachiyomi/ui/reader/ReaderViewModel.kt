@@ -953,7 +953,7 @@ class ReaderViewModel(
     private fun updateReadingStatus(readerChapter: ReaderChapter) {
         manga ?: return
 
-        if (!preferences.readingSync().get() && readerChapter.chapter.isMergedChapter()) return
+        if (!preferences.readingSync().get() || readerChapter.chapter.isMergedChapter()) return
         viewModelScope.launchIO {
             statusHandler.marksChaptersStatus(
                 manga!!.uuid(),
