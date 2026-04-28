@@ -21,8 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +47,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.lazy.LazyRowMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.zedlabs.pastelplaceholder.Pastel
@@ -199,18 +198,7 @@ private fun ActionButtons(
 
 @Composable
 private fun ArtworkButton(text: String, color: Color, modifier: Modifier, onClick: () -> Unit) {
-    FilledTonalButton(
-        onClick = onClick,
-        shapes = ButtonDefaults.shapes(),
-        modifier = modifier,
-        colors =
-            ButtonDefaults.filledTonalButtonColors(
-                containerColor = color,
-                contentColor = MaterialTheme.colorScheme.surface,
-            ),
-    ) {
-        TextMMD(text = text)
-    }
+    ButtonMMD(onClick = onClick, modifier = modifier) { TextMMD(text = text) }
 }
 
 @Composable

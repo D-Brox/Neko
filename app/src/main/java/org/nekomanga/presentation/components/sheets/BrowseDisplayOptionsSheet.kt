@@ -1,14 +1,14 @@
 package org.nekomanga.presentation.components.sheets
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.source.browse.LibraryEntryVisibility
 import jp.wasabeef.gap.Gap
@@ -67,23 +68,44 @@ fun BrowseDisplayOptionsSheet(
                     }
                     item {
                         Row(
-                            Modifier.fillMaxWidth().padding(horizontal = Size.medium),
+                            Modifier.fillMaxWidth()
+                                .padding(horizontal = Size.medium)
+                                .selectableGroup(),
                             horizontalArrangement = Arrangement.Center,
                         ) {
-                            ToggleButton(
-                                checked = isList,
-                                onCheckedChange = { switchDisplayClick() },
-                                shapes = ButtonGroupDefaults.connectedLeadingButtonShapes(),
+                            Row(
+                                Modifier.weight(1f),
+                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
                             ) {
-                                TextMMD(stringResource(R.string.list))
+                                RadioButtonMMD(selected = isList, onClick = switchDisplayClick)
+                                Gap(Size.tiny)
+                                TextMMD(
+                                    text = stringResource(R.string.list),
+                                    modifier =
+                                        Modifier.padding(horizontal = Size.medium).clickable(
+                                            role = androidx.compose.ui.semantics.Role.RadioButton
+                                        ) {
+                                            switchDisplayClick()
+                                        },
+                                )
                             }
-                            Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
-                            ToggleButton(
-                                checked = !isList,
-                                onCheckedChange = { switchDisplayClick() },
-                                shapes = ButtonGroupDefaults.connectedTrailingButtonShapes(),
+                            Row(
+                                Modifier.weight(1f),
+                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
                             ) {
-                                TextMMD(stringResource(R.string.grid))
+                                RadioButtonMMD(selected = !isList, onClick = switchDisplayClick)
+                                Gap(Size.tiny)
+                                TextMMD(
+                                    text = stringResource(R.string.grid),
+                                    modifier =
+                                        Modifier.padding(horizontal = Size.medium).clickable(
+                                            role = androidx.compose.ui.semantics.Role.RadioButton
+                                        ) {
+                                            switchDisplayClick()
+                                        },
+                                )
                             }
                         }
                     }
@@ -98,44 +120,85 @@ fun BrowseDisplayOptionsSheet(
 
                 item {
                     Row(
-                        Modifier.fillMaxWidth().padding(horizontal = Size.medium),
-                        horizontalArrangement = Arrangement.Center,
+                        Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
+                        horizontalArrangement = Arrangement.spacedBy(Size.small),
                     ) {
-                        ToggleButton(
-                            checked =
-                                currentLibraryEntryVisibility ==
-                                    LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY,
-                            onCheckedChange = {
-                                libraryEntryVisibilityClick(
-                                    LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
-                                )
-                            },
-                            shapes = ButtonGroupDefaults.connectedLeadingButtonShapes(),
+                        Row(
+                            Modifier.weight(1f),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                         ) {
-                            TextMMD(stringResource(R.string.hide_library_manga))
+                            RadioButtonMMD(
+                                selected =
+                                    currentLibraryEntryVisibility ==
+                                        LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY,
+                                onClick = {
+                                    libraryEntryVisibilityClick(
+                                        LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
+                                    )
+                                },
+                            )
+                            Gap(Size.tiny)
+                            TextMMD(
+                                text = stringResource(R.string.hide_library_manga),
+                                modifier =
+                                    Modifier.clickable(
+                                        role = androidx.compose.ui.semantics.Role.RadioButton
+                                    ) {
+                                        libraryEntryVisibilityClick(
+                                            LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
+                                        )
+                                    },
+                            )
                         }
-                        Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
-                        ToggleButton(
-                            checked =
-                                currentLibraryEntryVisibility == LibraryEntryVisibility.SHOW_ALL,
-                            onCheckedChange = {
-                                libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
-                            },
-                            shapes = ButtonGroupDefaults.connectedMiddleButtonShapes(),
+                        Row(
+                            Modifier.weight(1f),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                         ) {
-                            TextMMD(stringResource(R.string.show_all_manga))
+                            RadioButtonMMD(
+                                selected =
+                                    currentLibraryEntryVisibility ==
+                                        LibraryEntryVisibility.SHOW_ALL,
+                                onClick = {
+                                    libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
+                                },
+                            )
+                            Gap(Size.tiny)
+                            TextMMD(
+                                text = stringResource(R.string.show_all_manga),
+                                modifier =
+                                    Modifier.clickable(
+                                        role = androidx.compose.ui.semantics.Role.RadioButton
+                                    ) {
+                                        libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
+                                    },
+                            )
                         }
-                        Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
-                        ToggleButton(
-                            checked =
-                                currentLibraryEntryVisibility ==
-                                    LibraryEntryVisibility.SHOW_IN_LIBRARY,
-                            onCheckedChange = {
-                                libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_IN_LIBRARY)
-                            },
-                            shapes = ButtonGroupDefaults.connectedTrailingButtonShapes(),
+                        Row(
+                            Modifier.weight(1f),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                         ) {
-                            TextMMD(stringResource(R.string.show_library_manga))
+                            RadioButtonMMD(
+                                selected =
+                                    currentLibraryEntryVisibility ==
+                                        LibraryEntryVisibility.SHOW_IN_LIBRARY,
+                                onClick = {
+                                    libraryEntryVisibilityClick(
+                                        LibraryEntryVisibility.SHOW_IN_LIBRARY
+                                    )
+                                },
+                            )
+                            Gap(Size.tiny)
+                            TextMMD(
+                                text = stringResource(R.string.show_library_manga),
+                                modifier =
+                                    Modifier.clickable(
+                                        role = androidx.compose.ui.semantics.Role.RadioButton
+                                    ) {
+                                        libraryEntryVisibilityClick(
+                                            LibraryEntryVisibility.SHOW_IN_LIBRARY
+                                        )
+                                    },
+                            )
                         }
                     }
                 }

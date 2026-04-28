@@ -110,6 +110,7 @@ dependencies {
     implementation(projects.core)
 
     implementation(kotlinx.bundles.kotlin)
+    implementation(libs.material3)
 
     coreLibraryDesugaring(libs.desugaring)
 

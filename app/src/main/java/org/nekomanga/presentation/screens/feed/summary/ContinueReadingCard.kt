@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -112,7 +111,7 @@ fun ContinueReadingCard(
             color = Color.Transparent,
             modifier = Modifier.clickable { dropdown = !dropdown },
             borderStroke = BorderStroke(0.dp, Color.Transparent),
-            shape = MaterialShapes.Circle.toShape(),
+            shape = CircleShape,
         ) {
             Icon(
                 imageVector = Icons.Outlined.Delete,
@@ -163,7 +162,7 @@ private fun DeleteBackground(
     color: Color,
     modifier: Modifier = Modifier,
     borderStroke: BorderStroke? = null,
-    shape: Shape = MaterialShapes.Sunny.toShape(),
+    shape: Shape = CircleShape,
     content: @Composable () -> Unit,
 ) {
     Box(

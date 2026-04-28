@@ -18,6 +18,7 @@ retrofitVersion = "3.0.0"
 sandwichVersion = "2.2.2"
 sqliteVersion = "2.6.2"
 kspVersion = "2.3.7"
+material3Version = "1.4.0"
 
 
 [libraries]
@@ -97,6 +98,7 @@ retrofit-scalars = { module = "com.squareup.retrofit2:converter-scalars", versio
 junit = "junit:junit:4.13.2"
 mockk = "io.mockk:mockk:1.14.9"
 kotest-assertions = "io.kotest:kotest-assertions-core-jvm:6.1.11"
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3Version" }
 
 [plugins]
 about-libraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutlibVersion" }

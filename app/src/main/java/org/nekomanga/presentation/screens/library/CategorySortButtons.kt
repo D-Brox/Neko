@@ -7,24 +7,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.ButtonGroupDefaults
-import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.IconButtonShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
@@ -41,15 +34,7 @@ fun RowScope.CategorySortButtons(
     categoryIsRefreshing: Boolean,
     categoryRefreshClick: () -> Unit,
 ) {
-    TextButton(
-        enabled = enabled,
-        shapes =
-            ButtonShapes(
-                shape = ButtonGroupDefaults.connectedLeadingButtonShape,
-                pressedShape = ButtonGroupDefaults.connectedLeadingButtonPressShape,
-            ),
-        onClick = categorySortClick,
-    ) {
+    TextButton(enabled = enabled, onClick = categorySortClick) {
         TextMMD(
             text = sortString,
             maxLines = 1,
@@ -57,14 +42,9 @@ fun RowScope.CategorySortButtons(
             color = textColor,
         )
     }
-    Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
+    Gap(4.dp)
     IconButton(
         enabled = enabled,
-        shapes =
-            IconButtonShapes(
-                shape = ShapeDefaults.Small,
-                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
-            ),
         colors = IconButtonDefaults.iconButtonColors(contentColor = textColor),
         onClick = ascendingClick,
     ) {
@@ -78,40 +58,24 @@ fun RowScope.CategorySortButtons(
             modifier = Modifier.size(Size.mediumLarge),
         )
     }
-    Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
+    Gap(4.dp)
     AnimatedContent(targetState = categoryIsRefreshing) { targetState ->
         when (targetState) {
             true -> {
-                val strokeWidth = with(LocalDensity.current) { Size.extraTiny.toPx() }
-                val stroke =
-                    remember(strokeWidth) { Stroke(width = strokeWidth, cap = StrokeCap.Round) }
                 IconButton(
                     enabled = false,
-                    shapes =
-                        IconButtonShapes(
-                            shape = ButtonGroupDefaults.connectedTrailingButtonShape,
-                            pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
-                        ),
                     colors = IconButtonDefaults.iconButtonColors(disabledContentColor = textColor),
                     onClick = {},
                 ) {
-                    CircularWavyProgressIndicator(
+                    CircularProgressIndicator(
                         modifier = Modifier.size(Size.mediumLarge),
-                        trackStroke = stroke,
-                        stroke = stroke,
+                        strokeWidth = Size.extraTiny,
                     )
                 }
             }
-
             false -> {
-
                 IconButton(
                     enabled = enabled,
-                    shapes =
-                        IconButtonShapes(
-                            shape = ButtonGroupDefaults.connectedTrailingButtonShape,
-                            pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
-                        ),
                     colors = IconButtonDefaults.iconButtonColors(contentColor = textColor),
                     onClick = categoryRefreshClick,
                 ) {

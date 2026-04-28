@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
@@ -25,9 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalDensity
+import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import kotlinx.coroutines.delay
 import org.nekomanga.presentation.extensions.conditional
 import org.nekomanga.presentation.theme.Size
@@ -111,24 +108,17 @@ private fun WavyLinearIndicator(
     }
 
     Box(modifier = modifier.fillMaxWidth()) {
-        val strokeWidth = with(LocalDensity.current) { Size.tiny.toPx() }
-        val stroke = remember(strokeWidth) { Stroke(width = strokeWidth, cap = StrokeCap.Round) }
         if (showIndeterminateIndicator) {
-            LinearWavyProgressIndicator(
+            LinearProgressIndicatorMMD(
+                progress = { 0.5f },
                 modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
                 color = color,
-                trackColor = color.copy(alpha = 0.24f),
-                stroke = stroke,
-                trackStroke = stroke,
             )
         } else if (animatedProgress > 0f) {
-            LinearWavyProgressIndicator(
+            LinearProgressIndicatorMMD(
                 progress = { animatedProgress },
                 modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
                 color = color,
-                trackColor = color.copy(alpha = 0.24f),
-                stroke = stroke,
-                trackStroke = stroke,
             )
         }
     }

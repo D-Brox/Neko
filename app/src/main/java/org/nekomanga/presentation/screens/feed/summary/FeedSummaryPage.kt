@@ -9,17 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import eu.kanade.tachiyomi.ui.feed.FeedScreenActions
@@ -221,19 +218,7 @@ private fun SummaryHeader(text: String, isRefreshing: Boolean, color: Color) {
             modifier = Modifier.fillMaxWidth().weight(1f).padding(),
         )
         AnimatedVisibility(isRefreshing) {
-            CircularWavyProgressIndicator(
-                modifier = Modifier.size(Size.large),
-                trackStroke =
-                    Stroke(
-                        width = with(LocalDensity.current) { Size.extraTiny.toPx() },
-                        cap = StrokeCap.Round,
-                    ),
-                stroke =
-                    Stroke(
-                        width = with(LocalDensity.current) { Size.extraTiny.toPx() },
-                        cap = StrokeCap.Round,
-                    ),
-            )
+            CircularProgressIndicatorMMD(modifier = Modifier.size(Size.large))
         }
     }
 }

@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -23,10 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.slider.SliderMMD
 import com.mudita.mmd.components.switcher.SwitchMMD
 import com.mudita.mmd.components.text.TextMMD
@@ -78,28 +76,32 @@ fun DisplayOptionsSheet(
                 verticalArrangement = Arrangement.spacedBy(Size.medium),
             ) {
                 Row(
-                    Modifier.fillMaxWidth().padding(horizontal = Size.medium),
+                    Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    LibraryDisplayMode.entries().forEachIndexed { index, libraryDisplayMode ->
-                        ToggleButton(
-                            modifier =
-                                Modifier.weight(if (index == 1) 1.25f else 1f).semantics {
-                                    role = Role.RadioButton
-                                },
-                            checked = libraryDisplayMode == currentLibraryDisplayMode,
-                            onCheckedChange = { libraryDisplayModeClick(libraryDisplayMode) },
-                            shapes =
-                                when (index) {
-                                    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
-                                    LibraryDisplayMode.entries().lastIndex ->
-                                        ButtonGroupDefaults.connectedTrailingButtonShapes()
-                                    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
-                                },
+                    LibraryDisplayMode.entries().forEach { libraryDisplayMode ->
+                        Row(
+                            Modifier.weight(
+                                if (libraryDisplayMode == LibraryDisplayMode.ComfortableGrid) 1.25f
+                                else 1f
+                            ),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
                         ) {
-                            TextMMD(libraryDisplayMode.toUiText().asString())
+                            RadioButtonMMD(
+                                selected = libraryDisplayMode == currentLibraryDisplayMode,
+                                onClick = { libraryDisplayModeClick(libraryDisplayMode) },
+                            )
+                            Gap(Size.tiny)
+                            TextMMD(
+                                text = libraryDisplayMode.toUiText().asString(),
+                                modifier =
+                                    Modifier.clickable(
+                                        role = Role.RadioButton,
+                                        onClick = { libraryDisplayModeClick(libraryDisplayMode) },
+                                    ),
+                            )
                         }
-                        Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
                     }
                 }
 
@@ -143,7 +145,7 @@ fun DisplayOptionsSheet(
                                     sliderPosition = 3f
                                     rawColumnCountChanged((sliderPosition / 2f) - .5f)
                                 },
-                                shapes = ButtonDefaults.shapes(),
+                                shape = ButtonDefaultsMMD.shape,
                             ) {
                                 TextMMD(stringResource(R.string.reset))
                             }

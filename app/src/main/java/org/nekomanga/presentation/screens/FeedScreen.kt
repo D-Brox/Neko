@@ -318,8 +318,6 @@ private fun FeedWrapper(
                         }
 
                     ButtonGroup(
-                        modifier =
-                            Modifier.align(Alignment.BottomCenter).padding(horizontal = Size.tiny),
                         items = items,
                         selectedItem = selectedItem,
                         onItemClick = { item ->
@@ -335,6 +333,8 @@ private fun FeedWrapper(
                                 feedScreenActions.toggleShowingDownloads()
                             }
                         },
+                        modifier =
+                            Modifier.align(Alignment.BottomCenter).padding(horizontal = Size.tiny),
                     ) { item ->
                         when (item) {
                             is FeedScreenType -> {

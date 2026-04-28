@@ -19,15 +19,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -266,7 +265,7 @@ private fun NotDownloadedError(buttonColor: Color, modifier: Modifier) {
     Background(
         color = Color.Transparent,
         borderStroke = BorderStroke(borderSize.dp, buttonColor),
-        shape = MaterialShapes.Triangle.toShape(),
+        shape = CircleShape,
         modifier = modifier,
     ) {
         TextMMD(text = "!", color = buttonColor, fontWeight = FontWeight.Black)
@@ -544,7 +543,7 @@ private fun Background(
     color: Color,
     modifier: Modifier = Modifier,
     borderStroke: BorderStroke? = null,
-    shape: Shape = MaterialShapes.Sunny.toShape(),
+    shape: Shape = CircleShape,
     content: @Composable () -> Unit,
 ) {
     Box(

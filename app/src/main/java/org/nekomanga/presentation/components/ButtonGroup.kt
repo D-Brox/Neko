@@ -4,10 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ButtonGroupDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ToggleButton
-import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.ui.theme.ThemeConfig
 import org.nekomanga.ui.theme.ThemeConfigProvider
@@ -30,31 +28,12 @@ fun <T> ButtonGroup(
     content: @Composable RowScope.(T) -> Unit,
 ) {
     Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ButtonGroupSpacing),
     ) {
-        items.forEachIndexed { index, item ->
+        items.forEach { item ->
             val isSelected = item == selectedItem
-
-            ToggleButton(
-                checked = isSelected,
-                onCheckedChange = { _ -> onItemClick(item) },
-                colors =
-                    ToggleButtonDefaults.toggleButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        checkedContainerColor = MaterialTheme.colorScheme.primary,
-                        checkedContentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                shapes =
-                    when (index) {
-                        0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
-                        items.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
-                        else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
-                    },
-            ) {
-                content(item)
-            }
+            ButtonMMD(enabled = !isSelected, onClick = { onItemClick(item) }) { content(item) }
         }
     }
 }
@@ -75,10 +54,12 @@ private fun ButtonGroupPreview(
             items = timePeriods,
             selectedItem = selectedPeriod,
             onItemClick = { item -> selectedPeriod = item },
-            modifier = Modifier.fillMaxWidth(0.8f), // Constrain width for better visualization
+            modifier = Modifier.fillMaxWidth(0.8f),
         ) { item ->
             // The content for each button: a TextMMD composable
             TextMMD(text = item)
         }
     }
 }
+
+private val ButtonGroupSpacing = 4.dp

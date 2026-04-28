@@ -4,14 +4,13 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialExpressiveTheme
-import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
 import com.mudita.mmd.ThemeMMD
+import com.mudita.mmd.eInkTypography
 import eu.kanade.tachiyomi.data.preference.PreferencesHelper
-import org.nekomanga.presentation.theme.Typefaces.appTypography
 import org.nekomanga.presentation.theme.colorschemes.BlueColorScheme
 import org.nekomanga.presentation.theme.colorschemes.BrownColorScheme
 import org.nekomanga.presentation.theme.colorschemes.GreenColorScheme
@@ -32,29 +31,13 @@ import uy.kohesive.injekt.api.get
 
 @Composable
 fun NekoTheme(colorScheme: ColorScheme? = null, content: @Composable () -> Unit) {
-    val preferences = Injekt.get<PreferencesHelper>()
-    val isMMD =
-        preferences.lightTheme().get() == Themes.MMD || preferences.darkTheme().get() == Themes.MMD
-
-    if (isMMD) {
-        ThemeMMD {
-            // ThemeMMD wraps MaterialTheme with MMD optimizations (no ripples, monochrome, etc.)
-            // Use standard Material3 components - they'll inherit MMD theme
-            val finalColorScheme = colorScheme ?: nekoThemeColorScheme()
-            MaterialExpressiveTheme(
-                colorScheme = finalColorScheme,
-                motionScheme = MotionScheme.expressive(),
-                typography = appTypography,
-                content = content,
-            )
-        }
-    } else {
+    ThemeMMD {
+        // ThemeMMD wraps MaterialTheme with MMD optimizations (no ripples, monochrome, etc.)
+        // Use standard Material3 components - they'll inherit MMD theme
         val finalColorScheme = colorScheme ?: nekoThemeColorScheme()
-
-        MaterialExpressiveTheme(
+        MaterialTheme(
             colorScheme = finalColorScheme,
-            motionScheme = MotionScheme.expressive(),
-            typography = appTypography,
+            typography = eInkTypography,
             content = content,
         )
     }

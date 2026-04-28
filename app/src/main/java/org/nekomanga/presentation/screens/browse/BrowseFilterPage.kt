@@ -5,15 +5,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalDensity
+import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import eu.kanade.tachiyomi.ui.source.browse.DisplayMangaHolder
 import org.nekomanga.R
 import org.nekomanga.domain.manga.DisplayManga
@@ -22,7 +18,6 @@ import org.nekomanga.presentation.components.MangaList
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.functions.numberOfColumns
 import org.nekomanga.presentation.screens.EmptyScreen
-import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun BrowseFilterPage(
@@ -69,16 +64,11 @@ fun BrowseFilterPage(
                 )
             }
             if (pageLoading) {
-                val strokeWidth = with(LocalDensity.current) { Size.tiny.toPx() }
-                val stroke =
-                    remember(strokeWidth) { Stroke(width = strokeWidth, cap = StrokeCap.Round) }
-                LinearWavyProgressIndicator(
+                LinearProgressIndicatorMMD(
+                    progress = { 0.5F },
                     modifier =
                         Modifier.fillMaxWidth().align(Alignment.TopStart).statusBarsPadding(),
                     color = MaterialTheme.colorScheme.secondary,
-                    trackColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.24f),
-                    stroke = stroke,
-                    trackStroke = stroke,
                 )
             }
         }

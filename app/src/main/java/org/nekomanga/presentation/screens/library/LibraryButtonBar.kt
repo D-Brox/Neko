@@ -8,15 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ButtonGroupDefaults
-import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryScreenActions
 import eu.kanade.tachiyomi.ui.library.LibraryScreenState
@@ -52,39 +48,22 @@ fun LibraryButtonBar(
     ) {
         Gap(Size.tiny)
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)
-        ) {
-            AnimatedVisibility(showCollapseAll) {
-                FilledTonalButton(
-                    shapes =
-                        ButtonShapes(
-                            shape = ButtonGroupDefaults.connectedLeadingButtonShape,
-                            pressedShape = ButtonGroupDefaults.connectedLeadingButtonPressShape,
-                        ),
-                    onClick = { libraryScreenActions.collapseExpandAllCategories() },
-                ) {
-                    Icon(
-                        imageVector =
-                            if (libraryScreenState.allCollapsed) ExpandAllIcon else CollapseAllIcon,
-                        contentDescription = null,
-                    )
-                }
-            }
-
-            FilledTonalButton(
-                shapes =
-                    ButtonShapes(
-                        shape = ButtonGroupDefaults.connectedTrailingButtonShape,
-                        pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
-                    ),
-                onClick = groupByClick,
-            ) {
-                TextMMD(text = stringResource(R.string.group_library_by))
+        AnimatedVisibility(showCollapseAll) {
+            ButtonMMD(onClick = { libraryScreenActions.collapseExpandAllCategories() }) {
+                Icon(
+                    imageVector =
+                        if (libraryScreenState.allCollapsed) ExpandAllIcon else CollapseAllIcon,
+                    contentDescription = null,
+                )
             }
         }
+
+        ButtonMMD(onClick = groupByClick) {
+            TextMMD(text = stringResource(R.string.group_library_by))
+        }
+
         AnimatedVisibility(libraryScreenState.hasActiveFilters) {
-            FilledIconButton(onClick = libraryScreenActions.clearActiveFilters) {
+            ButtonMMD(onClick = libraryScreenActions.clearActiveFilters) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = null)
             }
         }
@@ -168,26 +147,10 @@ private fun ConnectedToggleButtons(
     buttons: List<LibraryFilterType>,
     toggleFilter: (LibraryFilterType) -> Unit,
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)) {
-        buttons.forEachIndexed { index, buttonFilterType ->
-            ToggleButton(
-                checked = buttonFilterType == current,
-                onCheckedChange = { toggleFilter(buttonFilterType.toggle(it)) },
-                shapes =
-                    when (index) {
-                        0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
-                        buttons.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
-                        else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
-                    },
-            ) {
-                TextMMD(buttonFilterType.UiText().asString())
-            }
+    buttons.forEach { buttonFilterType ->
+        val isChecked = buttonFilterType == current
+        ButtonMMD(onClick = { toggleFilter(buttonFilterType.toggle(isChecked)) }) {
+            TextMMD(buttonFilterType.UiText().asString())
         }
     }
 }
-
-private data class ToggleButtonFields(
-    val buttonChecked: Boolean,
-    val buttonOnCheckedChange: (Boolean) -> Unit,
-    val buttonText: String,
-)

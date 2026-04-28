@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -38,6 +37,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation3.runtime.NavKey
 import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
 import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
+import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.source.browse.BrowseScreenState
 import eu.kanade.tachiyomi.ui.source.browse.BrowseScreenType
@@ -266,7 +266,7 @@ private fun BrowseWrapper(
 
         Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
             if (browseScreenState.initialLoading) {
-                ContainedLoadingIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicatorMMD(modifier = Modifier.align(Alignment.Center))
             } else if (browseScreenState.error != null) {
                 EmptyScreen(
                     message = browseScreenState.error!!,
@@ -349,8 +349,6 @@ private fun BrowseWrapper(
                     }
 
                 ButtonGroup(
-                    modifier =
-                        Modifier.align(Alignment.BottomCenter).padding(horizontal = Size.tiny),
                     items = items,
                     selectedItem = selectedItem,
                     onItemClick = { item ->
@@ -366,6 +364,8 @@ private fun BrowseWrapper(
                             changeScreenType(item)
                         }
                     },
+                    modifier =
+                        Modifier.align(Alignment.BottomCenter).padding(horizontal = Size.tiny),
                 ) { item ->
                     val name =
                         when (item) {
