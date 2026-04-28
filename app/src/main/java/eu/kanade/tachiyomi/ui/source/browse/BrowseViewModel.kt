@@ -78,7 +78,6 @@ class BrowseViewModel : ViewModel() {
             BrowseScreenState(
                 isList = preferences.browseAsList().get(),
                 libraryEntryVisibility = preferences.browseDisplayMode().get(),
-                outlineCovers = libraryPreferences.outlineOnCovers().get(),
                 dynamicCovers = mangaDetailsPreferences.dynamicCovers().get(),
                 isComfortableGrid =
                     libraryPreferences.layout().get() != LibraryDisplayMode.CompactGrid,

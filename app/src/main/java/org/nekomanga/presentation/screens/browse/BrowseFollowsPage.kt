@@ -16,7 +16,6 @@ fun BrowseFollowsPage(
     displayMangaHolder: DisplayMangaHolder,
     isList: Boolean,
     isComfortableGrid: Boolean,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     rawColumnCount: Float,
     contentPadding: PaddingValues = PaddingValues(),
@@ -32,7 +31,6 @@ fun BrowseFollowsPage(
         if (isList) {
             MangaListWithHeader(
                 groupedManga = displayMangaHolder.groupedDisplayManga,
-                shouldOutlineCover = outlineCovers,
                 dynamicCover = dynamicCovers,
                 onClick = onClick,
                 onLongClick = onLongClick,
@@ -41,7 +39,6 @@ fun BrowseFollowsPage(
         } else {
             MangaGridWithHeader(
                 groupedManga = displayMangaHolder.groupedDisplayManga,
-                shouldOutlineCover = outlineCovers,
                 dynamicCover = dynamicCovers,
                 columns = numberOfColumns(rawValue = rawColumnCount),
                 isComfortable = isComfortableGrid,

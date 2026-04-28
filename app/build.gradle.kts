@@ -174,7 +174,6 @@ dependencies {
     implementation(compose.swipe)
     implementation(libs.mmd)
 
-
     implementation(libs.pastelplaceholders)
     implementation(libs.versioncompare)
     implementation(libs.tokenbucket)

@@ -46,7 +46,6 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun BrowseHomePage(
     browseHomePageManga: PersistentList<HomePageManga>,
-    shouldOutlineCover: Boolean,
     dynamicCovers: Boolean,
     useVividColorHeaders: Boolean,
     onClick: (Long) -> Unit,
@@ -119,7 +118,6 @@ fun BrowseHomePage(
                                 Column(modifier = Modifier.width(coverSize)) {
                                     MangaCover.Square(
                                         artwork = displayManga.currentArtwork,
-                                        shouldOutlineCover = shouldOutlineCover,
                                         dynamicCover = dynamicCovers,
                                         modifier = Modifier.requiredHeight(coverSize),
                                     )
@@ -129,7 +127,7 @@ fun BrowseHomePage(
                             }
 
                             if (displayManga.inLibrary) {
-                                InLibraryBadge(shouldOutlineCover)
+                                InLibraryBadge()
                             }
                         }
                     }

@@ -1,11 +1,9 @@
 package org.nekomanga.presentation.screens.feed.history
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,13 +11,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,7 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.mudita.mmd.components.cards.CardColorsMMD
+import com.mudita.mmd.components.cards.CardMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import jp.wasabeef.gap.Gap
@@ -59,8 +53,6 @@ import org.nekomanga.presentation.theme.Size
 fun HistoryCard(
     modifier: Modifier = Modifier,
     feedManga: FeedManga,
-    outlineCard: Boolean,
-    outlineCover: Boolean,
     dynamicCover: Boolean,
     groupedBySeries: Boolean,
     mangaClick: () -> Unit,
@@ -71,25 +63,11 @@ fun HistoryCard(
     var expanded by rememberSaveable { mutableStateOf(false) }
     val canExpand by remember { mutableStateOf(feedManga.chapters.size > 1) }
     val allChaptersRead = feedManga.chapters.all { it.chapter.read }
-    val cardColor: Color by
-        animateColorAsState(
-            if (expanded) MaterialTheme.colorScheme.surfaceColorAtElevation(Size.small)
-            else if (outlineCard) CardDefaults.outlinedCardColors().containerColor
-            else CardDefaults.elevatedCardColors().containerColor,
-            label = "historyCardExpansion",
-        )
     val lowContrastColor =
         MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.mediumAlphaLowContrast)
-    val cardColors =
-        if (outlineCard) {
-            CardDefaults.outlinedCardColors().copy(containerColor = cardColor)
-        } else {
-            CardDefaults.elevatedCardColors().copy(containerColor = cardColor)
-        }
-    Card(
-        modifier = modifier.fillMaxWidth().padding(horizontal = Size.small).animateContentSize(),
-        outlineCard = outlineCard,
-        cardColor = cardColors,
+
+    CardMMD(
+        modifier = modifier.fillMaxWidth().padding(horizontal = Size.small).animateContentSize()
     ) {
         val titleColor =
             getReadTextColor(isRead = allChaptersRead, MaterialTheme.colorScheme.onSurfaceVariant)
@@ -114,7 +92,6 @@ fun HistoryCard(
                             .padding(start = Size.small),
                     artwork = feedManga.artwork,
                     chapterItem = feedManga.chapters.first(),
-                    outlineCovers = outlineCover,
                     dynamicCovers = dynamicCover,
                     mangaClick = mangaClick,
                 )
@@ -209,28 +186,10 @@ fun HistoryCard(
 }
 
 @Composable
-fun Card(
-    modifier: Modifier = Modifier,
-    outlineCard: Boolean,
-    cardColor: CardColorsMMD,
-    content: @Composable ColumnScope.() -> Unit,
-) {
-    when (outlineCard) {
-        true -> {
-            OutlinedCard(modifier = modifier, colors = cardColor, content = content)
-        }
-        false -> {
-            ElevatedCard(modifier = modifier, colors = cardColor, content = content)
-        }
-    }
-}
-
-@Composable
 private fun HistoryRow(
     modifier: Modifier = Modifier,
     artwork: Artwork,
     chapterItem: ChapterItem,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     mangaClick: () -> Unit,
 ) {
@@ -239,7 +198,6 @@ private fun HistoryRow(
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         FeedCover(
             artwork = artwork,
-            outlined = outlineCovers,
             dynamicCover = dynamicCovers,
             coverSize = Size.squareCoverMedium,
             onClick = mangaClick,

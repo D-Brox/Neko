@@ -48,9 +48,7 @@ fun FeedPage(
     modifier: Modifier,
     feedMangaList: PersistentList<FeedManga>,
     summaryScreenPagingState: SummaryScreenPagingState,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
-    outlineCards: Boolean,
     useVividColorHeaders: Boolean,
     hasMoreResults: Boolean,
     loadingResults: Boolean,
@@ -67,7 +65,6 @@ fun FeedPage(
             FeedSummaryPage(
                 modifier = modifier,
                 contentPadding = contentPadding,
-                outlineCovers = outlineCovers,
                 dynamicCovers = dynamicCovers,
                 useVividColorHeaders = useVividColorHeaders,
                 feedScreenActions = feedScreenActions,
@@ -84,9 +81,7 @@ fun FeedPage(
                 modifier = modifier,
                 contentPadding = contentPadding,
                 feedHistoryMangaList = feedMangaList,
-                outlineCovers = outlineCovers,
                 dynamicCovers = dynamicCovers,
-                outlineCards = outlineCards,
                 feedScreenActions = feedScreenActions,
                 hasMoreResults = hasMoreResults,
                 loadingResults = loadingResults,
@@ -100,7 +95,6 @@ fun FeedPage(
                 contentPadding = contentPadding,
                 useVividColorHeaders = useVividColorHeaders,
                 feedUpdatesMangaList = feedMangaList,
-                outlineCovers = outlineCovers,
                 dynamicCovers = dynamicCovers,
                 groupedBySeries = groupedBySeries,
                 hasMoreResults = hasMoreResults,
@@ -128,7 +122,6 @@ fun getReadTextColor(
 @Composable
 fun FeedCover(
     artwork: Artwork,
-    outlined: Boolean,
     coverSize: Dp,
     modifier: Modifier = Modifier,
     shoulderOverlayCover: Boolean = false,
@@ -139,7 +132,6 @@ fun FeedCover(
     Box(modifier = modifier.clip(RoundedCornerShape(Shapes.coverRadius)).clickable { onClick() }) {
         MangaCover.Square.invoke(
             artwork = artwork,
-            shouldOutlineCover = outlined,
             modifier = Modifier.size(coverSize),
             shoulderOverlayCover = shoulderOverlayCover,
             dynamicCover = dynamicCover,

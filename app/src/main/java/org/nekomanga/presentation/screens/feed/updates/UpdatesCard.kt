@@ -37,7 +37,6 @@ fun UpdatesCard(
     updateDate: Long? = null,
     mangaTitle: String,
     artwork: Artwork,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     numberOfChapters: Int = 1,
     isGrouped: Boolean = false,
@@ -69,7 +68,6 @@ fun UpdatesCard(
             mangaTitle = mangaTitle,
             artwork = artwork,
             isGrouped = isGrouped,
-            outlineCovers = outlineCovers,
             dynamicCovers = dynamicCovers,
             mangaClick = mangaClick,
             chapterClick = chapterClick,
@@ -87,7 +85,6 @@ private fun UpdatesRow(
     isGrouped: Boolean,
     mangaTitle: String,
     artwork: Artwork,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     mangaClick: () -> Unit,
     chapterClick: (Long) -> Unit,
@@ -110,7 +107,6 @@ private fun UpdatesRow(
         Gap(Size.small)
         FeedCover(
             artwork = artwork,
-            outlined = outlineCovers,
             dynamicCover = dynamicCovers,
             coverSize = Size.extraHuge,
             shoulderOverlayCover = chapterItem.chapter.read,

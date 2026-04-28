@@ -234,7 +234,6 @@ private fun DisplayWrapper(
                 MangaList(
                     contentPadding = contentPadding,
                     mangaList = displayScreenState.filteredDisplayManga,
-                    shouldOutlineCover = displayScreenState.outlineCovers,
                     dynamicCover = displayScreenState.dynamicCovers,
                     onClick = openManga,
                     onLongClick = ::mangaLongClick,
@@ -245,7 +244,6 @@ private fun DisplayWrapper(
                 MangaGrid(
                     contentPadding = contentPadding,
                     mangaList = displayScreenState.filteredDisplayManga,
-                    shouldOutlineCover = displayScreenState.outlineCovers,
                     dynamicCover = displayScreenState.dynamicCovers,
                     columns = numberOfColumns(rawValue = displayScreenState.rawColumnCount),
                     isComfortable = displayScreenState.isComfortableGrid,

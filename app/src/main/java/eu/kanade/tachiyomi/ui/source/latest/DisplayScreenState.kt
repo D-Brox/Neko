@@ -20,7 +20,6 @@ data class DisplayScreenState(
     val page: Int = 1,
     val isList: Boolean,
     val isDisplayResult: Boolean = false,
-    val outlineCovers: Boolean,
     val dynamicCovers: Boolean,
     val isComfortableGrid: Boolean,
     val rawColumnCount: Float,

@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import coil3.request.ImageRequest
 import com.zedlabs.pastelplaceholder.Pastel
 import eu.kanade.tachiyomi.data.coil.dynamicCover
 import org.nekomanga.domain.manga.Artwork
-import org.nekomanga.presentation.extensions.conditional
 import org.nekomanga.presentation.theme.Shapes
 
 /**
@@ -36,7 +34,6 @@ enum class MangaCover(val ratio: Float) {
         artwork: Artwork,
         contentDescription: String = "",
         shape: Shape = RoundedCornerShape(Shapes.coverRadius),
-        shouldOutlineCover: Boolean = true,
         dynamicCover: Boolean,
         shoulderOverlayCover: Boolean = false,
     ) {
@@ -58,20 +55,7 @@ enum class MangaCover(val ratio: Float) {
             contentDescription = contentDescription,
             alpha = alpha,
             contentScale = ContentScale.Crop,
-            modifier =
-                modifier
-                    .aspectRatio(ratio)
-                    .clip(shape)
-                    .conditional(
-                        shouldOutlineCover,
-                        {
-                            this.border(
-                                width = Outline.thickness,
-                                color = Outline.color,
-                                shape = RoundedCornerShape(Shapes.coverRadius),
-                            )
-                        },
-                    ),
+            modifier = modifier.aspectRatio(ratio).clip(shape),
         )
     }
 }

@@ -45,7 +45,6 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun MangaList(
     mangaList: PersistentList<DisplayManga>,
-    shouldOutlineCover: Boolean = true,
     dynamicCover: Boolean,
     contentPadding: PaddingValues = PaddingValues(),
     onClick: (Long) -> Unit = {},
@@ -88,7 +87,6 @@ fun MangaList(
             MangaListItem(
                 displayManga = displayManga,
                 listCardType = listCardType,
-                shouldOutlineCover = shouldOutlineCover,
                 dynamicCover = dynamicCover,
                 onClick = onClick,
                 onLongClick = onLongClick,
@@ -100,7 +98,6 @@ fun MangaList(
 @Composable
 fun MangaListWithHeader(
     groupedManga: ImmutableMap<Int, PersistentList<DisplayManga>>,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
@@ -138,7 +135,6 @@ fun MangaListWithHeader(
                 MangaListItem(
                     displayManga = displayManga,
                     listCardType = listCardType,
-                    shouldOutlineCover = shouldOutlineCover,
                     dynamicCover = dynamicCover,
                     onClick = onClick,
                     onLongClick = onLongClick,
@@ -152,7 +148,6 @@ fun MangaListWithHeader(
 private fun MangaListItem(
     displayManga: DisplayManga,
     listCardType: ListCardType,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     onClick: (Long) -> Unit,
     onLongClick: (DisplayManga) -> Unit,
@@ -163,7 +158,6 @@ private fun MangaListItem(
     ) {
         MangaRow(
             displayManga = displayManga,
-            shouldOutlineCover = shouldOutlineCover,
             dynamicCover = dynamicCover,
             modifier =
                 Modifier.fillMaxWidth()
@@ -180,7 +174,6 @@ private fun MangaListItem(
 fun MangaRow(
     modifier: Modifier = Modifier,
     displayManga: DisplayManga,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     isSelected: Boolean = false,
     showUnreadBadge: Boolean = false,
@@ -195,11 +188,7 @@ fun MangaRow(
             modifier = Modifier.padding(Size.tiny),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            MangaListCover(
-                displayManga = displayManga,
-                shouldOutlineCover = shouldOutlineCover,
-                dynamicCover = dynamicCover,
-            )
+            MangaListCover(displayManga = displayManga, dynamicCover = dynamicCover)
 
             Column(modifier = Modifier.weight(1f).padding(Size.tiny)) {
                 val titleLineCount =
@@ -217,7 +206,6 @@ fun MangaRow(
                 Gap(Size.tiny)
                 DownloadUnreadBadge(
                     offset = 0.dp,
-                    outline = shouldOutlineCover,
                     showUnread = showUnreadBadge,
                     showDownloads = showDownloadBadge,
                     unreadCount = unreadCount,
@@ -276,22 +264,17 @@ private fun MangaListSubtitle(text: String, @StringRes textRes: Int?) {
 }
 
 @Composable
-private fun RowScope.MangaListCover(
-    displayManga: DisplayManga,
-    shouldOutlineCover: Boolean,
-    dynamicCover: Boolean,
-) {
+private fun RowScope.MangaListCover(displayManga: DisplayManga, dynamicCover: Boolean) {
     Box(modifier = Modifier.align(alignment = Alignment.CenterVertically)) {
         MangaCover.Square.invoke(
             artwork = displayManga.currentArtwork,
-            shouldOutlineCover = shouldOutlineCover,
             dynamicCover = dynamicCover,
             modifier = Modifier.size(Size.huge).padding(Size.tiny),
         )
 
         if (displayManga.inLibrary) {
             val offset = (-2).dp
-            InLibraryIcon(offset, shouldOutlineCover)
+            InLibraryIcon(offset)
         }
     }
 }

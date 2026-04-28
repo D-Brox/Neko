@@ -130,7 +130,6 @@ fun LibraryScreen(
                 categoryItemLibrarySortClick = libraryViewModel::categoryItemLibrarySortClick,
                 libraryDisplayModeClick = libraryViewModel::libraryDisplayModeClick,
                 rawColumnCountChanged = libraryViewModel::rawColumnCountChanged,
-                outlineCoversToggled = libraryViewModel::outlineCoversToggled,
                 downloadBadgesToggled = libraryViewModel::downloadBadgesToggled,
                 unreadBadgesToggled = libraryViewModel::unreadBadgesToggled,
                 startReadingButtonToggled = libraryViewModel::startReadingButtonToggled,

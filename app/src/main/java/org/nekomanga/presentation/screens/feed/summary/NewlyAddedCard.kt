@@ -37,7 +37,6 @@ fun NewlyAddedCard(
     mangaTitle: String,
     dateAdded: Long,
     artwork: Artwork,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     mangaClick: () -> Unit,
     chapterClick: (Long) -> Unit,
@@ -65,7 +64,6 @@ fun NewlyAddedCard(
             mangaTitle = mangaTitle,
             dateAdded = dateAdded,
             artwork = artwork,
-            outlineCovers = outlineCovers,
             dynamicCovers = dynamicCovers,
             mangaClick = mangaClick,
             chapterClick = chapterClick,
@@ -81,7 +79,6 @@ private fun NewlyAddedRow(
     mangaTitle: String,
     dateAdded: Long,
     artwork: Artwork,
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     mangaClick: () -> Unit,
     chapterClick: (Long) -> Unit,
@@ -104,7 +101,6 @@ private fun NewlyAddedRow(
         Gap(Size.small)
         FeedCover(
             artwork = artwork,
-            outlined = outlineCovers,
             dynamicCover = dynamicCovers,
             coverSize = Size.extraHuge,
             shoulderOverlayCover = chapterItem.chapter.read,

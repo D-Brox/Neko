@@ -25,7 +25,6 @@ fun Loading(modifier: Modifier = Modifier) {
             modifier =
                 Modifier.size(Size.largePlus).padding(Size.extraTiny).align(Alignment.Center),
             color = MaterialTheme.colorScheme.onSecondary,
-            strokeWidth = Size.extraTiny,
         )
     }
 }

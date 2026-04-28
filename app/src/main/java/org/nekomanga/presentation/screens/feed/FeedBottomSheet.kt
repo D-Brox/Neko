@@ -42,14 +42,12 @@ fun FeedBottomSheet(
     downloadOnlyOnUnmetered: Boolean,
     historyGrouping: FeedHistoryGroup,
     sortByFetched: Boolean,
-    outlineCovers: Boolean,
     outlineCards: Boolean,
     swipeRefreshEnabled: Boolean,
     groupUpdateChapters: Boolean,
     toggleGroupUpdateChapters: () -> Unit,
     sortClick: () -> Unit,
     outlineCardsClick: () -> Unit,
-    outlineCoversClick: () -> Unit,
     groupHistoryClick: (FeedHistoryGroup) -> Unit,
     clearHistoryClick: () -> Unit,
     clearDownloadsClick: () -> Unit,
@@ -73,9 +71,7 @@ fun FeedBottomSheet(
                 feedScreenType == FeedScreenType.History ->
                     HistoryContent(
                         historyGrouping = historyGrouping,
-                        outlineCovers = outlineCovers,
                         outlineCards = outlineCards,
-                        outlineCoversClick = outlineCoversClick,
                         outlineCardsClick = outlineCardsClick,
                         groupHistoryClick = groupHistoryClick,
                         clearHistoryClick = clearHistoryClick,
@@ -85,11 +81,9 @@ fun FeedBottomSheet(
                 feedScreenType == FeedScreenType.Updates ->
                     UploadsContent(
                         fetchSort = sortByFetched,
-                        outlineCovers = outlineCovers,
                         sortClick = sortClick,
                         groupUpdateChapters = groupUpdateChapters,
                         toggleGroupUpdateChapters = toggleGroupUpdateChapters,
-                        outlineCoversClick = outlineCoversClick,
                         swipeRefreshEnabled = swipeRefreshEnabled,
                         toggleSwipeRefresh = toggleSwipeRefresh,
                     )
@@ -101,11 +95,9 @@ fun FeedBottomSheet(
 @Composable
 private fun HistoryContent(
     historyGrouping: FeedHistoryGroup,
-    outlineCovers: Boolean,
     outlineCards: Boolean,
     swipeRefreshEnabled: Boolean,
     toggleSwipeRefresh: () -> Unit,
-    outlineCoversClick: () -> Unit,
     outlineCardsClick: () -> Unit,
     groupHistoryClick: (FeedHistoryGroup) -> Unit,
     clearHistoryClick: () -> Unit,
@@ -174,7 +166,6 @@ private fun HistoryContent(
         }
     }
 
-    SwitchRow(R.string.show_outline_around_covers, outlineCovers, outlineCoversClick)
     SwitchRow(R.string.show_outline_around_cards, outlineCards, outlineCardsClick)
 
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -216,16 +207,13 @@ private fun DownloadsContent(
 @Composable
 private fun UploadsContent(
     fetchSort: Boolean,
-    outlineCovers: Boolean,
     groupUpdateChapters: Boolean,
     toggleGroupUpdateChapters: () -> Unit,
     sortClick: () -> Unit,
-    outlineCoversClick: () -> Unit,
     swipeRefreshEnabled: Boolean,
     toggleSwipeRefresh: () -> Unit,
 ) {
     SwitchRow(R.string.sort_fetched_time, fetchSort, sortClick)
-    SwitchRow(R.string.show_outline_around_covers, outlineCovers, outlineCoversClick)
     SwitchRow(R.string.group_chapters_together, groupUpdateChapters, toggleGroupUpdateChapters)
     SwitchRow(R.string.feed_swipe_refresh_enabled, swipeRefreshEnabled, toggleSwipeRefresh)
 }

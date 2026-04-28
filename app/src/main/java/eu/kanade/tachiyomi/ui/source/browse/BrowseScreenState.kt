@@ -33,7 +33,6 @@ data class BrowseScreenState(
     val deepLinkHandled: Boolean = false,
     val isList: Boolean,
     val libraryEntryVisibility: Int,
-    val outlineCovers: Boolean,
     val dynamicCovers: Boolean,
     val isComfortableGrid: Boolean,
     val rawColumnCount: Float,

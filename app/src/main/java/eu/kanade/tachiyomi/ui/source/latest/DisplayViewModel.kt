@@ -63,7 +63,6 @@ class DisplayViewModel(val displayScreenType: DisplayScreenType) : ViewModel() {
                 isList = preferences.browseAsList().get(),
                 title = displayScreenType.title,
                 incognitoMode = securityPreferences.incognitoMode().get(),
-                outlineCovers = libraryPreferences.outlineOnCovers().get(),
                 dynamicCovers = mangaDetailsPreferences.dynamicCovers().get(),
                 isComfortableGrid =
                     libraryPreferences.layout().get() != LibraryDisplayMode.CompactGrid,

@@ -37,7 +37,17 @@ fun NekoTheme(colorScheme: ColorScheme? = null, content: @Composable () -> Unit)
         preferences.lightTheme().get() == Themes.MMD || preferences.darkTheme().get() == Themes.MMD
 
     if (isMMD) {
-        ThemeMMD { content() }
+        ThemeMMD {
+            // ThemeMMD wraps MaterialTheme with MMD optimizations (no ripples, monochrome, etc.)
+            // Use standard Material3 components - they'll inherit MMD theme
+            val finalColorScheme = colorScheme ?: nekoThemeColorScheme()
+            MaterialExpressiveTheme(
+                colorScheme = finalColorScheme,
+                motionScheme = MotionScheme.expressive(),
+                typography = appTypography,
+                content = content,
+            )
+        }
     } else {
         val finalColorScheme = colorScheme ?: nekoThemeColorScheme()
 
@@ -77,20 +87,20 @@ fun colorSchemeFromTheme(
     isSystemInDarkTheme: Boolean,
 ): ColorScheme {
     return when (theme) {
-        Themes.Blue -> BlueColorScheme
-        Themes.Teal -> TealColorScheme
-        Themes.Neon -> NeonColorScheme
-        Themes.Green -> GreenColorScheme
-        Themes.Monet -> MonetColorScheme(context)
-        Themes.Monochrome -> MonochromeColorScheme
-        Themes.Nord -> NordColorScheme
-        Themes.Orange -> OrangeColorScheme
-        Themes.Pink -> PinkColorScheme
-        Themes.Purple -> PurpleColorScheme
-        Themes.Retro -> RetroColorScheme
-        Themes.Brown -> BrownColorScheme
-        Themes.Tako -> TakoColorScheme
-        Themes.MMD -> MMDColorScheme
-        else -> NekoColorScheme
-    }.getColorScheme(isSystemInDarkTheme)
+        Themes.Blue -> BlueColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Teal -> TealColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Neon -> NeonColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Green -> GreenColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Monet -> MonetColorScheme(context).getColorScheme(isSystemInDarkTheme)
+        Themes.Monochrome -> MonochromeColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Nord -> NordColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Orange -> OrangeColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Pink -> PinkColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Purple -> PurpleColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Retro -> RetroColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Brown -> BrownColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.Tako -> TakoColorScheme.getColorScheme(isSystemInDarkTheme)
+        Themes.MMD -> MMDColorScheme.getColorScheme(isSystemInDarkTheme)
+        else -> NekoColorScheme.getColorScheme(isSystemInDarkTheme)
+    }
 }

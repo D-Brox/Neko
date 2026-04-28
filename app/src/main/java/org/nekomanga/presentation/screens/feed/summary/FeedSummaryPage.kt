@@ -44,7 +44,6 @@ fun FeedSummaryPage(
     updatesFeedMangaList: PersistentList<FeedManga> = persistentListOf(),
     continueReadingFeedMangaList: PersistentList<FeedManga> = persistentListOf(),
     newlyAddedFeedMangaList: PersistentList<FeedManga> = persistentListOf(),
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
     useVividColorHeaders: Boolean,
     feedScreenActions: FeedScreenActions,
@@ -91,7 +90,6 @@ fun FeedSummaryPage(
                     ) {
                         ContinueReadingCard(
                             feedManga = feedManga,
-                            outlineCover = outlineCovers,
                             dynamicCover = dynamicCovers,
                             mangaClick = { feedScreenActions.mangaClick(feedManga.mangaId) },
                             chapterClick = {
@@ -147,7 +145,6 @@ fun FeedSummaryPage(
                         isGrouped = false,
                         mangaTitle = feedManga.mangaTitle,
                         artwork = feedManga.artwork,
-                        outlineCovers = outlineCovers,
                         dynamicCovers = dynamicCovers,
                         mangaClick = { feedScreenActions.mangaClick(feedManga.mangaId) },
                         chapterClick = {
@@ -195,7 +192,6 @@ fun FeedSummaryPage(
                         mangaTitle = feedManga.mangaTitle,
                         dateAdded = feedManga.date,
                         artwork = feedManga.artwork,
-                        outlineCovers = outlineCovers,
                         dynamicCovers = dynamicCovers,
                         mangaClick = { feedScreenActions.mangaClick(feedManga.mangaId) },
                         chapterClick = {

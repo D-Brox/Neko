@@ -50,7 +50,6 @@ class FeedViewModel() : ViewModel() {
         MutableStateFlow(
             FeedScreenState(
                 feedScreenType = preferences.feedViewType().get(),
-                outlineCovers = libraryPreferences.outlineOnCovers().get(),
                 dynamicCovers = mangaDetailsPreferences.dynamicCovers().get(),
                 outlineCards = preferences.feedViewOutlineCards().get(),
                 incognitoMode = securityPreferences.incognitoMode().get(),
@@ -211,10 +210,6 @@ class FeedViewModel() : ViewModel() {
             _feedScreenState.update { state -> state.copy(outlineCards = it) }
         }
 
-        libraryPreferences.outlineOnCovers().changes().observeAndUpdate(viewModelScope) {
-            _feedScreenState.update { state -> state.copy(outlineCovers = it) }
-        }
-
         preferences.groupChaptersUpdates().changes().observeAndUpdate(viewModelScope) {
             _feedScreenState.update { state -> state.copy(groupUpdateChapters = it) }
         }
@@ -323,10 +318,6 @@ class FeedViewModel() : ViewModel() {
 
     fun toggleOutlineCards() {
         viewModelScope.launchIO { preferences.feedViewOutlineCards().toggle() }
-    }
-
-    fun toggleOutlineCovers() {
-        viewModelScope.launchIO { libraryPreferences.outlineOnCovers().toggle() }
     }
 
     fun toggleShowingDownloads() {

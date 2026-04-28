@@ -80,14 +80,9 @@ fun ButtonBlock(
 ) {
     if (!isInitialized) return
 
-    val checkedButtonColors =
-        ButtonDefaultsMMD.outlinedButtonColors(
-            containerColor = themeColorState.containerColor.copy(alpha = NekoColors.halfAlpha),
-            contentColor = themeColorState.primaryColor,
-        )
+    val checkedButtonColors = ButtonDefaultsMMD.outlinedButtonColors()
     val checkedBorderStroke = BorderStroke(Size.extraExtraTiny, Color.Transparent)
-    val uncheckedButtonColors =
-        ButtonDefaultsMMD.outlinedButtonColors(contentColor = themeColorState.primaryColor)
+    val uncheckedButtonColors = ButtonDefaultsMMD.outlinedButtonColors()
     val uncheckedBorderStroke =
         BorderStroke(
             Size.extraExtraTiny,
@@ -268,7 +263,6 @@ private fun ActionButton(
     OutlinedButtonMMD(
         onClick = finalOnClick,
         modifier = if (data.dropdownItems != null) Modifier.size(Size.huge) else modifier,
-        shapes = ButtonDefaultsMMD.shapes(),
         colors = colors,
         border = border,
         contentPadding =

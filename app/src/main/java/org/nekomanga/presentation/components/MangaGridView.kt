@@ -51,7 +51,6 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun MangaGridWithHeader(
     groupedManga: ImmutableMap<Int, PersistentList<DisplayManga>>,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     columns: Int,
     modifier: Modifier = Modifier,
@@ -90,7 +89,6 @@ fun MangaGridWithHeader(
                     rowItems.forEach { displayManga ->
                         MangaGridItem(
                             displayManga = displayManga,
-                            shouldOutlineCover = shouldOutlineCover,
                             dynamicCover = dynamicCover,
                             isComfortable = isComfortable,
                             onClick = onClick,
@@ -106,7 +104,6 @@ fun MangaGridWithHeader(
 @Composable
 fun MangaGrid(
     mangaList: List<DisplayManga>,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     columns: Int,
     contentPadding: PaddingValues = PaddingValues(),
@@ -149,7 +146,6 @@ fun MangaGrid(
         itemsIndexed(mangaList, key = { _, display -> display.mangaId }) { _, displayManga ->
             MangaGridItem(
                 displayManga = displayManga,
-                shouldOutlineCover = shouldOutlineCover,
                 dynamicCover = dynamicCover,
                 isComfortable = isComfortable,
                 onClick = onClick,
@@ -163,7 +159,6 @@ fun MangaGrid(
 fun MangaGridItem(
     modifier: Modifier = Modifier,
     displayManga: DisplayManga,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     showUnreadBadge: Boolean = false,
     showDownloadBadge: Boolean = false,
@@ -226,7 +221,6 @@ fun MangaGridItem(
                         ComfortableGridItem(
                             manga = displayManga,
                             subtitleText = subtitleText,
-                            shouldOutlineCover = shouldOutlineCover,
                             dynamicCover = dynamicCover,
                         )
                     }
@@ -235,7 +229,6 @@ fun MangaGridItem(
                         CompactGridItem(
                             manga = displayManga,
                             subtitleText = subtitleText,
-                            shouldOutlineCover = shouldOutlineCover,
                             dynamicCover = dynamicCover,
                         )
                     }
@@ -266,14 +259,11 @@ fun MangaGridItem(
         }
 
         if (displayManga.inLibrary) {
-            Box(modifier = Modifier.clearAndSetSemantics {}) {
-                InLibraryBadge(shouldOutlineCover, offset = 0.dp)
-            }
+            Box(modifier = Modifier.clearAndSetSemantics {}) { InLibraryBadge(offset = 0.dp) }
         }
         if ((showUnreadBadge && unreadCount > 0) || (showDownloadBadge && downloadCount > 0)) {
             Box(modifier = Modifier.clearAndSetSemantics {}) {
                 DownloadUnreadBadge(
-                    outline = shouldOutlineCover,
                     showUnread = showUnreadBadge,
                     unreadCount = unreadCount,
                     showDownloads = showDownloadBadge,
@@ -290,12 +280,10 @@ fun ComfortableGridItem(
     modifier: Modifier = Modifier,
     manga: DisplayManga,
     subtitleText: String,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
 ) {
     MangaCover.Book.invoke(
         artwork = manga.currentArtwork,
-        shouldOutlineCover = shouldOutlineCover,
         dynamicCover = dynamicCover,
         modifier = modifier,
     )
@@ -308,13 +296,11 @@ fun ComfortableGridItem(
 fun BoxScope.CompactGridItem(
     manga: DisplayManga,
     subtitleText: String,
-    shouldOutlineCover: Boolean,
     dynamicCover: Boolean,
     modifier: Modifier = Modifier,
 ) {
     MangaCover.Book.invoke(
         artwork = manga.currentArtwork,
-        shouldOutlineCover = shouldOutlineCover,
         dynamicCover = dynamicCover,
         modifier = modifier,
     )

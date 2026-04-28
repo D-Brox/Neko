@@ -2,7 +2,7 @@ package org.nekomanga.domain.snackbar
 
 import android.content.Context
 import androidx.annotation.StringRes
-import androidx.compose.material3.SnackbarDuration
+import com.mudita.mmd.components.snackbar.SnackbarDurationMMD
 
 data class SnackbarState(
     val message: String? = null,
@@ -11,7 +11,7 @@ data class SnackbarState(
     @param:StringRes val prefixRes: Int? = null,
     val snackBarColor: SnackbarColor? = null,
     val actionLabel: String? = null,
-    val snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
+    val snackbarDuration: SnackbarDurationMMD = SnackbarDurationMMD.Short,
     @param:StringRes val actionLabelRes: Int? = null,
     val action: (() -> Unit)? = null,
     val dismissAction: (() -> Unit)? = null,

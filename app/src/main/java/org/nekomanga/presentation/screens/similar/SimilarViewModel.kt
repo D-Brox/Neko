@@ -59,7 +59,6 @@ class SimilarViewModel(val mangaUUID: String) : ViewModel() {
             SimilarScreenState(
                 isList = preferences.browseAsList().get(),
                 incognitoMode = securityPreferences.incognitoMode().get(),
-                outlineCovers = libraryPreferences.outlineOnCovers().get(),
                 dynamicCovers = mangaDetailsPreferences.dynamicCovers().get(),
                 isComfortableGrid =
                     libraryPreferences.layout().get() != LibraryDisplayMode.CompactGrid,

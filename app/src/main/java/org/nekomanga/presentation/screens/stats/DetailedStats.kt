@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
@@ -51,6 +50,7 @@ import com.himanshoe.charty.pie.PieChart
 import com.himanshoe.charty.pie.config.PieConfig
 import com.himanshoe.charty.pie.config.PieData
 import com.mudita.mmd.components.chips.AssistChipMMD
+import com.mudita.mmd.components.chips.FilterChipDefaultsMMD
 import com.mudita.mmd.components.chips.FilterChipMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.lazy.LazyRowMMD
@@ -678,7 +678,7 @@ private fun LazyListScope.CustomChip(
             onClick = onClick,
             label = { TextMMD(text = stringResource(id = label)) },
             colors =
-                FilterChipDefaults.filterChipColors(
+                FilterChipDefaultsMMD.filterChipColors(
                     selectedContainerColor =
                         MaterialTheme.colorScheme.surfaceColorAtElevation(Size.small),
                     selectedLabelColor = MaterialTheme.colorScheme.primary,

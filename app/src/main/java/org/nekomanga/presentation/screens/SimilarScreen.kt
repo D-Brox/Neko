@@ -202,7 +202,6 @@ private fun SimilarContent(
         if (similarScreenState.isList) {
             MangaListWithHeader(
                 groupedManga = similarScreenState.filteredDisplayManga,
-                shouldOutlineCover = similarScreenState.outlineCovers,
                 dynamicCover = similarScreenState.dynamicCovers,
                 contentPadding = contentPadding,
                 onClick = mangaClick,
@@ -211,7 +210,6 @@ private fun SimilarContent(
         } else {
             MangaGridWithHeader(
                 groupedManga = similarScreenState.filteredDisplayManga,
-                shouldOutlineCover = similarScreenState.outlineCovers,
                 dynamicCover = similarScreenState.dynamicCovers,
                 columns = numberOfColumns(rawValue = similarScreenState.rawColumnCount),
                 isComfortable = similarScreenState.isComfortableGrid,

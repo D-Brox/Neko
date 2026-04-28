@@ -49,7 +49,6 @@ import org.nekomanga.presentation.theme.Size
 fun ContinueReadingCard(
     modifier: Modifier = Modifier,
     feedManga: FeedManga,
-    outlineCover: Boolean,
     dynamicCover: Boolean,
     mangaClick: () -> Unit,
     chapterClick: (Long) -> Unit,
@@ -78,7 +77,6 @@ fun ContinueReadingCard(
         Gap(Size.small)
         FeedCover(
             artwork = feedManga.artwork,
-            outlined = outlineCover,
             coverSize = Size.extraHuge,
             shoulderOverlayCover = chapterItem.chapter.read,
             dynamicCover = dynamicCover,

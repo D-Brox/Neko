@@ -47,8 +47,6 @@ fun DisplayOptionsSheet(
     libraryDisplayModeClick: (LibraryDisplayMode) -> Unit,
     rawColumnCount: Float,
     rawColumnCountChanged: (Float) -> Unit,
-    outlineCoversEnabled: Boolean,
-    outlineCoversToggled: () -> Unit,
     unreadBadgesEnabled: Boolean,
     unreadBadgesToggled: () -> Unit,
     downloadBadgesEnabled: Boolean,
@@ -151,22 +149,6 @@ fun DisplayOptionsSheet(
                             }
                         }
                     }
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth().clickable(onClick = outlineCoversToggled),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Gap(Size.small)
-                    TextMMD(
-                        modifier = Modifier.weight(1f),
-                        text = stringResource(id = R.string.show_outline_around_covers),
-                    )
-                    SwitchMMD(
-                        checked = outlineCoversEnabled,
-                        onCheckedChange = { outlineCoversToggled() },
-                    )
-                    Gap(Size.small)
                 }
 
                 HorizontalDividerMMD()

@@ -1,7 +1,6 @@
 package org.nekomanga.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -22,11 +21,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.nekomanga.R
-import org.nekomanga.presentation.extensions.conditional
 import org.nekomanga.presentation.theme.Size
 
 @Composable
-fun InLibraryIcon(offset: Dp, outline: Boolean) {
+fun InLibraryIcon(offset: Dp) {
     val inLibraryDescription = stringResource(id = R.string.in_library)
     Box(
         modifier =
@@ -35,14 +33,6 @@ fun InLibraryIcon(offset: Dp, outline: Boolean) {
             },
         contentAlignment = Alignment.Center,
     ) {
-        if (outline) {
-            Icon(
-                imageVector = Icons.Outlined.Favorite,
-                contentDescription = null,
-                tint = Outline.color,
-                modifier = Modifier.size(21.5.dp),
-            )
-        }
         Icon(
             imageVector = Icons.Default.Favorite,
             contentDescription = null,
@@ -53,7 +43,7 @@ fun InLibraryIcon(offset: Dp, outline: Boolean) {
 }
 
 @Composable
-internal fun InLibraryBadge(outline: Boolean, offset: Dp = (-2).dp) {
+internal fun InLibraryBadge(offset: Dp = (-2).dp) {
     Box(
         modifier =
             Modifier.offset(x = offset, y = offset)
@@ -66,19 +56,6 @@ internal fun InLibraryBadge(outline: Boolean, offset: Dp = (-2).dp) {
                     )
                 )
                 .background(color = MaterialTheme.colorScheme.secondary)
-                .conditional(outline) {
-                    this.border(
-                        width = Outline.thickness,
-                        color = Outline.color,
-                        shape =
-                            RoundedCornerShape(
-                                topStartPercent = 50,
-                                25,
-                                bottomStartPercent = 25,
-                                bottomEndPercent = 50,
-                            ),
-                    )
-                }
     ) {
         AutoSizeText(
             text = stringResource(id = R.string.in_library),

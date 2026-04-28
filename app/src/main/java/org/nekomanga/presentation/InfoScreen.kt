@@ -67,7 +67,7 @@ fun InfoScreen(
                 ButtonMMD(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = canAccept,
-                    colors = ButtonDefaultsMMD.buttonColors(containerColor = tint),
+                    colors = ButtonDefaultsMMD.buttonColors(),
                     onClick = onAcceptClick,
                 ) {
                     TextMMD(text = acceptText)

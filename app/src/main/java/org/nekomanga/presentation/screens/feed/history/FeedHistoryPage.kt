@@ -34,9 +34,7 @@ fun FeedHistoryPage(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
     feedHistoryMangaList: PersistentList<FeedManga> = persistentListOf(),
-    outlineCovers: Boolean,
     dynamicCovers: Boolean,
-    outlineCards: Boolean,
     hasMoreResults: Boolean,
     loadingResults: Boolean,
     feedScreenActions: FeedScreenActions,
@@ -99,9 +97,7 @@ fun FeedHistoryPage(
             item(key = "$index-${feedManga.mangaId}") {
                 HistoryCard(
                     feedManga = feedManga,
-                    outlineCover = outlineCovers,
                     dynamicCover = dynamicCovers,
-                    outlineCard = outlineCards,
                     groupedBySeries = historyGrouping == FeedHistoryGroup.Series,
                     mangaClick = { feedScreenActions.mangaClick(feedManga.mangaId) },
                     chapterClick = { chapterId ->

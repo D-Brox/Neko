@@ -1,7 +1,6 @@
 package org.nekomanga.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -23,13 +22,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.text.TextMMD
-import org.nekomanga.presentation.components.Outline as NekoOutline
-import org.nekomanga.presentation.extensions.conditional
 import org.nekomanga.presentation.theme.Size as NekoSize
 
 @Composable
 internal fun DownloadUnreadBadge(
-    outline: Boolean,
     showUnread: Boolean,
     unreadCount: Int,
     showDownloads: Boolean,
@@ -38,7 +34,6 @@ internal fun DownloadUnreadBadge(
 ) {
     if (showUnread && unreadCount > 0 && (!showDownloads || downloadCount == 0)) {
         SoloBadge(
-            outline = outline,
             offset = offset,
             backgroundColor = MaterialTheme.colorScheme.primary,
             count = unreadCount.toString(),
@@ -46,7 +41,6 @@ internal fun DownloadUnreadBadge(
         )
     } else if (showDownloads && downloadCount > 0 && (!showUnread || unreadCount == 0)) {
         SoloBadge(
-            outline = outline,
             offset = offset,
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
             count = downloadCount.toString(),
@@ -54,7 +48,6 @@ internal fun DownloadUnreadBadge(
         )
     } else {
         DoubleBadge(
-            outline = outline,
             offset = offset,
             backgroundColor1 = MaterialTheme.colorScheme.surfaceVariant,
             backgroundColor2 = MaterialTheme.colorScheme.primary,
@@ -67,24 +60,10 @@ internal fun DownloadUnreadBadge(
 }
 
 @Composable
-private fun SoloBadge(
-    outline: Boolean,
-    offset: Dp,
-    backgroundColor: Color,
-    count: String,
-    countColor: Color,
-) {
+private fun SoloBadge(offset: Dp, backgroundColor: Color, count: String, countColor: Color) {
     Box(
         modifier =
-            Modifier.offset(x = offset, y = offset)
-                .background(backgroundColor, singleBadgeShape)
-                .conditional(outline) {
-                    this.border(
-                        width = NekoOutline.thickness,
-                        color = NekoOutline.color,
-                        shape = singleBadgeShape,
-                    )
-                }
+            Modifier.offset(x = offset, y = offset).background(backgroundColor, singleBadgeShape)
     ) {
         TextMMD(
             modifier = Modifier.padding(vertical = NekoSize.tiny, horizontal = NekoSize.small),
@@ -103,7 +82,6 @@ private val unreadBadgeShape = SlashedRoundedShape(CornerSize(25), CornerSize(50
 
 @Composable
 private fun DoubleBadge(
-    outline: Boolean,
     offset: Dp,
     backgroundColor1: Color,
     backgroundColor2: Color,
@@ -123,7 +101,6 @@ private fun DoubleBadge(
             count = count1,
             startPadding = NekoSize.small,
             endPadding = NekoSize.small + NekoSize.extraTiny,
-            outline = outline,
         )
 
         DoubleBadgeOneSide(
@@ -133,7 +110,6 @@ private fun DoubleBadge(
             count = count2,
             startPadding = NekoSize.small + NekoSize.extraTiny,
             endPadding = NekoSize.small,
-            outline = outline,
         )
     }
 }
@@ -147,14 +123,8 @@ private fun DoubleBadgeOneSide(
     endPadding: Dp,
     backgroundColor: Color,
     count: String,
-    outline: Boolean,
 ) {
-    Box(
-        modifier =
-            modifier.clip(shape).background(color = backgroundColor).conditional(outline) {
-                this.border(width = NekoOutline.thickness, color = NekoOutline.color, shape = shape)
-            }
-    ) {
+    Box(modifier = modifier.clip(shape).background(color = backgroundColor)) {
         TextMMD(
             modifier =
                 Modifier.padding(

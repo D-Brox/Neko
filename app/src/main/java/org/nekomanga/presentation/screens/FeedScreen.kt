@@ -102,7 +102,6 @@ fun FeedScreen(
                 groupHistoryClick = feedViewModel::toggleGroupHistoryType,
                 clearHistoryClick = feedViewModel::deleteAllHistoryForAllManga,
                 switchUploadsSortOrder = feedViewModel::toggleUploadsSortOrder,
-                outlineCoversClick = feedViewModel::toggleOutlineCovers,
                 outlineCardsClick = feedViewModel::toggleOutlineCards,
                 clearDownloadQueueClick = feedViewModel::clearDownloadQueue,
                 toggleDownloadOnUnmetered = feedViewModel::toggleDownloadOnUnmetered,
@@ -216,7 +215,6 @@ private fun FeedWrapper(
                             downloadOnlyOnUnmetered = feedScreenState.downloadOnlyOnUnmetered,
                             historyGrouping = historyPagingScreenState.historyGrouping,
                             sortByFetched = updatesPagingScreenState.updatesSortedByFetch,
-                            outlineCovers = feedScreenState.outlineCovers,
                             outlineCards = feedScreenState.outlineCards,
                             swipeRefreshEnabled = feedScreenState.swipeRefreshEnabled,
                             groupUpdateChapters = feedScreenState.groupUpdateChapters,
@@ -226,7 +224,6 @@ private fun FeedWrapper(
                             clearHistoryClick = { showClearHistoryDialog = true },
                             clearDownloadsClick = { showClearDownloadsDialog = true },
                             sortClick = { feedSettingActions.switchUploadsSortOrder() },
-                            outlineCoversClick = { feedSettingActions.outlineCoversClick() },
                             outlineCardsClick = { feedSettingActions.outlineCardsClick() },
                             toggleDownloadOnUnmetered = {
                                 feedSettingActions.toggleDownloadOnUnmetered()

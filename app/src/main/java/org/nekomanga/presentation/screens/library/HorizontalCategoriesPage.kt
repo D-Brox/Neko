@@ -115,14 +115,12 @@ fun HorizontalCategoriesPage(
             libraryScreenState.showUnreadBadges,
             libraryScreenState.showDownloadBadges,
             libraryScreenState.showStartReadingButton,
-            libraryScreenState.outlineCovers,
             libraryScreenState.dynamicCovers,
         ) {
             LibraryItemDisplayOptions(
                 showUnreadBadges = libraryScreenState.showUnreadBadges,
                 showDownloadBadges = libraryScreenState.showDownloadBadges,
                 showStartReadingButton = libraryScreenState.showStartReadingButton,
-                outlineCovers = libraryScreenState.outlineCovers,
                 dynamicCovers = libraryScreenState.dynamicCovers,
             )
         }
@@ -372,7 +370,6 @@ private fun GridItem(
         unreadCount = libraryItem.unreadCount,
         showDownloadBadge = displayOptions.showDownloadBadges,
         downloadCount = libraryItem.downloadCount,
-        shouldOutlineCover = displayOptions.outlineCovers,
         dynamicCover = displayOptions.dynamicCovers,
         isComfortable = isComfortable,
         isSelected = selectedIds.contains(libraryItem.displayManga.mangaId),
@@ -437,7 +434,6 @@ private fun ListItem(
             unreadCount = libraryItem.unreadCount,
             showDownloadBadge = displayOptions.showDownloadBadges,
             downloadCount = libraryItem.downloadCount,
-            shouldOutlineCover = displayOptions.outlineCovers,
             dynamicCover = displayOptions.dynamicCovers,
         )
     }

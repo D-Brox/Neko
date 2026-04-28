@@ -285,7 +285,6 @@ private fun BrowseWrapper(
                         BrowseScreenType.Homepage ->
                             BrowseHomePage(
                                 browseHomePageManga = browseScreenState.homePageManga,
-                                shouldOutlineCover = browseScreenState.outlineCovers,
                                 dynamicCovers = browseScreenState.dynamicCovers,
                                 useVividColorHeaders = browseScreenState.useVividColorHeaders,
                                 titleClick = homeScreenTitleClick,
@@ -300,7 +299,6 @@ private fun BrowseWrapper(
                                 displayMangaHolder = browseScreenState.displayMangaHolder,
                                 isList = browseScreenState.isList,
                                 isComfortableGrid = browseScreenState.isComfortableGrid,
-                                outlineCovers = browseScreenState.outlineCovers,
                                 dynamicCovers = browseScreenState.dynamicCovers,
                                 rawColumnCount = browseScreenState.rawColumnCount,
                                 contentPadding = recyclerContentPadding,
@@ -314,7 +312,6 @@ private fun BrowseWrapper(
                                 displayMangaHolder = browseScreenState.displayMangaHolder,
                                 isList = browseScreenState.isList,
                                 isComfortableGrid = browseScreenState.isComfortableGrid,
-                                outlineCovers = browseScreenState.outlineCovers,
                                 dynamicCovers = browseScreenState.dynamicCovers,
                                 rawColumnCount = browseScreenState.rawColumnCount,
                                 pageLoading = browseScreenState.pageLoading,

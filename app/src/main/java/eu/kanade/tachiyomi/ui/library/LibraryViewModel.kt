@@ -111,7 +111,6 @@ class LibraryViewModel() : ViewModel() {
             isFirstLoad = lastLibraryCategoryItems == null,
             rawColumnCount = libraryPreferences.gridSize().get(),
             libraryDisplayMode = libraryPreferences.layout().get(),
-            outlineCovers = libraryPreferences.outlineOnCovers().get(),
             dynamicCovers = mangaDetailsPreferences.dynamicCovers().get(),
             showUnreadBadges = libraryPreferences.showUnreadBadge().get(),
             showDownloadBadges = libraryPreferences.showDownloadBadge().get(),
@@ -660,10 +659,6 @@ class LibraryViewModel() : ViewModel() {
             _internalLibraryScreenState.update { state -> state.copy(dynamicCovers = value) }
         }
 
-        libraryPreferences.outlineOnCovers().changes().observeAndUpdate(viewModelScope) { value ->
-            _internalLibraryScreenState.update { state -> state.copy(outlineCovers = value) }
-        }
-
         libraryPreferences.showDownloadBadge().changes().observeAndUpdate(viewModelScope) { value ->
             _internalLibraryScreenState.update { state -> state.copy(showDownloadBadges = value) }
         }
@@ -733,10 +728,6 @@ class LibraryViewModel() : ViewModel() {
 
     fun rawColumnCountChanged(updatedColumnCount: Float) {
         viewModelScope.launchIO { libraryPreferences.gridSize().set(updatedColumnCount) }
-    }
-
-    fun outlineCoversToggled() {
-        viewModelScope.launchIO { libraryPreferences.outlineOnCovers().toggle() }
     }
 
     fun downloadBadgesToggled() {
