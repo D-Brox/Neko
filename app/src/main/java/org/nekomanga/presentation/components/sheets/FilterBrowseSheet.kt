@@ -533,12 +533,18 @@ fun OtherRow(
                         modifier = Modifier.padding(start = Size.small),
                         style = MaterialTheme.typography.labelMedium,
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Size.small)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(Size.small),
+                    ) {
                         ButtonMMD(
                             onClick = {
                                 filterChanged(filters.tagInclusionMode.copy(mode = TagMode.And))
                             },
-                            colors = if (filters.tagInclusionMode.mode == TagMode.And) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                            colors =
+                                if (filters.tagInclusionMode.mode == TagMode.And)
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
                             TextMMD(text = stringResource(id = R.string.and))
                         }
@@ -546,7 +552,10 @@ fun OtherRow(
                             onClick = {
                                 filterChanged(filters.tagInclusionMode.copy(mode = TagMode.Or))
                             },
-                            colors = if (filters.tagInclusionMode.mode == TagMode.Or) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                            colors =
+                                if (filters.tagInclusionMode.mode == TagMode.Or)
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
                             TextMMD(text = stringResource(id = R.string.or))
                         }
@@ -559,12 +568,18 @@ fun OtherRow(
                         modifier = Modifier.padding(start = Size.small),
                         style = MaterialTheme.typography.labelMedium,
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Size.small)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(Size.small),
+                    ) {
                         ButtonMMD(
                             onClick = {
                                 filterChanged(filters.tagExclusionMode.copy(mode = TagMode.And))
                             },
-                            colors = if (filters.tagExclusionMode.mode == TagMode.And) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                            colors =
+                                if (filters.tagExclusionMode.mode == TagMode.And)
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
                             TextMMD(text = stringResource(id = R.string.and))
                         }
@@ -572,7 +587,10 @@ fun OtherRow(
                             onClick = {
                                 filterChanged(filters.tagExclusionMode.copy(mode = TagMode.Or))
                             },
-                            colors = if (filters.tagExclusionMode.mode == TagMode.Or) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                            colors =
+                                if (filters.tagExclusionMode.mode == TagMode.Or)
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
                             TextMMD(text = stringResource(id = R.string.or))
                         }

@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -63,10 +65,15 @@ fun BrowseHomePage(
             false -> MaterialTheme.colorScheme.onSurface
         }
 
-    val coverSize =
-        remember(screenWidth, screenHeight) { (maxOf(screenHeight, screenWidth) / 5).dp }
+    val coverSize = remember(screenWidth, screenHeight) { (screenWidth / 5).dp }
 
-    LazyColumnMMD(modifier = Modifier.fillMaxWidth(), contentPadding = contentPadding) {
+    val columnState = rememberLazyListState()
+
+    LazyColumnMMD(
+        modifier = Modifier.fillMaxSize(),
+        state = columnState,
+        contentPadding = contentPadding,
+    ) {
         items(
             items = browseHomePageManga,
             key = { homePageManga -> homePageManga.displayScreenType.hashCode() },
@@ -99,7 +106,7 @@ fun BrowseHomePage(
                 }
                 Gap(Size.tiny)
                 LazyRowMMD(
-                    modifier = Modifier.wrapContentHeight(),
+                    modifier = Modifier.height(coverSize + 120.dp),
                     horizontalArrangement = Arrangement.spacedBy(Size.small),
                     contentPadding = PaddingValues(horizontal = Size.small),
                 ) {
@@ -115,8 +122,11 @@ fun BrowseHomePage(
                                             onLongClick = { onLongClick(displayManga) },
                                         )
                             ) {
-                                Column(modifier = Modifier.width(coverSize)) {
-                                    MangaCover.Square(
+                                Column(
+                                    modifier = Modifier.width(coverSize),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    MangaCover.Book(
                                         artwork = displayManga.currentArtwork,
                                         dynamicCover = dynamicCovers,
                                         modifier = Modifier.requiredHeight(coverSize),

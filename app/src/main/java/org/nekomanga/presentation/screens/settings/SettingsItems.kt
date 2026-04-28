@@ -36,8 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
-import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.checkbox.CheckboxMMD
 import com.mudita.mmd.components.menus.DropdownMenuItemMMD
 import com.mudita.mmd.components.text.TextMMD
@@ -137,7 +137,9 @@ fun RadioItem(labelText: UiText, selected: Boolean, onClick: () -> Unit) {
         widget = {
             ButtonMMD(
                 onClick = onClick,
-                colors = if (selected) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                colors =
+                    if (selected) ButtonDefaultsMMD.buttonColors()
+                    else ButtonDefaultsMMD.outlinedButtonColors(),
             ) {
                 TextMMD(text = labelText.asString())
             }

@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
@@ -96,12 +96,11 @@ private fun DialogRow(label: String, isSelected: Boolean, onSelected: () -> Unit
     ) {
         ButtonMMD(
             onClick = { if (!isSelected) onSelected() },
-            colors = if (isSelected) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+            colors =
+                if (isSelected) ButtonDefaultsMMD.buttonColors()
+                else ButtonDefaultsMMD.outlinedButtonColors(),
         ) {
-            TextMMD(
-                text = label,
-                style = MaterialTheme.typography.bodyLarge.merge(),
-            )
+            TextMMD(text = label, style = MaterialTheme.typography.bodyLarge.merge())
         }
     }
 }
