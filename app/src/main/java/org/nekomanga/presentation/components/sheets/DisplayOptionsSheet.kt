@@ -20,11 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
-import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.slider.SliderMMD
 import com.mudita.mmd.components.switcher.SwitchMMD
 import com.mudita.mmd.components.text.TextMMD
@@ -80,27 +79,20 @@ fun DisplayOptionsSheet(
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     LibraryDisplayMode.entries().forEach { libraryDisplayMode ->
-                        Row(
-                            Modifier.weight(
-                                if (libraryDisplayMode == LibraryDisplayMode.ComfortableGrid) 1.25f
-                                else 1f
-                            ),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
+                        val isChecked = libraryDisplayMode == currentLibraryDisplayMode
+                        ButtonMMD(
+                            onClick = { libraryDisplayModeClick(libraryDisplayMode) },
+                            modifier =
+                                Modifier.weight(
+                                    if (libraryDisplayMode == LibraryDisplayMode.ComfortableGrid)
+                                        1.25f
+                                    else 1f
+                                ),
+                            colors =
+                                if (isChecked) ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
-                            RadioButtonMMD(
-                                selected = libraryDisplayMode == currentLibraryDisplayMode,
-                                onClick = { libraryDisplayModeClick(libraryDisplayMode) },
-                            )
-                            Gap(Size.tiny)
-                            TextMMD(
-                                text = libraryDisplayMode.toUiText().asString(),
-                                modifier =
-                                    Modifier.clickable(
-                                        role = Role.RadioButton,
-                                        onClick = { libraryDisplayModeClick(libraryDisplayMode) },
-                                    ),
-                            )
+                            TextMMD(text = libraryDisplayMode.toUiText().asString())
                         }
                     }
                 }

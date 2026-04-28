@@ -3,7 +3,6 @@ package org.nekomanga.presentation.screens.settings.widgets
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.AlertDialog
@@ -21,10 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.buttons.ButtonMMD
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
-import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.theme.Size
@@ -95,11 +94,14 @@ private fun DialogRow(label: String, isSelected: Boolean, onSelected: () -> Unit
                 .fillMaxWidth()
                 .minimumInteractiveComponentSize(),
     ) {
-        RadioButtonMMD(selected = isSelected, onClick = null)
-        TextMMD(
-            text = label,
-            style = MaterialTheme.typography.bodyLarge.merge(),
-            modifier = Modifier.padding(start = 24.dp),
-        )
+        ButtonMMD(
+            onClick = { if (!isSelected) onSelected() },
+            colors = if (isSelected) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+        ) {
+            TextMMD(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge.merge(),
+            )
+        }
     }
 }

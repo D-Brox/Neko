@@ -50,8 +50,9 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.lazy.LazyRowMMD
-import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.database.models.BrowseFilterImpl
 import eu.kanade.tachiyomi.source.online.utils.MdSort
@@ -532,27 +533,23 @@ fun OtherRow(
                         modifier = Modifier.padding(start = Size.small),
                         style = MaterialTheme.typography.labelMedium,
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButtonMMD(
-                            selected = filters.tagInclusionMode.mode == TagMode.And,
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Size.small)) {
+                        ButtonMMD(
                             onClick = {
                                 filterChanged(filters.tagInclusionMode.copy(mode = TagMode.And))
                             },
-                        )
-                        TextMMD(
-                            text = stringResource(id = R.string.and),
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        RadioButtonMMD(
-                            selected = filters.tagInclusionMode.mode == TagMode.Or,
+                            colors = if (filters.tagInclusionMode.mode == TagMode.And) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(id = R.string.and))
+                        }
+                        ButtonMMD(
                             onClick = {
                                 filterChanged(filters.tagInclusionMode.copy(mode = TagMode.Or))
                             },
-                        )
-                        TextMMD(
-                            text = stringResource(id = R.string.or),
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
+                            colors = if (filters.tagInclusionMode.mode == TagMode.Or) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(id = R.string.or))
+                        }
                     }
                 }
 
@@ -562,27 +559,23 @@ fun OtherRow(
                         modifier = Modifier.padding(start = Size.small),
                         style = MaterialTheme.typography.labelMedium,
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButtonMMD(
-                            selected = filters.tagExclusionMode.mode == TagMode.And,
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Size.small)) {
+                        ButtonMMD(
                             onClick = {
                                 filterChanged(filters.tagExclusionMode.copy(mode = TagMode.And))
                             },
-                        )
-                        TextMMD(
-                            text = stringResource(id = R.string.and),
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        RadioButtonMMD(
-                            selected = filters.tagExclusionMode.mode == TagMode.Or,
+                            colors = if (filters.tagExclusionMode.mode == TagMode.And) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(id = R.string.and))
+                        }
+                        ButtonMMD(
                             onClick = {
                                 filterChanged(filters.tagExclusionMode.copy(mode = TagMode.Or))
                             },
-                        )
-                        TextMMD(
-                            text = stringResource(id = R.string.or),
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
+                            colors = if (filters.tagExclusionMode.mode == TagMode.Or) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(id = R.string.or))
+                        }
                     }
                 }
 

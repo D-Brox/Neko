@@ -36,9 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.buttons.ButtonMMD
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
 import com.mudita.mmd.components.checkbox.CheckboxMMD
 import com.mudita.mmd.components.menus.DropdownMenuItemMMD
-import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.presentation.components.NekoColors
@@ -133,7 +134,14 @@ fun CheckboxItem(labelText: UiText, checked: Boolean, onClick: () -> Unit) {
 fun RadioItem(labelText: UiText, selected: Boolean, onClick: () -> Unit) {
     BaseSettingsItem(
         labelText = labelText,
-        widget = { RadioButtonMMD(selected = selected, onClick = null) },
+        widget = {
+            ButtonMMD(
+                onClick = onClick,
+                colors = if (selected) ButtonDefaultsMMD.buttonColors() else ButtonDefaultsMMD.outlinedButtonColors(),
+            ) {
+                TextMMD(text = labelText.asString())
+            }
+        },
         onClick = onClick,
     )
 }

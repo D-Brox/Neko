@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
 import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryScreenActions
@@ -149,7 +150,12 @@ private fun ConnectedToggleButtons(
 ) {
     buttons.forEach { buttonFilterType ->
         val isChecked = buttonFilterType == current
-        ButtonMMD(onClick = { toggleFilter(buttonFilterType.toggle(isChecked)) }) {
+        ButtonMMD(
+            onClick = { toggleFilter(buttonFilterType.toggle(!isChecked)) },
+            colors =
+                if (isChecked) ButtonDefaultsMMD.buttonColors()
+                else ButtonDefaultsMMD.outlinedButtonColors(),
+        ) {
             TextMMD(buttonFilterType.UiText().asString())
         }
     }

@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.components.sheets
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
-import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.source.browse.LibraryEntryVisibility
 import jp.wasabeef.gap.Gap
@@ -73,39 +73,23 @@ fun BrowseDisplayOptionsSheet(
                                 .selectableGroup(),
                             horizontalArrangement = Arrangement.Center,
                         ) {
-                            Row(
-                                Modifier.weight(1f),
-                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
+                            ButtonMMD(
+                                onClick = switchDisplayClick,
+                                modifier = Modifier.weight(1f),
+                                colors =
+                                    if (isList) ButtonDefaultsMMD.buttonColors()
+                                    else ButtonDefaultsMMD.outlinedButtonColors(),
                             ) {
-                                RadioButtonMMD(selected = isList, onClick = switchDisplayClick)
-                                Gap(Size.tiny)
-                                TextMMD(
-                                    text = stringResource(R.string.list),
-                                    modifier =
-                                        Modifier.padding(horizontal = Size.medium).clickable(
-                                            role = androidx.compose.ui.semantics.Role.RadioButton
-                                        ) {
-                                            switchDisplayClick()
-                                        },
-                                )
+                                TextMMD(text = stringResource(R.string.list))
                             }
-                            Row(
-                                Modifier.weight(1f),
-                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
+                            ButtonMMD(
+                                onClick = switchDisplayClick,
+                                modifier = Modifier.weight(1f),
+                                colors =
+                                    if (!isList) ButtonDefaultsMMD.buttonColors()
+                                    else ButtonDefaultsMMD.outlinedButtonColors(),
                             ) {
-                                RadioButtonMMD(selected = !isList, onClick = switchDisplayClick)
-                                Gap(Size.tiny)
-                                TextMMD(
-                                    text = stringResource(R.string.grid),
-                                    modifier =
-                                        Modifier.padding(horizontal = Size.medium).clickable(
-                                            role = androidx.compose.ui.semantics.Role.RadioButton
-                                        ) {
-                                            switchDisplayClick()
-                                        },
-                                )
+                                TextMMD(text = stringResource(R.string.grid))
                             }
                         }
                     }
@@ -123,82 +107,51 @@ fun BrowseDisplayOptionsSheet(
                         Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
                         horizontalArrangement = Arrangement.spacedBy(Size.small),
                     ) {
-                        Row(
-                            Modifier.weight(1f),
-                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                        ) {
-                            RadioButtonMMD(
-                                selected =
+                        ButtonMMD(
+                            onClick = {
+                                libraryEntryVisibilityClick(
+                                    LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
+                                )
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                if (
                                     currentLibraryEntryVisibility ==
-                                        LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY,
-                                onClick = {
-                                    libraryEntryVisibilityClick(
                                         LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
-                                    )
-                                },
-                            )
-                            Gap(Size.tiny)
-                            TextMMD(
-                                text = stringResource(R.string.hide_library_manga),
-                                modifier =
-                                    Modifier.clickable(
-                                        role = androidx.compose.ui.semantics.Role.RadioButton
-                                    ) {
-                                        libraryEntryVisibilityClick(
-                                            LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
-                                        )
-                                    },
-                            )
-                        }
-                        Row(
-                            Modifier.weight(1f),
-                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                                )
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
-                            RadioButtonMMD(
-                                selected =
-                                    currentLibraryEntryVisibility ==
-                                        LibraryEntryVisibility.SHOW_ALL,
-                                onClick = {
-                                    libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
-                                },
-                            )
-                            Gap(Size.tiny)
-                            TextMMD(
-                                text = stringResource(R.string.show_all_manga),
-                                modifier =
-                                    Modifier.clickable(
-                                        role = androidx.compose.ui.semantics.Role.RadioButton
-                                    ) {
-                                        libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
-                                    },
-                            )
+                            TextMMD(text = stringResource(R.string.hide_library_manga))
                         }
-                        Row(
-                            Modifier.weight(1f),
-                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                        ButtonMMD(
+                            onClick = {
+                                libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                if (
+                                    currentLibraryEntryVisibility == LibraryEntryVisibility.SHOW_ALL
+                                )
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
-                            RadioButtonMMD(
-                                selected =
+                            TextMMD(text = stringResource(R.string.show_all_manga))
+                        }
+                        ButtonMMD(
+                            onClick = {
+                                libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_IN_LIBRARY)
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                if (
                                     currentLibraryEntryVisibility ==
-                                        LibraryEntryVisibility.SHOW_IN_LIBRARY,
-                                onClick = {
-                                    libraryEntryVisibilityClick(
                                         LibraryEntryVisibility.SHOW_IN_LIBRARY
-                                    )
-                                },
-                            )
-                            Gap(Size.tiny)
-                            TextMMD(
-                                text = stringResource(R.string.show_library_manga),
-                                modifier =
-                                    Modifier.clickable(
-                                        role = androidx.compose.ui.semantics.Role.RadioButton
-                                    ) {
-                                        libraryEntryVisibilityClick(
-                                            LibraryEntryVisibility.SHOW_IN_LIBRARY
-                                        )
-                                    },
-                            )
+                                )
+                                    ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(R.string.show_library_manga))
                         }
                     }
                 }

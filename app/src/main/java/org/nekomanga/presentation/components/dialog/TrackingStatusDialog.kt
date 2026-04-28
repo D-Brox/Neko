@@ -21,16 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.mudita.mmd.components.radio_button.RadioButtonDefaultsMMD
-import com.mudita.mmd.components.radio_button.RadioButtonMMD
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.text.TextMMD
-import jp.wasabeef.gap.Gap
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.nekomanga.R
 import org.nekomanga.domain.track.TrackServiceItem
 import org.nekomanga.presentation.components.theme.ThemeColorState
-import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun TrackingStatusDialog(
@@ -75,19 +73,17 @@ fun TrackingStatusDialog(
                                     ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            RadioButtonMMD(
-                                selected = (status == selectedStatus),
+                            ButtonMMD(
                                 onClick = { clicked() },
                                 colors =
-                                    RadioButtonDefaultsMMD.colors(
-                                        selectedColor = themeColorState.primaryColor
-                                    ),
-                            )
-                            Gap(Size.small)
-                            TextMMD(
-                                text = service.status(status),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
+                                    if (status == selectedStatus) ButtonDefaultsMMD.buttonColors()
+                                    else ButtonDefaultsMMD.outlinedButtonColors(),
+                            ) {
+                                TextMMD(
+                                    text = service.status(status),
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
+                            }
                         }
                     }
                 }
