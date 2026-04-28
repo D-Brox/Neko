@@ -211,7 +211,6 @@ private fun BrowseWrapper(
 
     RootScaffold(
         scrollBehavior = scrollBehavior,
-        mainSettingsExpanded = mainDropdownShowing,
         navigationRail = navigationRail,
         bottomBar = bottomBar,
         topBar = {

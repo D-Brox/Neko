@@ -47,7 +47,6 @@ fun CrashScreen(exception: Throwable?, onRestartClick: () -> Unit) {
     RootScaffold(
         topBar = {},
         scrollBehavior = scrollBehavior,
-        mainSettingsExpanded = false,
         bottomBar = {
             val strokeWidth = Dp.Hairline
             val borderColor = MaterialTheme.colorScheme.outline

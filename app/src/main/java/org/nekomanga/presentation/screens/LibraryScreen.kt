@@ -288,7 +288,6 @@ private fun LibraryWrapper(
         RootScaffold(
             refreshState = refreshState,
             scrollBehavior = scrollBehavior,
-            mainSettingsExpanded = mainDropdownShowing,
             navigationRail = navigationRail,
             bottomBar = bottomBar,
             topBar = {

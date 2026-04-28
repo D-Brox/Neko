@@ -1,12 +1,8 @@
 package org.nekomanga.presentation.components
 
-import android.os.Build
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,12 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import kotlinx.coroutines.delay
-import org.nekomanga.presentation.extensions.conditional
-import org.nekomanga.presentation.theme.Size
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,17 +29,12 @@ fun PullRefresh(
     isRefreshing: Boolean,
     onRefresh: (() -> Unit)?,
     trackColor: Color = MaterialTheme.colorScheme.secondary,
-    blurBackground: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val state = rememberPullToRefreshState()
 
     if (enabled && onRefresh != null) {
         PullToRefreshBox(
-            modifier =
-                Modifier.conditional(blurBackground) {
-                    this.blur(Size.medium).clickable(enabled = false) {}
-                },
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,
             state = state,
@@ -62,21 +50,7 @@ fun PullRefresh(
             content()
         }
     } else {
-        Box(
-            modifier =
-                Modifier.conditional(blurBackground) {
-                    this.blur(Size.medium).clickable(enabled = false) {}
-                }
-        ) {
-            content()
-        }
-    }
-    if (blurBackground && Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
-        Box(
-            modifier =
-                Modifier.fillMaxSize()
-                    .background(Color.Black.copy(alpha = NekoColors.mediumAlphaLowContrast))
-        )
+        Box() { content() }
     }
 }
 

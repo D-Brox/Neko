@@ -16,7 +16,6 @@ import org.nekomanga.presentation.components.PullRefresh
 fun RootScaffold(
     refreshState: RefreshState = RefreshState(),
     scrollBehavior: TopAppBarScrollBehavior,
-    mainSettingsExpanded: Boolean,
     navigationRail: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     topBar: @Composable () -> Unit,
@@ -27,7 +26,6 @@ fun RootScaffold(
         enabled = refreshState.enabled,
         isRefreshing = refreshState.isRefreshing,
         onRefresh = refreshState.onRefresh,
-        blurBackground = mainSettingsExpanded,
         trackColor = refreshState.trackColor ?: MaterialTheme.colorScheme.secondary,
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
