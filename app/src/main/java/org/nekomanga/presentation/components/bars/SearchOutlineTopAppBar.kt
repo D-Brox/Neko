@@ -14,9 +14,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +32,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.search_bar.SearchBarMMD
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
 import org.nekomanga.presentation.components.FlexibleTopBar
@@ -80,7 +80,7 @@ fun SearchOutlineTopAppBar(
         colors = FlexibleTopBarColors(containerColor = color, scrolledContainerColor = color),
     ) {
         Column(Modifier.fillMaxWidth().statusBarsPadding()) {
-            SearchBar(
+            SearchBarMMD(
                 modifier =
                     Modifier.fillMaxWidth()
                         .padding(horizontal = Size.small)
@@ -103,7 +103,7 @@ fun SearchOutlineTopAppBar(
                         },
                         onSearch = { onSearch(it) },
                         placeholder = {
-                            Text(
+                            TextMMD(
                                 text =
                                     if (searchEnabled && searchPlaceHolderAlt.isNotEmpty())
                                         searchPlaceHolderAlt

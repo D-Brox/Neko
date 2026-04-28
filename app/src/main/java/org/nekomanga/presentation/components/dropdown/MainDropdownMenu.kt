@@ -9,11 +9,11 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DropdownMenuItem as MaterialDropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.components.Divider
 import org.nekomanga.presentation.components.NekoColors
@@ -92,13 +92,13 @@ private fun Row(title: UiText, subTitle: UiText? = null, icon: ImageVector, onCl
     MaterialDropdownMenuItem(
         text = {
             Column {
-                Text(
+                TextMMD(
                     text = title.asString(),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 if (subTitle != null) {
-                    Text(
+                    TextMMD(
                         text = subTitle.asString(),
                         style =
                             MaterialTheme.typography.bodySmall.copy(

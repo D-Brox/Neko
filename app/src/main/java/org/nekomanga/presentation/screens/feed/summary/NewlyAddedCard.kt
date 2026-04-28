@@ -9,13 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.manga.MangaConstants
 import eu.kanade.tachiyomi.util.system.timeSpanFromNow
 import jp.wasabeef.gap.Gap
@@ -111,7 +111,7 @@ private fun NewlyAddedRow(
             onClick = mangaClick,
         )
         Column(modifier = Modifier.padding(horizontal = Size.small).weight(3f)) {
-            Text(
+            TextMMD(
                 text = mangaTitle,
                 style = MaterialTheme.typography.bodyLarge,
                 color = titleColor,
@@ -125,7 +125,7 @@ private fun NewlyAddedRow(
                 style = MaterialTheme.typography.bodyMedium,
                 textColor = updatedColor,
             )
-            Text(
+            TextMMD(
                 text = "Added ${dateAdded.timeSpanFromNow}",
                 style = MaterialTheme.typography.labelSmall,
                 color = updatedColor,

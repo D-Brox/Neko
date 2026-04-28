@@ -15,7 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -25,6 +24,7 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import kotlinx.coroutines.launch
 import org.nekomanga.presentation.components.theme.ThemeColorState
@@ -73,7 +73,7 @@ fun ColumnScope.SearchFooter(
         value = title,
         enabled = enabled,
         singleLine = true,
-        label = { Text(text = labelText, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        label = { TextMMD(text = labelText, maxLines = 1, overflow = TextOverflow.Ellipsis) },
         trailingIcon = {
             if (isError) {
                 Icon(

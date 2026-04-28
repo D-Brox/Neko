@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -29,6 +27,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.lazy.LazyRowMMD
 import eu.kanade.tachiyomi.ui.source.browse.HomePageManga
 import eu.kanade.tachiyomi.ui.source.latest.SerializableDisplayScreenType
 import eu.kanade.tachiyomi.ui.source.latest.toSerializable
@@ -67,7 +67,7 @@ fun BrowseHomePage(
     val coverSize =
         remember(screenWidth, screenHeight) { (maxOf(screenHeight, screenWidth) / 5).dp }
 
-    LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding = contentPadding) {
+    LazyColumnMMD(modifier = Modifier.fillMaxWidth(), contentPadding = contentPadding) {
         items(
             items = browseHomePageManga,
             key = { homePageManga -> homePageManga.displayScreenType.hashCode() },
@@ -99,7 +99,7 @@ fun BrowseHomePage(
                     }
                 }
                 Gap(Size.tiny)
-                LazyRow(
+                LazyRowMMD(
                     modifier = Modifier.wrapContentHeight(),
                     horizontalArrangement = Arrangement.spacedBy(Size.small),
                     contentPadding = PaddingValues(horizontal = Size.small),

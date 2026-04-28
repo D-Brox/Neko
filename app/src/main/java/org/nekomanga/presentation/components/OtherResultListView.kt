@@ -5,15 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.PersistentList
 import org.nekomanga.domain.DisplayResult
 import org.nekomanga.presentation.theme.Size
@@ -26,7 +26,7 @@ fun ResultList(
 ) {
     val scrollState = rememberLazyListState()
 
-    LazyColumn(
+    LazyColumnMMD(
         modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
         state = scrollState,
         contentPadding = contentPadding,
@@ -42,7 +42,7 @@ fun ResultList(
 private fun ResultRow(displayResult: DisplayResult, onClick: () -> Unit) {
     ElevatedCard(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.fillMaxWidth().padding(Size.smedium)) {
-            Text(
+            TextMMD(
                 text = displayResult.title,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -50,7 +50,7 @@ private fun ResultRow(displayResult: DisplayResult, onClick: () -> Unit) {
                 overflow = TextOverflow.Ellipsis,
             )
             if (displayResult.information.isNotBlank()) {
-                Text(
+                TextMMD(
                     text = displayResult.information,
                     style = MaterialTheme.typography.bodyMedium,
                     color =

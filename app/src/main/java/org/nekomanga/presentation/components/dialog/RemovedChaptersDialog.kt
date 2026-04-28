@@ -4,12 +4,12 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalRippleConfiguration
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.PersistentList
 import org.nekomanga.R
 import org.nekomanga.domain.chapter.ChapterItem
@@ -29,10 +29,10 @@ fun RemovedChaptersDialog(
         val context = LocalContext.current
 
         AlertDialog(
-            title = { Text(text = stringResource(id = R.string.delete_removed_chapters)) },
+            title = { TextMMD(text = stringResource(id = R.string.delete_removed_chapters)) },
             text = {
                 val chapterNames = chapters.map { it.chapter.name }
-                Text(
+                TextMMD(
                     text =
                         context.resources.getQuantityString(
                             R.plurals.deleted_chapters,
@@ -61,7 +61,7 @@ fun RemovedChaptersDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.delete))
+                    TextMMD(text = stringResource(id = R.string.delete))
                 }
             },
             dismissButton = {
@@ -70,7 +70,7 @@ fun RemovedChaptersDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.keep))
+                    TextMMD(text = stringResource(id = R.string.keep))
                 }
             },
         )

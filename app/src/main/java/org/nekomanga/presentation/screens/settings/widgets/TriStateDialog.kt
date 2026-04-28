@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -15,11 +14,9 @@ import androidx.compose.material.icons.rounded.CheckBox
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.DisabledByDefault
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -29,6 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.extensions.isScrolledToEnd
 import org.nekomanga.presentation.extensions.isScrolledToStart
@@ -66,16 +66,16 @@ fun <T> TriStateListDialog(
     AlertDialog(
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
         onDismissRequest = onDismissRequest,
-        title = { Text(text = title) },
+        title = { TextMMD(text = title) },
         text = {
             Column {
                 if (message != null) {
-                    Text(text = message, modifier = Modifier.padding(bottom = Size.small))
+                    TextMMD(text = message, modifier = Modifier.padding(bottom = Size.small))
                 }
 
                 Box {
                     val listState = rememberLazyListState()
-                    LazyColumn(state = listState) {
+                    LazyColumnMMD(state = listState) {
                         itemsIndexed(
                             items = items,
                             key = { index, item -> "$index-${item.hashCode()}" },
@@ -121,22 +121,24 @@ fun <T> TriStateListDialog(
                                             }
                                         ),
                                 )
-                                Text(text = itemLabel(item))
+                                TextMMD(text = itemLabel(item))
                             }
                         }
                     }
 
                     if (!listState.isScrolledToStart()) {
-                        HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
+                        HorizontalDividerMMD(modifier = Modifier.align(Alignment.TopCenter))
                     }
                     if (!listState.isScrolledToEnd()) {
-                        HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
+                        HorizontalDividerMMD(modifier = Modifier.align(Alignment.BottomCenter))
                     }
                 }
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismissRequest) { Text(text = stringResource(R.string.cancel)) }
+            TextButton(onClick = onDismissRequest) {
+                TextMMD(text = stringResource(R.string.cancel))
+            }
         },
         confirmButton = {
             TextButton(
@@ -150,7 +152,7 @@ fun <T> TriStateListDialog(
                     onValueChanged(included, excluded)
                 }
             ) {
-                Text(text = stringResource(R.string.ok))
+                TextMMD(text = stringResource(R.string.ok))
             }
         },
     )

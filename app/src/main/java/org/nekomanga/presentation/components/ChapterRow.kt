@@ -23,7 +23,6 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -44,6 +43,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.download.model.Download
 import eu.kanade.tachiyomi.source.online.utils.MdLang
 import eu.kanade.tachiyomi.ui.manga.MangaConstants
@@ -309,7 +309,7 @@ private fun ChapterTitle(
             )
             Gap(Size.tiny)
         }
-        Text(
+        TextMMD(
             text =
                 if (shouldHideChapterTitles)
                     stringResource(id = R.string.chapter_, decimalFormat.format(chapterNumber))
@@ -331,7 +331,7 @@ private fun ChapterSubtitle(subtitleText: String, language: String, textColor: C
         if (language.isNotBlank()) {
             LanguageIcon(language = language, textColor = textColor)
         }
-        Text(
+        TextMMD(
             text = subtitleText,
             style =
                 MaterialTheme.typography.bodyMedium.copy(
@@ -358,7 +358,7 @@ private fun LanguageIcon(language: String, textColor: Color) {
         )
         Spacer(modifier = Modifier.size(Size.tiny))
     } else {
-        Text(
+        TextMMD(
             text = "$language?",
             style =
                 MaterialTheme.typography.bodyMedium.copy(
@@ -488,7 +488,7 @@ private fun SwipeIcon(icon: ImageVector, text: String, contentColor: Color) {
             verticalArrangement = Arrangement.Center,
         ) {
             Icon(imageVector = icon, contentDescription = null, tint = contentColor)
-            Text(text = text, textAlign = TextAlign.Center, color = contentColor)
+            TextMMD(text = text, textAlign = TextAlign.Center, color = contentColor)
         }
     }
 }

@@ -1,26 +1,26 @@
 package org.nekomanga.presentation.components.snackbar
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.mudita.mmd.components.snackbar.SnackbarDataMMD
+import com.mudita.mmd.components.snackbar.SnackbarHostMMD
+import com.mudita.mmd.components.snackbar.SnackbarHostStateMMD
+import com.mudita.mmd.components.snackbar.SnackbarMMD
 import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun SwipeableSnackbarHost(
-    hostState: SnackbarHostState,
+    hostState: SnackbarHostStateMMD,
     modifier: Modifier = Modifier,
-    snackbar: @Composable (SnackbarData) -> Unit = { Snackbar(it) },
+    snackbar: @Composable (SnackbarDataMMD) -> Unit = { SnackbarMMD(it) },
 ) {
 
-    SnackbarHost(
+    SnackbarHostMMD(
         hostState = hostState,
         modifier = modifier,
         snackbar = { snackbarData ->

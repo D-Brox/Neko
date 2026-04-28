@@ -13,7 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lanars.compose.datetextfield.DateTextField
 import com.lanars.compose.datetextfield.Format
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants.ReadingDate
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants.TrackDateChange
@@ -85,7 +85,7 @@ fun TrackingDateSheet(
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            Text(
+            TextMMD(
                 text =
                     stringResource(
                         id =
@@ -108,7 +108,7 @@ fun TrackingDateSheet(
 
         if (currentDateExists) {
             Gap(Size.tiny)
-            Text(
+            TextMMD(
                 text =
                     stringResource(
                         id = R.string.current_date_,
@@ -130,7 +130,7 @@ fun TrackingDateSheet(
                     trackDateChanged(RemoveTrackingDate(trackingDate.readingDate, trackAndService))
                 }
             ) {
-                Text(
+                TextMMD(
                     text = stringResource(id = R.string.remove),
                     style =
                         MaterialTheme.typography.titleMedium.copy(
@@ -176,7 +176,7 @@ fun TrackingDateSheet(
                         )
                     }
                 ) {
-                    Text(
+                    TextMMD(
                         text =
                             stringResource(
                                 id = R.string.use_suggested_date_of_,
@@ -195,7 +195,7 @@ fun TrackingDateSheet(
         if (!showDateField && currentDateExists) {
             Gap(Size.tiny)
             TextButton(onClick = { showDateField = !showDateField }) {
-                Text(
+                TextMMD(
                     text = stringResource(id = R.string.edit),
                     style =
                         MaterialTheme.typography.titleMedium.copy(
@@ -251,7 +251,7 @@ fun TrackingDateSheet(
                         ),
                     enabled = newDate != null,
                 ) {
-                    Text(text = stringResource(id = android.R.string.ok))
+                    TextMMD(text = stringResource(id = android.R.string.ok))
                 }
             }
         }

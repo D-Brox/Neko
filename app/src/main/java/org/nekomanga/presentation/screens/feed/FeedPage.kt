@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.source.online.utils.MdLang
 import eu.kanade.tachiyomi.ui.feed.FeedHistoryGroup
 import eu.kanade.tachiyomi.ui.feed.FeedManga
@@ -190,7 +190,7 @@ fun FeedChapterTitleLine(
                 }
             }
         }
-        Text(
+        TextMMD(
             text = title,
             style = style.copy(color = textColor, fontWeight = FontWeight.Medium),
             maxLines = 1,

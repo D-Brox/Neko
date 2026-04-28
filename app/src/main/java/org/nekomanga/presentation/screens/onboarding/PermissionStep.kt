@@ -18,8 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.mudita.mmd.components.buttons.OutlinedButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.util.system.launchRequestPackageInstallsPermission
 import org.nekomanga.R
 import org.nekomanga.presentation.theme.Size
@@ -137,10 +137,10 @@ internal class PermissionStep : OnboardingStep {
     ) {
         ListItem(
             modifier = modifier,
-            headlineContent = { Text(text = title) },
-            supportingContent = { Text(text = subtitle) },
+            headlineContent = { TextMMD(text = title) },
+            supportingContent = { TextMMD(text = subtitle) },
             trailingContent = {
-                OutlinedButton(enabled = !granted, onClick = onButtonClick) {
+                OutlinedButtonMMD(enabled = !granted, onClick = onButtonClick) {
                     if (granted) {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -148,7 +148,7 @@ internal class PermissionStep : OnboardingStep {
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     } else {
-                        Text(stringResource(R.string.onboarding_permission_action_grant))
+                        TextMMD(stringResource(R.string.onboarding_permission_action_grant))
                     }
                 }
             },

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryGroup
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
@@ -38,7 +38,7 @@ fun GroupBySheet(
             val paddingModifier = Modifier.padding(horizontal = Size.small)
 
             Gap(Size.medium)
-            Text(
+            TextMMD(
                 modifier = paddingModifier.fillMaxWidth(),
                 text = stringResource(R.string.group_library_by),
                 style = MaterialTheme.typography.titleLarge,
@@ -61,7 +61,7 @@ fun GroupBySheet(
                 ) {
                     Icon(imageVector = groupBy.icon, contentDescription = null, tint = textColor)
                     Gap(Size.small)
-                    Text(
+                    TextMMD(
                         text = stringResource(groupBy.nameRes),
                         modifier = Modifier.weight(1f),
                         color = textColor,

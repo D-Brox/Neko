@@ -12,10 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Downloading
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -37,6 +34,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
+import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.library.LibraryUpdateJob
 import eu.kanade.tachiyomi.ui.feed.DownloadScreenActions
 import eu.kanade.tachiyomi.ui.feed.FeedScreenActions
@@ -176,7 +176,7 @@ private fun FeedWrapper(
     val summaryScreenPagingState by summaryScreenFlow.collectAsState()
 
     val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetMMDState(skipPartiallyExpanded = true)
 
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -205,7 +205,7 @@ private fun FeedWrapper(
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (showBottomSheet) {
-            ModalBottomSheet(
+            ModalBottomSheetMMD(
                 sheetState = sheetState,
                 onDismissRequest = { showBottomSheet = false },
                 content = {
@@ -349,7 +349,7 @@ private fun FeedWrapper(
 
                                         FeedScreenType.Summary -> stringResource(R.string.summary)
                                     }
-                                Text(
+                                TextMMD(
                                     text = name,
                                     style =
                                         MaterialTheme.typography.labelLarge.copy(

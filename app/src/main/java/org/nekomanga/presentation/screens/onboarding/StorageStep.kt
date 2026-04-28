@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.buttons.ButtonMMD
+import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.util.system.toast
 import kotlinx.coroutines.flow.collectLatest
 import org.nekomanga.R
@@ -48,7 +48,7 @@ internal class StorageStep : OnboardingStep {
             modifier = Modifier.padding(Size.medium).fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(Size.small),
         ) {
-            Text(
+            TextMMD(
                 stringResource(
                     R.string.onboarding_storage_info,
                     stringResource(R.string.app_name),
@@ -56,7 +56,7 @@ internal class StorageStep : OnboardingStep {
                 )
             )
 
-            Button(
+            ButtonMMD(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     try {
@@ -66,21 +66,21 @@ internal class StorageStep : OnboardingStep {
                     }
                 },
             ) {
-                Text(stringResource(R.string.onboarding_storage_action_select))
+                TextMMD(stringResource(R.string.onboarding_storage_action_select))
             }
 
-            HorizontalDivider(
+            HorizontalDividerMMD(
                 modifier = Modifier.padding(vertical = Size.small),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
 
-            Text(
+            TextMMD(
                 stringResource(
                     R.string.onboarding_storage_help_info,
                     stringResource(R.string.app_name),
                 )
             )
-            Button(
+            ButtonMMD(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     handler.openUri(
@@ -88,7 +88,7 @@ internal class StorageStep : OnboardingStep {
                     )
                 },
             ) {
-                Text(stringResource(R.string.onboarding_storage_help_action))
+                TextMMD(stringResource(R.string.onboarding_storage_help_action))
             }
         }
 

@@ -6,13 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -26,6 +24,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import java.util.Locale
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.PersistentList
@@ -85,13 +85,13 @@ fun EditCategorySheet(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 val stringRes = if (addingToLibrary) R.string.add_x_to else R.string.move_x_to
-                Text(
+                TextMMD(
                     modifier = paddingModifier,
                     text = stringResource(stringRes),
                     style = MaterialTheme.typography.titleLarge,
                 )
                 TextButton(modifier = paddingModifier, onClick = { showAddCategoryDialog = true }) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.plus_new_category),
                         style =
                             MaterialTheme.typography.titleSmall.copy(
@@ -103,7 +103,7 @@ fun EditCategorySheet(
             Gap(Size.medium)
             Divider()
 
-            LazyColumn(
+            LazyColumnMMD(
                 modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp)
             ) {
                 items(items = categories, key = { category -> category.id }) {
@@ -146,7 +146,7 @@ fun EditCategorySheet(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.cancel),
                         style = MaterialTheme.typography.titleSmall,
                     )
@@ -162,7 +162,7 @@ fun EditCategorySheet(
                             containerColor = themeColorState.primaryColor
                         ),
                 ) {
-                    Text(
+                    TextMMD(
                         text = acceptText.value,
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.surface,

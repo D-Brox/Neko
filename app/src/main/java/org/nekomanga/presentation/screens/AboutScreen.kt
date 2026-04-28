@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -33,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.getSystemService
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.snackbar.SnackbarHostStateMMD
 import eu.kanade.tachiyomi.data.updater.AppDownloadInstallJob
 import eu.kanade.tachiyomi.data.updater.AppUpdateResult
 import eu.kanade.tachiyomi.data.updater.LATEST_COMMIT_URL
@@ -74,7 +74,7 @@ fun AboutScreen(
     val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostStateMMD() }
 
     // Re-implementation of ObserveAsEvents from MainActivity
     ObserveAsEvents(flow = aboutViewModel.appSnackbarManager.events, snackbarHostState) { event ->
@@ -161,7 +161,7 @@ private fun AboutWrapper(
             )
         }
 
-        LazyColumn(
+        LazyColumnMMD(
             contentPadding = contentPadding,
             modifier = Modifier.padding(horizontal = Size.medium),
             verticalArrangement = Arrangement.spacedBy(Size.tiny),

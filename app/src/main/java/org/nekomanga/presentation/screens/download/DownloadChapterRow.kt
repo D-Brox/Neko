@@ -18,7 +18,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +33,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.download.model.Download
 import eu.kanade.tachiyomi.ui.feed.MoveDownloadDirection
 import kotlinx.collections.immutable.PersistentList
@@ -107,12 +107,12 @@ private fun ChapterRow(
                     .fillMaxWidth(.9f),
             verticalArrangement = Arrangement.spacedBy(Size.tiny),
         ) {
-            Text(
+            TextMMD(
                 text = download.mangaItem.title,
                 style = MaterialTheme.typography.titleSmall,
                 maxLines = 1,
             )
-            Text(
+            TextMMD(
                 text = download.chapterItem.chapter.name,
                 style =
                     MaterialTheme.typography.bodyMedium.copy(
@@ -247,7 +247,7 @@ private fun Background(alignment: Alignment) {
                 tint = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
-            Text(
+            TextMMD(
                 text = stringResource(id = R.string.remove_download),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,

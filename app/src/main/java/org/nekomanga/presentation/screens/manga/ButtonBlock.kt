@@ -18,12 +18,9 @@ import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -36,6 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.OutlinedButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -81,13 +81,13 @@ fun ButtonBlock(
     if (!isInitialized) return
 
     val checkedButtonColors =
-        ButtonDefaults.outlinedButtonColors(
+        ButtonDefaultsMMD.outlinedButtonColors(
             containerColor = themeColorState.containerColor.copy(alpha = NekoColors.halfAlpha),
             contentColor = themeColorState.primaryColor,
         )
     val checkedBorderStroke = BorderStroke(Size.extraExtraTiny, Color.Transparent)
     val uncheckedButtonColors =
-        ButtonDefaults.outlinedButtonColors(contentColor = themeColorState.primaryColor)
+        ButtonDefaultsMMD.outlinedButtonColors(contentColor = themeColorState.primaryColor)
     val uncheckedBorderStroke =
         BorderStroke(
             Size.extraExtraTiny,
@@ -265,10 +265,10 @@ private fun ActionButton(
         }
     }
 
-    OutlinedButton(
+    OutlinedButtonMMD(
         onClick = finalOnClick,
         modifier = if (data.dropdownItems != null) Modifier.size(Size.huge) else modifier,
-        shapes = ButtonDefaults.shapes(),
+        shapes = ButtonDefaultsMMD.shapes(),
         colors = colors,
         border = border,
         contentPadding =
@@ -287,7 +287,7 @@ private fun ActionButton(
                     val text = data.text.asString()
                     if (text.isNotEmpty()) {
                         Gap(Size.tiny)
-                        Text(
+                        TextMMD(
                             text = text,
                             style =
                                 MaterialTheme.typography.bodyLarge.copy(

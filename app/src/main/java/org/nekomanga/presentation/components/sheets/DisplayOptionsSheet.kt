@@ -8,12 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroupDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
@@ -30,6 +26,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.slider.SliderMMD
+import com.mudita.mmd.components.switcher.SwitchMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryDisplayMode
 import eu.kanade.tachiyomi.util.system.isLandscape
 import jp.wasabeef.gap.Gap
@@ -68,7 +68,7 @@ fun DisplayOptionsSheet(
             val paddingModifier = Modifier.padding(horizontal = Size.small)
 
             Gap(Size.small)
-            Text(
+            TextMMD(
                 modifier = paddingModifier.fillMaxWidth(),
                 text = stringResource(R.string.display_options),
                 style = MaterialTheme.typography.titleLarge,
@@ -99,7 +99,7 @@ fun DisplayOptionsSheet(
                                     else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
                                 },
                         ) {
-                            Text(libraryDisplayMode.toUiText().asString())
+                            TextMMD(libraryDisplayMode.toUiText().asString())
                         }
                         Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
                     }
@@ -121,7 +121,7 @@ fun DisplayOptionsSheet(
                                 forText = true,
                                 useHeight = true,
                             )
-                        Text(
+                        TextMMD(
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
                             text =
@@ -129,7 +129,7 @@ fun DisplayOptionsSheet(
                         )
                         Gap(Size.tiny)
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            Slider(
+                            SliderMMD(
                                 modifier = Modifier.weight(1f),
                                 value = sliderPosition,
                                 onValueChange = { sliderPosition = it },
@@ -147,7 +147,7 @@ fun DisplayOptionsSheet(
                                 },
                                 shapes = ButtonDefaults.shapes(),
                             ) {
-                                Text(stringResource(R.string.reset))
+                                TextMMD(stringResource(R.string.reset))
                             }
                         }
                     }
@@ -158,18 +158,18 @@ fun DisplayOptionsSheet(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Gap(Size.small)
-                    Text(
+                    TextMMD(
                         modifier = Modifier.weight(1f),
                         text = stringResource(id = R.string.show_outline_around_covers),
                     )
-                    Switch(
+                    SwitchMMD(
                         checked = outlineCoversEnabled,
                         onCheckedChange = { outlineCoversToggled() },
                     )
                     Gap(Size.small)
                 }
 
-                HorizontalDivider()
+                HorizontalDividerMMD()
 
                 ToggleRow(
                     enabled = unreadBadgesEnabled,
@@ -188,7 +188,7 @@ fun DisplayOptionsSheet(
                     onClick = startReadingButtonToggled,
                     text = stringResource(R.string.show_start_reading_button),
                 )
-                HorizontalDivider()
+                HorizontalDividerMMD()
                 ToggleRow(
                     enabled = showLibraryButtonBarEnabled,
                     onClick = showLibraryButtonBarToggled,
@@ -213,8 +213,8 @@ private fun ToggleRow(enabled: Boolean, onClick: () -> Unit, text: String) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Gap(Size.small)
-        Text(modifier = Modifier.weight(1f), text = text)
-        Switch(checked = enabled, onCheckedChange = { onClick() })
+        TextMMD(modifier = Modifier.weight(1f), text = text)
+        SwitchMMD(checked = enabled, onCheckedChange = { onClick() })
         Gap(Size.small)
     }
 }

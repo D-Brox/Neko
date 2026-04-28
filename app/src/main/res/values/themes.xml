@@ -405,4 +405,9 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 
+    <style name="Theme.Neko.MMD" parent="Theme.Neko">
+        <!-- MMD theme is handled in Compose by ThemeMMD -->
+        <!-- This style exists for compatibility with the theme selection system -->
+    </style>
+
 </resources>

@@ -1,10 +1,10 @@
 package org.nekomanga.presentation.screens.settings.widgets
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.mudita.mmd.components.switcher.SwitchMMD
 import org.nekomanga.presentation.screens.settings.TrailingWidgetBuffer
 
 @Composable
@@ -22,7 +22,7 @@ fun SwitchPreferenceWidget(
         subtitle = subtitle,
         icon = icon,
         widget = {
-            Switch(
+            SwitchMMD(
                 checked = checked,
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = TrailingWidgetBuffer),

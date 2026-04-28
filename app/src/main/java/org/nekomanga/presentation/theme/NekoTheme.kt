@@ -9,11 +9,13 @@ import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
+import com.mudita.mmd.ThemeMMD
 import eu.kanade.tachiyomi.data.preference.PreferencesHelper
 import org.nekomanga.presentation.theme.Typefaces.appTypography
 import org.nekomanga.presentation.theme.colorschemes.BlueColorScheme
 import org.nekomanga.presentation.theme.colorschemes.BrownColorScheme
 import org.nekomanga.presentation.theme.colorschemes.GreenColorScheme
+import org.nekomanga.presentation.theme.colorschemes.MMDColorScheme
 import org.nekomanga.presentation.theme.colorschemes.MonetColorScheme
 import org.nekomanga.presentation.theme.colorschemes.MonochromeColorScheme
 import org.nekomanga.presentation.theme.colorschemes.NekoColorScheme
@@ -30,14 +32,22 @@ import uy.kohesive.injekt.api.get
 
 @Composable
 fun NekoTheme(colorScheme: ColorScheme? = null, content: @Composable () -> Unit) {
-    val finalColorScheme = colorScheme ?: nekoThemeColorScheme()
+    val preferences = Injekt.get<PreferencesHelper>()
+    val isMMD =
+        preferences.lightTheme().get() == Themes.MMD || preferences.darkTheme().get() == Themes.MMD
 
-    MaterialExpressiveTheme(
-        colorScheme = finalColorScheme,
-        motionScheme = MotionScheme.expressive(),
-        typography = appTypography,
-        content = content,
-    )
+    if (isMMD) {
+        ThemeMMD { content() }
+    } else {
+        val finalColorScheme = colorScheme ?: nekoThemeColorScheme()
+
+        MaterialExpressiveTheme(
+            colorScheme = finalColorScheme,
+            motionScheme = MotionScheme.expressive(),
+            typography = appTypography,
+            content = content,
+        )
+    }
 }
 
 @Composable
@@ -80,6 +90,7 @@ fun colorSchemeFromTheme(
         Themes.Retro -> RetroColorScheme
         Themes.Brown -> BrownColorScheme
         Themes.Tako -> TakoColorScheme
+        Themes.MMD -> MMDColorScheme
         else -> NekoColorScheme
     }.getColorScheme(isSystemInDarkTheme)
 }

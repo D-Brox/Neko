@@ -177,8 +177,8 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "mutation REFRESH_LOGIN_TOKEN(\$input RefreshTokenInput!) {" +
-                            "refreshToken(input: \$input) {" +
+                        $$"mutation REFRESH_LOGIN_TOKEN($input RefreshTokenInput!) {" +
+                            $$"refreshToken(input: $input) {" +
                             "accessToken}}"
                     ),
                 )
@@ -203,8 +203,8 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "mutation GET_LOGIN_TOKEN (\$input: LoginInput!) {" +
-                            "login(input: \$input) {" +
+                        $$"mutation GET_LOGIN_TOKEN ($input: LoginInput!) {" +
+                            $$"login(input: $input) {" +
                             "accessToken refreshToken}}"
                     ),
                 )
@@ -336,9 +336,9 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "query SEARCH_MANGA(\$input:String){" +
+                        $$"query SEARCH_MANGA($input:String){" +
                             "mangas(condition:{inLibrary:true}," +
-                            "filter:{title:{includesInsensitive:\$input}}){" +
+                            $$"filter:{title:{includesInsensitive:$input}}){" +
                             "nodes{id title thumbnailUrl source{name lang}}}}"
                     ),
                 )
@@ -477,7 +477,7 @@ class Suwayomi : MergedServerSource() {
     fun sanitizeName(rawName: String, chapter: Float, previous: Previous, next: Float?): Name {
         var title = rawName.replaceFirst(emojiRegex, "").trimStart()
         var vol = ""
-        val chaperNumber =
+        val chapterNumber =
             if (previous.chapter != null && chapter < previous.chapter && chapter > 0) {
                 title.sanitizeVolume(volumePrefixes).apply {
                     vol = first
@@ -498,7 +498,7 @@ class Suwayomi : MergedServerSource() {
         val edgeCases = edgeCases.toMutableList()
         if (
             previous.chapter != null &&
-                previous.chapter > chaperNumber &&
+                previous.chapter > chapterNumber &&
                 edgeCases.any { rawName.contains(it, true) }
         ) {
             var chapterNumber = previous.chapter.toLong()
@@ -526,7 +526,7 @@ class Suwayomi : MergedServerSource() {
             )
         }
 
-        if (chaperNumber < 0) {
+        if (chapterNumber < 0) {
             if (rawName.contains("prologue", true)) {
                 return Name.Sanitized("Ch.0 - $rawName", "", 0f, "Ch.0", rawName)
             }
@@ -556,10 +556,10 @@ class Suwayomi : MergedServerSource() {
         }
 
         val ch =
-            if (chaperNumber == chaperNumber.toLong().toFloat()) {
-                chaperNumber.toLong().toString()
+            if (chapterNumber == chapterNumber.toLong().toFloat()) {
+                chapterNumber.toLong().toString()
             } else {
-                chaperNumber.formatFloat()
+                chapterNumber.formatFloat()
             }
 
         val chapterName = mutableListOf<String>()
@@ -622,7 +622,7 @@ class Suwayomi : MergedServerSource() {
             chapterName.add(title)
         }
 
-        return Name.Sanitized(chapterName.joinToString(" "), vol, chaperNumber, chtxt, title)
+        return Name.Sanitized(chapterName.joinToString(" "), vol, chapterNumber, chtxt, title)
     }
 
     fun Float.formatFloat(): String {
@@ -686,8 +686,8 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "mutation FETCH_MANGA_CHAPTERS(\$input: FetchChaptersInput!){" +
-                            "fetchChapters(input: \$input) { chapters{" +
+                        $$"mutation FETCH_MANGA_CHAPTERS($input: FetchChaptersInput!){" +
+                            $$"fetchChapters(input: $input) { chapters{" +
                             "id name chapterNumber sourceOrder uploadDate isRead scanlator}}}"
                     ),
                 )
@@ -709,8 +709,8 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "query GET_MANGA_CHAPTERS(\$filter: ChapterFilterInput!) {" +
-                            "chapters(filter: \$filter) { nodes {" +
+                        $$"query GET_MANGA_CHAPTERS($filter: ChapterFilterInput!) {" +
+                            $$"chapters(filter: $filter) { nodes {" +
                             "id name chapterNumber sourceOrder uploadDate isRead scanlator}}}"
                     ),
                 )
@@ -750,8 +750,8 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "mutation GET_CHAPTER_PAGES_FETCH(\$input:FetchChapterPagesInput!){" +
-                            "fetchChapterPages(input:\$input){pages}}"
+                        $$"mutation GET_CHAPTER_PAGES_FETCH($input:FetchChapterPagesInput!){" +
+                            $$"fetchChapterPages(input:$input){pages}}"
                     ),
                 )
                 put("variables", variables)
@@ -790,8 +790,8 @@ class Suwayomi : MergedServerSource() {
                 put(
                     "query",
                     JsonPrimitive(
-                        "mutation UPDATE_CHAPTERS(\$input:UpdateChaptersInput!){" +
-                            "updateChapters(input:\$input){__typename}}"
+                        $$"mutation UPDATE_CHAPTERS($input:UpdateChaptersInput!){" +
+                            $$"updateChapters(input:$input){__typename}}"
                     ),
                 )
                 put("variables", variables)

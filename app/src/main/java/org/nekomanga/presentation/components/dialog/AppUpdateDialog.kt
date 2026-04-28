@@ -3,10 +3,8 @@ package org.nekomanga.presentation.components.dialog
 import android.os.Build
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,6 +12,8 @@ import androidx.compose.ui.res.stringResource
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.updater.Release
 import org.nekomanga.R
 
@@ -22,10 +22,10 @@ import org.nekomanga.R
 fun AppUpdateDialog(release: Release, onDismissRequest: () -> Unit, onConfirm: (Release) -> Unit) {
     val body = release.info.substringBeforeLast("Downloads & Checksums")
     AlertDialog(
-        title = { Text(text = stringResource(id = R.string.new_version_available)) },
+        title = { TextMMD(text = stringResource(id = R.string.new_version_available)) },
         modifier = Modifier.fillMaxHeight(.8f),
         text = {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumnMMD(modifier = Modifier.fillMaxSize()) {
                 item {
                     Markdown(
                         content = body,
@@ -41,12 +41,12 @@ fun AppUpdateDialog(release: Release, onDismissRequest: () -> Unit, onConfirm: (
                 val text =
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) R.string.update
                     else R.string.download
-                Text(text = stringResource(id = text))
+                TextMMD(text = stringResource(id = text))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(text = stringResource(id = R.string.ignore))
+                TextMMD(text = stringResource(id = R.string.ignore))
             }
         },
     )

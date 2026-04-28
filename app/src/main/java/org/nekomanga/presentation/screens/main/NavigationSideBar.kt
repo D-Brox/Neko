@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.main.NavigationItem
 import eu.kanade.tachiyomi.ui.main.states.SideNavAlignment
 import jp.wasabeef.gap.Gap
@@ -53,7 +53,7 @@ fun NavigationSideBar(
                                 contentDescription = null,
                             )
                         },
-                        label = { Text(text = item.title) },
+                        label = { TextMMD(text = item.title) },
                     )
                     Gap(Size.tiny)
                 }

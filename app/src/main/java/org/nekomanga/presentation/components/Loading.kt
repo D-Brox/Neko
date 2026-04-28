@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
 import org.nekomanga.presentation.theme.Size
 
 @Composable
@@ -21,7 +21,7 @@ fun Loading(modifier: Modifier = Modifier) {
                 .size(40.dp)
                 .background(color = MaterialTheme.colorScheme.secondary, shape = CircleShape)
     ) {
-        CircularProgressIndicator(
+        CircularProgressIndicatorMMD(
             modifier =
                 Modifier.size(Size.largePlus).padding(Size.extraTiny).align(Alignment.Center),
             color = MaterialTheme.colorScheme.onSecondary,

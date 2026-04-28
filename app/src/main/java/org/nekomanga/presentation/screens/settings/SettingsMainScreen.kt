@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ChromeReaderMode
@@ -32,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.lazy.LazyColumnMMD
 import eu.kanade.tachiyomi.ui.setting.SettingsScreenType
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -119,7 +119,7 @@ private fun mainContent(
     developerMode: Boolean,
     selectedScreen: NavKey?,
 ) {
-    LazyColumn(contentPadding = contentPadding, modifier = Modifier.fillMaxWidth()) {
+    LazyColumnMMD(contentPadding = contentPadding, modifier = Modifier.fillMaxWidth()) {
         item {
             IconItem(
                 labelText = UiText.StringResource(R.string.general),
@@ -269,7 +269,7 @@ private fun SearchResult(
                 EmptyScreen(message = UiText.StringResource(resourceId = R.string.no_results_found))
             }
             else -> {
-                LazyColumn(
+                LazyColumnMMD(
                     contentPadding = contentPadding,
                     modifier = modifier.fillMaxSize().padding(top = Size.medium),
                     horizontalAlignment = Alignment.CenterHorizontally,

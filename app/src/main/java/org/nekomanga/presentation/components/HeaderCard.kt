@@ -6,10 +6,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.presentation.theme.Shapes
 import org.nekomanga.presentation.theme.Size
 
@@ -27,7 +27,7 @@ fun HeaderCard(headerText: @Composable () -> Unit) {
 
 @Composable
 fun DefaultHeaderText(text: String) {
-    Text(
+    TextMMD(
         text = text,
         style = MaterialTheme.typography.titleMedium,
         textAlign = TextAlign.Center,

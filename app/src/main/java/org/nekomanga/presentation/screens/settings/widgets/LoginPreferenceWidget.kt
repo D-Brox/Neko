@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +18,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.domain.track.TrackServiceItem
 import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.screens.settings.BasePreferenceWidget
@@ -40,7 +40,7 @@ fun TrackingPreferenceWidget(
         subcomponent =
             if (!subtitle.isNullOrBlank()) {
                 {
-                    Text(
+                    TextMMD(
                         text = subtitle,
                         modifier =
                             Modifier.padding(horizontal = Size.medium)

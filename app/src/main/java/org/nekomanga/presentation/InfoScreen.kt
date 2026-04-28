@@ -12,14 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +26,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.zIndex
+import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
+import com.mudita.mmd.components.buttons.OutlinedButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.presentation.components.LauncherIcon
 import org.nekomanga.presentation.theme.Size
 
@@ -64,21 +64,21 @@ fun InfoScreen(
                         .windowInsetsPadding(NavigationBarDefaults.windowInsets)
                         .padding(horizontal = Size.medium, vertical = Size.small)
             ) {
-                Button(
+                ButtonMMD(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = canAccept,
-                    colors = ButtonDefaults.buttonColors(containerColor = tint),
+                    colors = ButtonDefaultsMMD.buttonColors(containerColor = tint),
                     onClick = onAcceptClick,
                 ) {
-                    Text(text = acceptText)
+                    TextMMD(text = acceptText)
                 }
                 if (rejectText != null && onRejectClick != null) {
-                    OutlinedButton(
+                    OutlinedButtonMMD(
                         modifier = Modifier.fillMaxWidth(),
                         border = BorderStroke(width = Size.extraExtraTiny, color = tint),
                         onClick = onRejectClick,
                     ) {
-                        Text(text = rejectText)
+                        TextMMD(text = rejectText)
                     }
                 }
             }
@@ -117,13 +117,13 @@ fun InfoScreen(
                 }
             }
 
-            Text(
+            TextMMD(
                 modifier = Modifier.fillMaxWidth(),
                 text = headingText,
                 style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center,
             )
-            Text(
+            TextMMD(
                 text = subtitleText,
                 modifier = Modifier.padding(vertical = Size.small),
                 style = MaterialTheme.typography.titleSmall,

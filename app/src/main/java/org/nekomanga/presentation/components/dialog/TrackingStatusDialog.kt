@@ -9,9 +9,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,6 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.mudita.mmd.components.radio_button.RadioButtonDefaultsMMD
+import com.mudita.mmd.components.radio_button.RadioButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,7 +48,7 @@ fun TrackingStatusDialog(
         val scope = rememberCoroutineScope()
         AlertDialog(
             title = {
-                Text(
+                TextMMD(
                     text = stringResource(id = R.string.status),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
@@ -75,16 +75,16 @@ fun TrackingStatusDialog(
                                     ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            RadioButton(
+                            RadioButtonMMD(
                                 selected = (status == selectedStatus),
                                 onClick = { clicked() },
                                 colors =
-                                    RadioButtonDefaults.colors(
+                                    RadioButtonDefaultsMMD.colors(
                                         selectedColor = themeColorState.primaryColor
                                     ),
                             )
                             Gap(Size.small)
-                            Text(
+                            TextMMD(
                                 text = service.status(status),
                                 style = MaterialTheme.typography.titleMedium,
                             )
@@ -99,7 +99,7 @@ fun TrackingStatusDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    TextMMD(text = stringResource(id = R.string.cancel))
                 }
             },
         )

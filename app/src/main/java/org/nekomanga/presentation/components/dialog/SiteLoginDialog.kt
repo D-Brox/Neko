@@ -9,12 +9,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -30,6 +28,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.setting.MergeLoginEvent
 import kotlinx.coroutines.flow.SharedFlow
 import org.nekomanga.R
@@ -75,7 +75,7 @@ fun LoginDialog(
 
     AlertDialog(
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
-        title = { Text(text = stringResource(id = R.string.sign_in_to_, sourceName)) },
+        title = { TextMMD(text = stringResource(id = R.string.sign_in_to_, sourceName)) },
         text = {
             Column(
                 modifier = Modifier.padding(horizontal = Size.small),
@@ -84,7 +84,7 @@ fun LoginDialog(
             ) {
                 if (showCredentialsField()) {
                     OutlinedTextField(
-                        label = { Text(usernameLabel) },
+                        label = { TextMMD(usernameLabel) },
                         value = username,
                         onValueChange = { username = it },
                         singleLine = true,
@@ -93,7 +93,7 @@ fun LoginDialog(
 
                     var passwordVisible by rememberSaveable { mutableStateOf(false) }
                     OutlinedTextField(
-                        label = { Text(stringResource(R.string.password)) },
+                        label = { TextMMD(stringResource(R.string.password)) },
                         value = password,
                         onValueChange = { password = it },
                         visualTransformation =
@@ -116,7 +116,7 @@ fun LoginDialog(
                 }
                 if (showUrlField) {
                     OutlinedTextField(
-                        label = { Text(stringResource(R.string.url)) },
+                        label = { TextMMD(stringResource(R.string.url)) },
                         value = url,
                         onValueChange = { url = it },
                         singleLine = true,
@@ -124,13 +124,13 @@ fun LoginDialog(
                     )
                 }
                 if (showLoginError) {
-                    Text(
+                    TextMMD(
                         stringResource(R.string.could_not_sign_in),
                         color = MaterialTheme.colorScheme.error,
                     )
                 }
                 if (showLoading) {
-                    CircularProgressIndicator(modifier = Modifier.size(Size.medium))
+                    CircularProgressIndicatorMMD(modifier = Modifier.size(Size.medium))
                 }
             }
         },
@@ -148,11 +148,11 @@ fun LoginDialog(
                     showLoginError = false
                 },
             ) {
-                Text(text = stringResource(id = R.string.sign_in))
+                TextMMD(text = stringResource(id = R.string.sign_in))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(text = stringResource(id = R.string.cancel)) }
+            TextButton(onClick = onDismiss) { TextMMD(text = stringResource(id = R.string.cancel)) }
         },
     )
 }

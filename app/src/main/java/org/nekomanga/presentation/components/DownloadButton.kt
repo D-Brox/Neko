@@ -27,7 +27,6 @@ import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.download.model.Download
 import eu.kanade.tachiyomi.ui.manga.MangaConstants
 import java.text.NumberFormat
@@ -269,7 +269,7 @@ private fun NotDownloadedError(buttonColor: Color, modifier: Modifier) {
         shape = MaterialShapes.Triangle.toShape(),
         modifier = modifier,
     ) {
-        Text(text = "!", color = buttonColor, fontWeight = FontWeight.Black)
+        TextMMD(text = "!", color = buttonColor, fontWeight = FontWeight.Black)
     }
 }
 

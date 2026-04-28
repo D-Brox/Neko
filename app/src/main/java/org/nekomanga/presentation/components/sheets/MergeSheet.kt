@@ -17,17 +17,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedSuggestionChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChipDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +51,9 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.mudita.mmd.components.lazy.LazyRowMMD
+import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
+import com.mudita.mmd.components.text.TextMMD
 import com.zedlabs.pastelplaceholder.Pastel
 import eu.kanade.tachiyomi.data.database.models.MergeType
 import eu.kanade.tachiyomi.data.database.models.SourceMergeManga
@@ -90,7 +90,7 @@ fun MergeSheet(
                 val text = MergeType.getMergeTypeName(isMergedManga.mergeType)
 
                 Gap(Size.small)
-                Text(
+                TextMMD(
                     text = stringResource(id = R.string.merge_source_, text),
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.fillMaxWidth(),
@@ -103,7 +103,7 @@ fun MergeSheet(
                     onClick = { openMergeSource(isMergedManga.url, isMergedManga.title) },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.open_merged_in_webview),
                         color = themeColorState.primaryColor,
                     )
@@ -113,7 +113,7 @@ fun MergeSheet(
                     onClick = { removeMergeSource(isMergedManga.mergeType) },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.remove_merged_source),
                         color = themeColorState.primaryColor,
                     )
@@ -245,7 +245,7 @@ private fun MergeLogo(
             )
         }
 
-        Text(text = title, style = MaterialTheme.typography.bodySmall)
+        TextMMD(text = title, style = MaterialTheme.typography.bodySmall)
     }
 }
 
@@ -307,7 +307,7 @@ private fun SuccessResults(
                         .padding(top = 6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
+                    TextMMD(
                         text = item.title,
                         modifier = Modifier.padding(Size.tiny),
                         maxLines = 2,
@@ -337,15 +337,15 @@ private fun BoxScope.NonSuccessResultsAndChips(
         Gap(Size.medium)
         when (searchResults) {
             is MergeSearchResult.Loading ->
-                CircularProgressIndicator(
+                CircularProgressIndicatorMMD(
                     color = themeColorState.primaryColor,
                     modifier = Modifier.size(32.dp),
                 )
 
             is MergeSearchResult.NoResult ->
-                Text(text = stringResource(id = R.string.no_results_found))
+                TextMMD(text = stringResource(id = R.string.no_results_found))
 
-            is MergeSearchResult.Error -> Text(text = searchResults.errorMessage)
+            is MergeSearchResult.Error -> TextMMD(text = searchResults.errorMessage)
             else -> Unit
         }
         Gap(Size.medium)
@@ -355,7 +355,7 @@ private fun BoxScope.NonSuccessResultsAndChips(
                 allTitles.partition { title -> allTitles.indexOf(title).mod(2) != 0 }.toList()
 
             partitioned.forEach { chunk ->
-                LazyRow(
+                LazyRowMMD(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(Size.tiny),
                     contentPadding = PaddingValues(horizontal = 8.dp),
@@ -364,7 +364,7 @@ private fun BoxScope.NonSuccessResultsAndChips(
                         ElevatedSuggestionChip(
                             onClick = { chipClick(item) },
                             label = {
-                                Text(text = item, color = MaterialTheme.colorScheme.surface)
+                                TextMMD(text = item, color = MaterialTheme.colorScheme.surface)
                             },
                             colors =
                                 SuggestionChipDefaults.elevatedSuggestionChipColors(

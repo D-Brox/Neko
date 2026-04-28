@@ -3,13 +3,13 @@ package org.nekomanga.presentation.components.dialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.buttons.ButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.BuildConfig
 import org.nekomanga.R
 
@@ -21,7 +21,7 @@ fun WhatsNewDialog(onDismissRequest: () -> Unit, onSeeWhatsNewClick: () -> Unit)
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = stringResource(id = R.string.updated_to_, BuildConfig.VERSION_NAME))
+                TextMMD(text = stringResource(id = R.string.updated_to_, BuildConfig.VERSION_NAME))
             }
         },
         text = {
@@ -29,8 +29,8 @@ fun WhatsNewDialog(onDismissRequest: () -> Unit, onSeeWhatsNewClick: () -> Unit)
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Button(onClick = onSeeWhatsNewClick) {
-                    Text(text = stringResource(id = R.string.whats_new_this_release))
+                ButtonMMD(onClick = onSeeWhatsNewClick) {
+                    TextMMD(text = stringResource(id = R.string.whats_new_this_release))
                 }
             }
         },
@@ -38,7 +38,7 @@ fun WhatsNewDialog(onDismissRequest: () -> Unit, onSeeWhatsNewClick: () -> Unit)
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(text = stringResource(id = R.string.close))
+                TextMMD(text = stringResource(id = R.string.close))
             }
         },
     )

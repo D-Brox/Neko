@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -15,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.source.online.utils.MdLang
 import eu.kanade.tachiyomi.ui.manga.MangaConstants
 import eu.kanade.tachiyomi.ui.manga.MangaConstants.SortOption
@@ -82,7 +82,7 @@ private fun Sort(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            TextMMD(
                 modifier = Modifier.padding(vertical = Size.medium),
                 text = stringResource(id = R.string.sort),
                 style = MaterialTheme.typography.labelLarge,
@@ -90,14 +90,14 @@ private fun Sort(
             )
             if (!sortFilter.matchesGlobalDefaults) {
                 TextButton(onClick = setGlobal) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.set_as_default),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,
                     )
                 }
                 TextButton(onClick = { changeSort(null) }) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.reset),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,
@@ -156,7 +156,7 @@ private fun Filter(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            TextMMD(
                 modifier = Modifier.padding(vertical = Size.medium),
                 text = stringResource(id = R.string.filter_and_display),
                 style = MaterialTheme.typography.labelLarge,
@@ -165,14 +165,14 @@ private fun Filter(
 
             if (!filter.matchesGlobalDefaults) {
                 TextButton(onClick = setGlobal) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.set_as_default),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,
                     )
                 }
                 TextButton(onClick = { changeFilter(null) }) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.reset),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,
@@ -301,7 +301,7 @@ private fun Scanlator(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            TextMMD(
                 modifier = Modifier.padding(vertical = Size.medium),
                 text =
                     stringResource(
@@ -314,7 +314,7 @@ private fun Scanlator(
             )
             if (scanlatorFilter.scanlators.any { it.disabled }) {
                 TextButton(onClick = { changeScanlatorFilter(null) }) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.reset),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,
@@ -367,7 +367,7 @@ private fun Language(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            TextMMD(
                 modifier = Modifier.padding(vertical = Size.medium),
                 text = stringResource(id = R.string.filter_languages),
                 style = MaterialTheme.typography.labelLarge,
@@ -375,7 +375,7 @@ private fun Language(
             )
             if (languageFilter.languages.any { it.disabled }) {
                 TextButton(onClick = { changeLanguageFilter(null) }) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.reset),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,

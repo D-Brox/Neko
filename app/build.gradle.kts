@@ -10,9 +10,10 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase) apply false
     alias(libs.plugins.ksp)
+    alias(libs.plugins.mmd.migrator) apply false
 }
 
-if (gradle.startParameter.taskRequests.toString().contains("Standard")) {
+if (gradle.startParameter.taskRequests.toString().contains("Release")) {
     apply(mapOf("plugin" to "com.google.gms.google-services"))
     apply(mapOf("plugin" to "com.google.firebase.crashlytics"))
 }
@@ -31,7 +32,7 @@ android {
         versionName = "3.4.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
-        setProperty("archivesBaseName", "Neko")
+        //        setProperty("archivesBaseName", "Neko")
         buildConfigField("String", "COMMIT_COUNT", "\"${getCommitCount()}\"")
         buildConfigField("String", "COMMIT_SHA", "\"${getGitSha()}\"")
         buildConfigField(
@@ -169,10 +170,10 @@ dependencies {
     implementation(compose.gap)
     implementation(compose.bundles.accompanist)
     implementation(compose.number.picker)
-
     implementation(compose.bundles.charting)
-
     implementation(compose.swipe)
+    implementation(libs.mmd)
+
 
     implementation(libs.pastelplaceholders)
     implementation(libs.versioncompare)

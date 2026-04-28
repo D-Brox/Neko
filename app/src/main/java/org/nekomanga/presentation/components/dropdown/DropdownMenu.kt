@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
+import com.mudita.mmd.ThemeMMD
 import me.saket.cascade.CascadeColumnScope
 import me.saket.cascade.CascadeDropdownMenu
 import org.nekomanga.presentation.components.UiText
@@ -43,7 +44,7 @@ fun NekoDropdownMenu(
             onSurfaceVariant = themeColorState.onAltContainerColor,
         )
 
-    MaterialTheme(colorScheme = colors) {
+    ThemeMMD() {
         CompositionLocalProvider(
             LocalRippleConfiguration provides (themeColorState.rippleConfiguration)
         ) {

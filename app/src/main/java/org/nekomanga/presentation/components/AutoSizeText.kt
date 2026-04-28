@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.components
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.mudita.mmd.components.text.TextMMD
 
 @Composable
 fun AutoSizeText(
@@ -29,7 +29,7 @@ fun AutoSizeText(
     Layout(
         modifier = modifier,
         content = {
-            Text(
+            TextMMD(
                 text = text,
                 style = scaledTextStyle,
                 softWrap = false,
@@ -38,7 +38,7 @@ fun AutoSizeText(
                 overflow = TextOverflow.Ellipsis,
                 onTextLayout = { textLayoutResult ->
                     if (isTextReady) {
-                        return@Text
+                        return@TextMMD
                     }
 
                     if (textLayoutResult.didOverflowWidth || textLayoutResult.didOverflowHeight) {

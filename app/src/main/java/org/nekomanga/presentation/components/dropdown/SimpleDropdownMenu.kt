@@ -3,11 +3,11 @@ package org.nekomanga.presentation.components.dropdown
 import androidx.compose.foundation.background
 import androidx.compose.material3.DropdownMenuItem as MaterialDropdownMenuItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.PersistentList
 import me.saket.cascade.CascadeColumnScope
 import org.nekomanga.presentation.components.UiText
@@ -58,7 +58,7 @@ private fun CascadeColumnScope.Row(
                 }
 
             DropdownMenuItem(
-                text = { Text(text = item.text.asString(), style = style) },
+                text = { TextMMD(text = item.text.asString(), style = style) },
                 modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
                 enabled = item.enabled,
                 children = {
@@ -74,7 +74,7 @@ private fun CascadeColumnScope.Row(
                 childrenHeader = {
                     DropdownMenuHeader(
                         modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
-                        text = { Text(text = item.text.asString(), style = style) },
+                        text = { TextMMD(text = item.text.asString(), style = style) },
                     )
                 },
             )
@@ -107,7 +107,7 @@ private fun Item(
     MaterialDropdownMenuItem(
         modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
         enabled = enabled,
-        text = { Text(text = text, style = style) },
+        text = { TextMMD(text = text, style = style) },
         onClick = {
             onDismiss()
             onClick()

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -19,7 +18,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -35,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.PersistentList
 import org.nekomanga.R
 import org.nekomanga.domain.category.CategoryItem
@@ -135,7 +135,7 @@ internal class AddEditCategoriesScreen(
             },
         ) { contentPadding ->
             Box(modifier = Modifier.fillMaxSize()) {
-                LazyColumn(
+                LazyColumnMMD(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,
                     state = lazyListState,
@@ -180,7 +180,10 @@ internal class AddEditCategoriesScreen(
                                                 contentDescription = "Reorder",
                                             )
                                         }
-                                        Text(text = category.name, modifier = Modifier.weight(1f))
+                                        TextMMD(
+                                            text = category.name,
+                                            modifier = Modifier.weight(1f),
+                                        )
 
                                         IconButton(onClick = { editCategoryName = category.name }) {
                                             Icon(
@@ -214,7 +217,7 @@ internal class AddEditCategoriesScreen(
                             ),
                     onClick = { showAddDialog = true },
                     icon = { Icon(Icons.Default.Add, null) },
-                    text = { Text(text = stringResource(R.string.add)) },
+                    text = { TextMMD(text = stringResource(R.string.add)) },
                 )
             }
         }

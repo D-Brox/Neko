@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.presentation.components.Outline as NekoOutline
 import org.nekomanga.presentation.extensions.conditional
 import org.nekomanga.presentation.theme.Size as NekoSize
@@ -86,7 +86,7 @@ private fun SoloBadge(
                     )
                 }
     ) {
-        Text(
+        TextMMD(
             modifier = Modifier.padding(vertical = NekoSize.tiny, horizontal = NekoSize.small),
             text = count,
             style = MaterialTheme.typography.labelMedium.copy(color = countColor),
@@ -155,7 +155,7 @@ private fun DoubleBadgeOneSide(
                 this.border(width = NekoOutline.thickness, color = NekoOutline.color, shape = shape)
             }
     ) {
-        Text(
+        TextMMD(
             modifier =
                 Modifier.padding(
                     top = NekoSize.tiny,

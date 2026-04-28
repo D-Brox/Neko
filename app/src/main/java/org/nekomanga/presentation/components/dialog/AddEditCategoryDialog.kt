@@ -8,7 +8,6 @@ import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.domain.category.CategoryItem
 import org.nekomanga.presentation.components.theme.ThemeColorState
@@ -47,7 +47,7 @@ fun AddEditCategoryDialog(
         AlertDialog(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
             title = {
-                Text(
+                TextMMD(
                     text =
                         if (categorySelected.isBlank()) stringResource(id = R.string.new_category)
                         else stringResource(R.string.edit_category)
@@ -81,7 +81,7 @@ fun AddEditCategoryDialog(
                                     (!validCategory && categorySelected.isBlank() ||
                                         (!validCategory && categoryText.text != categorySelected))
                             ) {
-                                Text(text = stringResource(R.string.category_with_name_exists))
+                                TextMMD(text = stringResource(R.string.category_with_name_exists))
                             }
                         },
                     )
@@ -101,7 +101,7 @@ fun AddEditCategoryDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.save))
+                    TextMMD(text = stringResource(id = R.string.save))
                 }
             },
             dismissButton = {
@@ -110,7 +110,7 @@ fun AddEditCategoryDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    TextMMD(text = stringResource(id = R.string.cancel))
                 }
             },
         )

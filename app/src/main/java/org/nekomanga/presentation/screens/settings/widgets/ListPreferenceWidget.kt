@@ -4,14 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.surfaceColorAtElevation
@@ -26,6 +22,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.radio_button.RadioButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.theme.Size
 
@@ -51,11 +51,11 @@ fun <T> ListPreferenceWidget(
         AlertDialog(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
             onDismissRequest = { isDialogShown = false },
-            title = { Text(text = title) },
+            title = { TextMMD(text = title) },
             text = {
                 Box {
                     val state = rememberLazyListState()
-                    LazyColumn(state = state) {
+                    LazyColumnMMD(state = state) {
                         entries.forEach { current ->
                             val isSelected = value == current.key
                             item(key = current.key) {
@@ -71,14 +71,14 @@ fun <T> ListPreferenceWidget(
                         }
                     }
                     if (state.canScrollBackward)
-                        HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
+                        HorizontalDividerMMD(modifier = Modifier.align(Alignment.TopCenter))
                     if (state.canScrollForward)
-                        HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
+                        HorizontalDividerMMD(modifier = Modifier.align(Alignment.BottomCenter))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { isDialogShown = false }) {
-                    Text(text = stringResource(R.string.cancel))
+                    TextMMD(text = stringResource(R.string.cancel))
                 }
             },
         )
@@ -95,8 +95,8 @@ private fun DialogRow(label: String, isSelected: Boolean, onSelected: () -> Unit
                 .fillMaxWidth()
                 .minimumInteractiveComponentSize(),
     ) {
-        RadioButton(selected = isSelected, onClick = null)
-        Text(
+        RadioButtonMMD(selected = isSelected, onClick = null)
+        TextMMD(
             text = label,
             style = MaterialTheme.typography.bodyLarge.merge(),
             modifier = Modifier.padding(start = 24.dp),

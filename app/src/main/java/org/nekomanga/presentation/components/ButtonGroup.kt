@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
@@ -17,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.ui.theme.ThemeConfig
 import org.nekomanga.ui.theme.ThemeConfigProvider
 import org.nekomanga.ui.theme.ThemedPreviews
@@ -77,8 +77,8 @@ private fun ButtonGroupPreview(
             onItemClick = { item -> selectedPeriod = item },
             modifier = Modifier.fillMaxWidth(0.8f), // Constrain width for better visualization
         ) { item ->
-            // The content for each button: a Text composable
-            Text(text = item)
+            // The content for each button: a TextMMD composable
+            TextMMD(text = item)
         }
     }
 }

@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -21,13 +19,10 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -55,6 +50,11 @@ import com.himanshoe.charty.line.model.LineData
 import com.himanshoe.charty.pie.PieChart
 import com.himanshoe.charty.pie.config.PieConfig
 import com.himanshoe.charty.pie.config.PieData
+import com.mudita.mmd.components.chips.AssistChipMMD
+import com.mudita.mmd.components.chips.FilterChipMMD
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.lazy.LazyRowMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.util.lang.capitalizeWords
 import eu.kanade.tachiyomi.util.system.roundToTwoDecimal
 import jp.wasabeef.gap.Gap
@@ -169,7 +169,7 @@ fun DetailedStats(
 
 @Composable
 private fun FilterChipHeader(filterState: Filter, filterStateClick: (Filter) -> Unit) {
-    LazyRow(
+    LazyRowMMD(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(Size.tiny),
     ) {
@@ -484,7 +484,7 @@ private fun DefaultView(
             ViewType.Compact -> .6f
         }
 
-    LazyColumn(
+    LazyColumnMMD(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(bottom = contentPadding.calculateBottomPadding()),
     ) {
@@ -640,7 +640,7 @@ private fun LazyListWrapper(
     sortChipClick: () -> Unit = {},
     content: LazyListScope.() -> Unit,
 ) {
-    LazyColumn(
+    LazyColumnMMD(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(bottom = contentPadding.calculateBottomPadding()),
     ) {
@@ -657,9 +657,9 @@ private fun SortChip(sortType: Sort, onClick: () -> Unit) {
         modifier = Modifier.fillMaxWidth().padding(end = Size.medium),
         contentAlignment = Alignment.CenterEnd,
     ) {
-        AssistChip(
+        AssistChipMMD(
             onClick = onClick,
-            label = { Text(text = stringResource(id = sortType.stringRes)) },
+            label = { TextMMD(text = stringResource(id = sortType.stringRes)) },
             trailingIcon = {
                 Icon(imageVector = Icons.AutoMirrored.Default.Sort, contentDescription = null)
             },
@@ -673,10 +673,10 @@ private fun LazyListScope.CustomChip(
     @StringRes label: Int,
 ) {
     item(key = label) {
-        FilterChip(
+        FilterChipMMD(
             selected = isSelected,
             onClick = onClick,
-            label = { Text(text = stringResource(id = label)) },
+            label = { TextMMD(text = stringResource(id = label)) },
             colors =
                 FilterChipDefaults.filterChipColors(
                     selectedContainerColor =
@@ -694,7 +694,7 @@ private fun DetailedCard(manga: StatsConstants.DetailedStatManga, modifier: Modi
             modifier =
                 Modifier.fillMaxWidth().padding(horizontal = Size.small, vertical = Size.tiny)
         ) {
-            Text(
+            TextMMD(
                 text = manga.title,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
@@ -748,7 +748,7 @@ private fun Line(label: String, value: String) {
         horizontalArrangement = Arrangement.spacedBy(Size.small),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
+        TextMMD(
             text = "$label:",
             style =
                 MaterialTheme.typography.bodySmall.copy(
@@ -759,7 +759,7 @@ private fun Line(label: String, value: String) {
                         ),
                 ),
         )
-        Text(text = value, style = MaterialTheme.typography.bodyMedium)
+        TextMMD(text = value, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -773,7 +773,7 @@ private fun Pie(pieData: List<PieData>, chartWidth: Float, modifier: Modifier = 
                 config = PieConfig(isDonut = true, expandDonutOnClick = false),
             )
         } else {
-            Text(
+            TextMMD(
                 text = stringResource(id = R.string.no_data_to_show_in_chart),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
@@ -816,7 +816,7 @@ private fun Line(
                 lineConfig = LineConfig(hasSmoothCurve = false, hasDotMarker = true),
             )
         } else {
-            Text(
+            TextMMD(
                 text = stringResource(id = R.string.no_data_to_show_in_chart),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
@@ -856,30 +856,30 @@ private fun StatCard(
             )
 
         Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = Size.small)) {
-            Text(text = header, style = headerStyle, modifier = Modifier.fillMaxWidth())
+            TextMMD(text = header, style = headerStyle, modifier = Modifier.fillMaxWidth())
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = stringResource(id = R.string.count), style = labelStyle)
-                    Text(text = count.toString(), style = valueStyle)
-                    Text(text = percentage(count, totalCount), style = valueStyle)
+                    TextMMD(text = stringResource(id = R.string.count), style = labelStyle)
+                    TextMMD(text = count.toString(), style = valueStyle)
+                    TextMMD(text = percentage(count, totalCount), style = valueStyle)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = stringResource(id = R.string.chapters_read), style = labelStyle)
+                    TextMMD(text = stringResource(id = R.string.chapters_read), style = labelStyle)
 
-                    Text(text = "$readChapters / $totalChapters", style = valueStyle)
-                    Text(text = percentage(readChapters, totalChapters), style = valueStyle)
+                    TextMMD(text = "$readChapters / $totalChapters", style = valueStyle)
+                    TextMMD(text = percentage(readChapters, totalChapters), style = valueStyle)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = stringResource(id = R.string.read_duration), style = labelStyle)
+                    TextMMD(text = stringResource(id = R.string.read_duration), style = labelStyle)
 
-                    Text(
+                    TextMMD(
                         text = readDuration.getReadDuration(stringResource(id = R.string.none)),
                         style = valueStyle,
                     )
-                    Text(text = percentage(readDuration, totalReadDuration), style = valueStyle)
+                    TextMMD(text = percentage(readDuration, totalReadDuration), style = valueStyle)
                 }
             }
         }

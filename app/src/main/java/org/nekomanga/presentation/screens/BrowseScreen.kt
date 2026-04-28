@@ -11,10 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -39,6 +36,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
+import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.source.browse.BrowseScreenState
 import eu.kanade.tachiyomi.ui.source.browse.BrowseScreenType
 import eu.kanade.tachiyomi.ui.source.browse.BrowseViewModel
@@ -163,7 +163,7 @@ private fun BrowseWrapper(
     val browseScreenState by browseScreenFlow.collectAsState()
 
     val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetMMDState(skipPartiallyExpanded = true)
 
     var currentBottomSheet: BrowseBottomSheetScreen? by remember { mutableStateOf(null) }
 
@@ -183,7 +183,7 @@ private fun BrowseWrapper(
     val openSheet: (BrowseBottomSheetScreen) -> Unit = { scope.launch { currentBottomSheet = it } }
 
     if (currentBottomSheet != null) {
-        ModalBottomSheet(
+        ModalBottomSheetMMD(
             sheetState = sheetState,
             onDismissRequest = { currentBottomSheet = null },
             content = {
@@ -376,7 +376,7 @@ private fun BrowseWrapper(
                             BrowseScreenType.Follows -> stringResource(R.string.follows)
                             else -> stringResource(R.string.search)
                         }
-                    Text(
+                    TextMMD(
                         text = name,
                         fontWeight = FontWeight.Medium,
                         style = MaterialTheme.typography.labelLarge,

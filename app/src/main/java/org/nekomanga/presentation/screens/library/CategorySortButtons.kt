@@ -16,7 +16,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconButtonShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,6 +25,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
 import org.nekomanga.presentation.theme.Size
@@ -50,7 +50,7 @@ fun RowScope.CategorySortButtons(
             ),
         onClick = categorySortClick,
     ) {
-        Text(
+        TextMMD(
             text = sortString,
             maxLines = 1,
             style = MaterialTheme.typography.bodyLarge,

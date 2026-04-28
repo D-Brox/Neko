@@ -13,7 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.external.ExternalLink
 import jp.wasabeef.gap.Gap
 import org.nekomanga.presentation.components.theme.ThemeColorState
@@ -85,7 +85,7 @@ private fun LinkCard(
             } else {
                 Gap(12.dp)
             }
-            Text(
+            TextMMD(
                 text = externalLink.name,
                 style =
                     MaterialTheme.typography.bodyMedium.copy(

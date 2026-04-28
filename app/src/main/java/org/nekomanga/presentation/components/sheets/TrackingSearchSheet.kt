@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
@@ -23,12 +22,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -48,6 +45,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants.TrackSearchResult
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
@@ -86,7 +86,7 @@ fun TrackingSearchSheet(
 
             when (trackSearchResult) {
                 is TrackSearchResult.Success -> {
-                    LazyColumn(
+                    LazyColumnMMD(
                         modifier =
                             Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -163,16 +163,16 @@ private fun CenteredBox(themeColorState: ThemeColorState, trackSearchResult: Tra
     ) {
         when (trackSearchResult) {
             is TrackSearchResult.Loading ->
-                CircularProgressIndicator(
+                CircularProgressIndicatorMMD(
                     color = themeColorState.primaryColor,
                     modifier = Modifier.size(32.dp),
                 )
             is TrackSearchResult.NoResult ->
-                Text(
+                TextMMD(
                     text = stringResource(id = R.string.no_results_found),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
-            is TrackSearchResult.Error -> Text(text = trackSearchResult.errorMessage)
+            is TrackSearchResult.Error -> TextMMD(text = trackSearchResult.errorMessage)
             else -> Unit
         }
     }
@@ -238,7 +238,7 @@ private fun TrackSearchItem(
                 }
 
                 Column(modifier = Modifier.padding(Size.small)) {
-                    Text(
+                    TextMMD(
                         text = trackSearch.trackItem.title,
                         style =
                             MaterialTheme.typography.titleLarge.copy(
@@ -250,7 +250,7 @@ private fun TrackSearchItem(
 
                     if (trackSearch.publishingType.isNotEmpty()) {
                         Row {
-                            Text(
+                            TextMMD(
                                 text = stringResource(id = R.string.type),
                                 style =
                                     MaterialTheme.typography.bodyLarge.copy(
@@ -259,7 +259,7 @@ private fun TrackSearchItem(
                                 color = MaterialTheme.colorScheme.onSurface,
                             )
                             Gap(Size.tiny)
-                            Text(
+                            TextMMD(
                                 text = trackSearch.publishingType,
                                 color =
                                     MaterialTheme.colorScheme.onSurface.copy(
@@ -272,7 +272,7 @@ private fun TrackSearchItem(
 
                     if (trackSearch.startDate.isNotEmpty()) {
                         Row {
-                            Text(
+                            TextMMD(
                                 text = stringResource(id = R.string.started),
                                 style =
                                     MaterialTheme.typography.bodyLarge.copy(
@@ -280,7 +280,7 @@ private fun TrackSearchItem(
                                     ),
                             )
                             Gap(Size.tiny)
-                            Text(
+                            TextMMD(
                                 text = trackSearch.startDate,
                                 color =
                                     MaterialTheme.colorScheme.onSurface.copy(
@@ -297,7 +297,7 @@ private fun TrackSearchItem(
                             false -> trackSearch.summary
                         }
 
-                    Text(
+                    TextMMD(
                         text = summary,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis,

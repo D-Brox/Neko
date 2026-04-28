@@ -1,4 +1,5 @@
 [versions]
+mmdVersion = "1.0.1"
 aboutlibVersion = "14.0.1"
 cascadeComposeVersion = "2.3.0"
 cascadeVersion = "2.3.0"
@@ -20,6 +21,7 @@ kspVersion = "2.3.7"
 
 
 [libraries]
+mmd = { module = "com.mudita:MMD", version.ref = "mmdVersion" }
 cascade-compose = { module = "me.saket.cascade:cascade-compose", version.ref = "cascadeComposeVersion" }
 cascade = { module = "me.saket.cascade:cascade", version.ref = "cascadeVersion" }
 injekt-core = { module = "uy.kohesive.injekt:injekt-core", version.ref = "injektCoreVersion" }
@@ -103,6 +105,7 @@ firebase = { id = "com.google.firebase.crashlytics", version.ref = "firebasePlug
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmtVersion" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektVersion" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+mmd-migrator = { id = "com.mudita.mmd-migrator", version = "1.0.0" }
 
 [bundles]
 coil = [ "coil3", "coil3-compose", "coil3-svg", "coil3-gif", "coil3-okhttp" ]

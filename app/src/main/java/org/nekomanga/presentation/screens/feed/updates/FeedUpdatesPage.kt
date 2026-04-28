@@ -3,10 +3,8 @@ package org.nekomanga.presentation.screens.feed.updates
 import android.text.format.DateUtils
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +15,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import eu.kanade.tachiyomi.ui.feed.FeedScreenActions
 import java.util.Date
@@ -109,7 +109,7 @@ private fun Grouped(
     val scrollState = rememberLazyListState()
 
     // Optimize: Observe scroll state via snapshotFlow instead of attaching
-    // LaunchedEffect to individual LazyColumn items. This avoids unnecessary
+    // LaunchedEffect to individual LazyColumnMMD items. This avoids unnecessary
     // composition overhead and redundant pagination triggers.
     if (hasMoreResults && !loadingResults) {
         LaunchedEffect(scrollState) {
@@ -146,7 +146,7 @@ private fun Grouped(
                 .flatten()
         }
 
-    LazyColumn(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
+    LazyColumnMMD(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
 
         // 1. Group the already processed list by date string for rendering
         val renderedGroups = groupedBySeries.groupBy { getDateString(it.date, now) }
@@ -175,7 +175,7 @@ private fun Grouped(
                         }
 
                     item(key = dateString) {
-                        Text(
+                        TextMMD(
                             text = stringResource(id = prefix, dateString),
                             color = headerColor,
                             style = MaterialTheme.typography.titleLarge,
@@ -258,7 +258,7 @@ private fun Ungrouped(
     val scrollState = rememberLazyListState()
 
     // Optimize: Observe scroll state via snapshotFlow instead of attaching
-    // LaunchedEffect to individual LazyColumn items. This avoids unnecessary
+    // LaunchedEffect to individual LazyColumnMMD items. This avoids unnecessary
     // composition overhead and redundant pagination triggers.
     if (hasMoreResults && !loadingResults) {
         LaunchedEffect(scrollState) {
@@ -279,7 +279,7 @@ private fun Ungrouped(
     val now = Date().time
     var timeSpan by remember { mutableStateOf("") }
 
-    LazyColumn(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
+    LazyColumnMMD(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
         val groupedManga = feedUpdatesMangaList.groupBy { getDateString(it.date, now) }
 
         groupedManga.forEach { (dateString, mangaListForDate) ->
@@ -293,7 +293,7 @@ private fun Ungrouped(
                     }
 
                 item(key = dateString) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = prefix, dateString),
                         color = headerColor,
                         style = MaterialTheme.typography.titleLarge,

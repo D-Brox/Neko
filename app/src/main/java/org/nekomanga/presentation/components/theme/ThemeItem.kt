@@ -23,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.util.system.isInNightMode
 import org.nekomanga.R
 import org.nekomanga.presentation.components.MangaCover
@@ -67,7 +67,7 @@ fun ThemeItem(theme: Themes, isDarkTheme: Boolean, selected: Boolean, onClick: (
             themeMatchesApp,
             onClick,
         )
-        Text(
+        TextMMD(
             text = stringResource(id = theme.nameRes()),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodySmall,

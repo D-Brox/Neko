@@ -15,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.toPersistentList
@@ -85,7 +85,7 @@ fun ContinueReadingCard(
             onClick = mangaClick,
         )
         Column(modifier = Modifier.padding(horizontal = Size.small).weight(1f)) {
-            Text(
+            TextMMD(
                 text = feedManga.mangaTitle,
                 style = MaterialTheme.typography.bodyLarge,
                 color = titleColor,

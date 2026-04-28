@@ -1,10 +1,10 @@
 package org.nekomanga.presentation.components.dialog
 
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 
 @Composable
@@ -16,10 +16,10 @@ fun ConfirmationDialog(
     onConfirm: () -> Unit,
 ) {
     AlertDialog(
-        title = { Text(text = title) },
+        title = { TextMMD(text = title) },
         text = {
             if (body != null) {
-                Text(text = body)
+                TextMMD(text = body)
             } else null
         },
         onDismissRequest = onDismiss,
@@ -30,11 +30,11 @@ fun ConfirmationDialog(
                     onDismiss()
                 }
             ) {
-                Text(text = confirmButton)
+                TextMMD(text = confirmButton)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(text = stringResource(id = R.string.cancel)) }
+            TextButton(onClick = onDismiss) { TextMMD(text = stringResource(id = R.string.cancel)) }
         },
     )
 }

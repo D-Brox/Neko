@@ -5,11 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.source.browse.LibraryEntryVisibility
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
@@ -46,20 +46,20 @@ fun BrowseDisplayOptionsSheet(
             val paddingModifier = Modifier.padding(horizontal = Size.small)
 
             Gap(Size.small)
-            Text(
+            TextMMD(
                 modifier = paddingModifier.fillMaxWidth(),
                 text = stringResource(R.string.display_options),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
             )
             Gap(Size.large)
-            LazyColumn(
+            LazyColumnMMD(
                 modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp),
                 verticalArrangement = Arrangement.spacedBy(Size.medium),
             ) {
                 if (showIsList) {
                     item {
-                        Text(
+                        TextMMD(
                             text = stringResource(R.string.display_as),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium),
@@ -75,7 +75,7 @@ fun BrowseDisplayOptionsSheet(
                                 onCheckedChange = { switchDisplayClick() },
                                 shapes = ButtonGroupDefaults.connectedLeadingButtonShapes(),
                             ) {
-                                Text(stringResource(R.string.list))
+                                TextMMD(stringResource(R.string.list))
                             }
                             Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
                             ToggleButton(
@@ -83,13 +83,13 @@ fun BrowseDisplayOptionsSheet(
                                 onCheckedChange = { switchDisplayClick() },
                                 shapes = ButtonGroupDefaults.connectedTrailingButtonShapes(),
                             ) {
-                                Text(stringResource(R.string.grid))
+                                TextMMD(stringResource(R.string.grid))
                             }
                         }
                     }
                 }
                 item {
-                    Text(
+                    TextMMD(
                         text = stringResource(R.string.filter_results),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium),
@@ -112,7 +112,7 @@ fun BrowseDisplayOptionsSheet(
                             },
                             shapes = ButtonGroupDefaults.connectedLeadingButtonShapes(),
                         ) {
-                            Text(stringResource(R.string.hide_library_manga))
+                            TextMMD(stringResource(R.string.hide_library_manga))
                         }
                         Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
                         ToggleButton(
@@ -123,7 +123,7 @@ fun BrowseDisplayOptionsSheet(
                             },
                             shapes = ButtonGroupDefaults.connectedMiddleButtonShapes(),
                         ) {
-                            Text(stringResource(R.string.show_all_manga))
+                            TextMMD(stringResource(R.string.show_all_manga))
                         }
                         Gap(ButtonGroupDefaults.ConnectedSpaceBetween)
                         ToggleButton(
@@ -135,7 +135,7 @@ fun BrowseDisplayOptionsSheet(
                             },
                             shapes = ButtonGroupDefaults.connectedTrailingButtonShapes(),
                         ) {
-                            Text(stringResource(R.string.show_library_manga))
+                            TextMMD(stringResource(R.string.show_library_manga))
                         }
                     }
                 }

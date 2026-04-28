@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -21,7 +20,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -40,6 +38,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.cheonjaeung.compose.grid.SimpleGridCells
 import com.cheonjaeung.compose.grid.VerticalGrid
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toImmutableMap
@@ -69,7 +69,7 @@ fun MangaGridWithHeader(
                 .toImmutableMap()
         }
 
-    LazyColumn(
+    LazyColumnMMD(
         verticalArrangement = Arrangement.spacedBy(Size.tiny),
         modifier = modifier,
         contentPadding = contentPadding,
@@ -357,7 +357,7 @@ fun MangaGridTitle(
     isComfortable: Boolean = true,
     hasSubtitle: Boolean = false,
 ) {
-    Text(
+    TextMMD(
         text = title,
         style = MaterialTheme.typography.bodyMedium,
         color = if (isComfortable) MaterialTheme.colorScheme.onSurface else Color.White,
@@ -377,7 +377,7 @@ fun MangaGridTitle(
 @Composable
 fun MangaGridSubtitle(subtitleText: String, isComfortable: Boolean = true) {
     if (subtitleText.isNotBlank()) {
-        Text(
+        TextMMD(
             text = subtitleText,
             style = MaterialTheme.typography.bodySmall,
             maxLines = 1,

@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import kotlin.math.abs
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.components.theme.defaultThemeColorState
@@ -109,7 +109,7 @@ fun <T> ExpressivePicker(
         contentAlignment = Alignment.Center,
     ) {
         // --- Number Scrolling List ---
-        LazyColumn(
+        LazyColumnMMD(
             state = listState,
             flingBehavior = flingBehavior,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -171,8 +171,8 @@ fun <T> ExpressivePicker(
                         }
                     }
 
-                    // The Text content (using item.toString() for generic display)
-                    Text(
+                    // The TextMMD content (using item.toString() for generic display)
+                    TextMMD(
                         text = item.toString(),
                         style = style,
                         textAlign = TextAlign.Center,
@@ -221,7 +221,7 @@ private fun PreviewNumberPicker(
         val numberItems = remember { (1..30).toList() }
         var selectedNumber by remember { mutableStateOf(15) }
 
-        Text("Integer Picker", style = MaterialTheme.typography.titleMedium)
+        TextMMD("Integer Picker", style = MaterialTheme.typography.titleMedium)
         ExpressivePicker(
             value = selectedNumber,
             items = numberItems,
@@ -245,7 +245,7 @@ private fun PreviewWeekPicker(
         }
         var selectedDay by remember { mutableStateOf("Wednesday") }
 
-        Text("String Picker", style = MaterialTheme.typography.titleMedium)
+        TextMMD("String Picker", style = MaterialTheme.typography.titleMedium)
         ExpressivePicker(
             value = selectedDay,
             items = stringItems,

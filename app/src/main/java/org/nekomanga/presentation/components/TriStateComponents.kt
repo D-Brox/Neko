@@ -6,13 +6,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import com.mudita.mmd.components.checkbox.CheckboxDefaultsMMD
+import com.mudita.mmd.components.checkbox.TriStateCheckboxMMD
+import com.mudita.mmd.components.chips.FilterChipDefaultsMMD
+import com.mudita.mmd.components.chips.FilterChipMMD
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.components.theme.defaultThemeColorState
@@ -40,18 +40,18 @@ fun TriStateCheckboxRow(
         modifier = modifier.clickable { toggleStateIfAble(disabled, state, toggleState) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TriStateCheckbox(
+        TriStateCheckboxMMD(
             state = state,
             onClick = { toggleStateIfAble(disabled, state, toggleState) },
             enabled = !disabled,
             colors =
-                CheckboxDefaults.colors(
+                CheckboxDefaultsMMD.colors(
                     checkedColor = themeColorState.primaryColor,
                     checkmarkColor = MaterialTheme.colorScheme.surface,
                 ),
         )
         Gap(Size.tiny)
-        Text(
+        TextMMD(
             text = rowText,
             color =
                 if (!disabled) MaterialTheme.colorScheme.onSurface
@@ -71,7 +71,7 @@ fun TriStateFilterChip(
     labelTextStyle: TextStyle =
         MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
 ) {
-    FilterChip(
+    FilterChipMMD(
         modifier = modifier,
         selected = state == ToggleableState.On || state == ToggleableState.Indeterminate,
         onClick = { toggleStateIfAble(false, state, toggleState) },
@@ -85,9 +85,9 @@ fun TriStateFilterChip(
             }
         },
         shape = RoundedCornerShape(100),
-        label = { Text(text = name, style = labelTextStyle) },
+        label = { TextMMD(text = name, style = labelTextStyle) },
         colors =
-            FilterChipDefaults.filterChipColors(
+            FilterChipDefaultsMMD.filterChipColors(
                 containerColor =
                     MaterialTheme.colorScheme.surfaceColorAtElevationCustomColor(
                         MaterialTheme.colorScheme.primary,
@@ -99,7 +99,7 @@ fun TriStateFilterChip(
                 selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
             ),
         border =
-            FilterChipDefaults.filterChipBorder(
+            FilterChipDefaultsMMD.filterChipBorder(
                 enabled = true,
                 selected = false,
                 borderColor = MaterialTheme.colorScheme.primary.copy(NekoColors.veryLowContrast),

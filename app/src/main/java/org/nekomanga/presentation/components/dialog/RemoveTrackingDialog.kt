@@ -6,7 +6,6 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalRippleConfiguration
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -16,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.components.CheckboxRow
 import org.nekomanga.presentation.components.theme.ThemeColorState
@@ -35,7 +35,7 @@ fun RemoveTrackingDialog(
         var removeFromTracker by remember { mutableStateOf(true) }
 
         AlertDialog(
-            title = { Text(text = stringResource(id = R.string.remove_tracking)) },
+            title = { TextMMD(text = stringResource(id = R.string.remove_tracking)) },
             text = {
                 if (canRemoveFromTracker) {
                     Column {
@@ -59,7 +59,7 @@ fun RemoveTrackingDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.remove))
+                    TextMMD(text = stringResource(id = R.string.remove))
                 }
             },
             dismissButton = {
@@ -68,7 +68,7 @@ fun RemoveTrackingDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    TextMMD(text = stringResource(id = R.string.cancel))
                 }
             },
         )

@@ -19,7 +19,8 @@ enum class Themes {
     Teal,
     Neon,
     Nord,
-    Monochrome;
+    Monochrome,
+    MMD;
 
     fun isDarkTheme() = nightMode() == AppCompatDelegate.MODE_NIGHT_YES
 
@@ -45,6 +46,7 @@ enum class Themes {
             this == Blue -> R.style.Theme_Neko_Blue
             this == Monochrome -> R.style.Theme_Neko_Monochrome
             this == Neon -> R.style.Theme_Neko_Neon
+            this == MMD -> R.style.Theme_Neko_MMD
             else -> R.style.Theme_Neko // DEFAULT
         }
     }
@@ -69,6 +71,7 @@ enum class Themes {
             this == Blue -> R.string.crayon
             this == Monochrome -> R.string.monochrome
             this == Neon -> R.string.neon_nights
+            this == MMD -> R.string.mudita_mindful_design
             else -> R.string.kitsune_fire // Default
         }
     }

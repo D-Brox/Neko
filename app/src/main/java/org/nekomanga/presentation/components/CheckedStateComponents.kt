@@ -2,16 +2,16 @@ package org.nekomanga.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import com.mudita.mmd.components.checkbox.CheckboxDefaultsMMD
+import com.mudita.mmd.components.checkbox.CheckboxMMD
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.components.theme.defaultThemeColorState
@@ -36,18 +36,18 @@ fun CheckboxRow(
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(
+        CheckboxMMD(
             checked = checkedState,
             onCheckedChange = checkedChange,
             enabled = !disabled,
             colors =
-                CheckboxDefaults.colors(
+                CheckboxDefaultsMMD.colors(
                     checkedColor = themeColorState.primaryColor,
                     checkmarkColor = MaterialTheme.colorScheme.surface,
                 ),
         )
         Gap(Size.tiny)
-        Text(
+        TextMMD(
             text = rowText,
             style = rowTextStyle,
             color =

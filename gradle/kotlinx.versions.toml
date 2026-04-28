@@ -20,7 +20,7 @@ immutables = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0"
 
 [bundles]
 
-kotlin = ["stdlib", "reflect", "coroutines-core", "coroutines-android", "serialization-json", "serialization-protobuf", "serialization-okio", "immutables"]
+kotlin = ["stdlib", "reflect", "coroutines-core", "coroutines-android", "coroutines-test", "serialization-json", "serialization-protobuf", "serialization-okio", "immutables"]
 
 [plugins]
 

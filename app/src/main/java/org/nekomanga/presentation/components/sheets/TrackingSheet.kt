@@ -23,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants.ReadingDate
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants.TrackAndService
 import eu.kanade.tachiyomi.ui.manga.TrackingConstants.TrackingDate
@@ -277,7 +277,7 @@ private fun NoTrack(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Logo(service = service, track = null, onClick = onLogoClick)
-        Text(
+        TextMMD(
             text = stringResource(id = R.string.add_tracking),
             color = themeColor.primaryColor,
             textAlign = TextAlign.Center,
@@ -306,7 +306,7 @@ private fun TrackRowOne(
     ) {
         Logo(service = service, track = track, onClick = onLogoClick)
         if (service.isAutoAddTracker && inLibrary) {
-            Text(
+            TextMMD(
                 text = track.title,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Start,
@@ -315,7 +315,7 @@ private fun TrackRowOne(
                 overflow = TextOverflow.Ellipsis,
             )
         } else {
-            Text(
+            TextMMD(
                 text = track.title,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(Size.small).fillMaxWidth(.85f),
@@ -348,7 +348,7 @@ private fun TrackRowTwo(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TrackingBox(clickable = statusClick) {
-            Text(
+            TextMMD(
                 service.status(track.status),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -378,7 +378,7 @@ private fun TrackRowTwo(
                         else -> stringResource(R.string.not_started)
                     }
 
-                Text(
+                TextMMD(
                     text = chapterText,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -391,7 +391,7 @@ private fun TrackRowTwo(
             when (track.score == 0f) {
                 true -> {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
+                        TextMMD(
                             stringResource(id = R.string.score),
                             color =
                                 MaterialTheme.colorScheme.onSurface.copy(
@@ -411,7 +411,10 @@ private fun TrackRowTwo(
                     }
                 }
                 else ->
-                    Text(service.displayScore(track), color = MaterialTheme.colorScheme.onSurface)
+                    TextMMD(
+                        service.displayScore(track),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
             }
         }
     }
@@ -441,7 +444,11 @@ fun TrackRowThree(
                                 alpha = NekoColors.disabledAlphaHighContrast
                             )
                 }
-            Text(text = startText, color = startColor, style = MaterialTheme.typography.bodyMedium)
+            TextMMD(
+                text = startText,
+                color = startColor,
+                style = MaterialTheme.typography.bodyMedium,
+            )
         }
 
         VerticalDivider()
@@ -458,7 +465,7 @@ fun TrackRowThree(
                                 alpha = NekoColors.disabledAlphaHighContrast
                             )
                 }
-            Text(text = endText, color = endColor, style = MaterialTheme.typography.bodyMedium)
+            TextMMD(text = endText, color = endColor, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

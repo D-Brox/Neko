@@ -14,9 +14,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -38,6 +36,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
+import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
 import eu.kanade.tachiyomi.ui.source.latest.DisplayScreenState
 import eu.kanade.tachiyomi.ui.source.latest.DisplayScreenType
 import eu.kanade.tachiyomi.ui.source.latest.DisplayViewModel
@@ -122,7 +122,7 @@ private fun DisplayWrapper(
     retryClick: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetMMDState(skipPartiallyExpanded = true)
 
     var currentBottomSheet: DisplaySheetScreen? by remember { mutableStateOf(null) }
 
@@ -141,7 +141,7 @@ private fun DisplayWrapper(
 
     if (currentBottomSheet != null) {
 
-        ModalBottomSheet(
+        ModalBottomSheetMMD(
             sheetState = sheetState,
             onDismissRequest = { currentBottomSheet = null },
             content = {

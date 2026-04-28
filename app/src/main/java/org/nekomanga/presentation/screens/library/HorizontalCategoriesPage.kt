@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -25,9 +24,6 @@ import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryScrollableTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.tabs.SecondaryScrollableTabRowMMD
+import com.mudita.mmd.components.tabs.TabMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryCategoryActions
 import eu.kanade.tachiyomi.ui.library.LibraryDisplayMode
 import eu.kanade.tachiyomi.ui.library.LibraryScreenActions
@@ -129,7 +129,7 @@ fun HorizontalCategoriesPage(
 
     Column(modifier = Modifier.fillMaxSize().padding(contentPadding).padding(top = Size.tiny)) {
         if (isValidState) {
-            SecondaryScrollableTabRow(
+            SecondaryScrollableTabRowMMD(
                 selectedTabIndex = pagerState.currentPage,
                 modifier = Modifier.fillMaxWidth(),
                 edgePadding = Size.small,
@@ -138,9 +138,9 @@ fun HorizontalCategoriesPage(
                 libraryScreenState.items.forEachIndexed { index, item ->
                     val isSelected = pagerState.currentPage == index
 
-                    Tab(
+                    TabMMD(
                         text = {
-                            Text(
+                            TextMMD(
                                 item.categoryItem.name,
                                 color =
                                     if (isSelected) indicatorColor
@@ -259,7 +259,7 @@ fun HorizontalCategoriesPage(
                                 libraryCategoryActions = libraryCategoryActions,
                                 isRefreshing = item.isRefreshing,
                             )
-                            LazyColumn(
+                            LazyColumnMMD(
                                 state = listState,
                                 modifier = Modifier.fillMaxSize(),
                                 contentPadding =
@@ -333,7 +333,7 @@ private fun HorizontalCategoryHeader(
             }
             if (totalItems > 0) {
                 Gap(Size.medium)
-                Text(
+                TextMMD(
                     text = stringResource(org.nekomanga.R.string.total_items, totalItems),
                     color = indicatorColor,
                     style = MaterialTheme.typography.labelLarge,

@@ -23,17 +23,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -56,6 +52,10 @@ import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
 import com.mikepenz.markdown.model.MarkdownState
 import com.mikepenz.markdown.model.rememberMarkdownState
+import com.mudita.mmd.components.chips.AssistChipDefaultsMMD
+import com.mudita.mmd.components.chips.AssistChipMMD
+import com.mudita.mmd.components.lazy.LazyRowMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.manga.MangaConstants
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.PersistentList
@@ -277,7 +277,7 @@ private fun AltTitlesAndGenres(
 }
 
 /**
- * A unified composable for displaying Alternative Titles, switching between FlowRow and LazyRow.
+ * A unified composable for displaying Alternative Titles, switching between FlowRow and LazyRowMMD.
  */
 @Composable
 private fun AltTitles(
@@ -294,7 +294,7 @@ private fun AltTitles(
     val isCustomTitle = altTitles.contains(currentTitle)
 
     Column {
-        Text(
+        TextMMD(
             text = "Alt Titles:",
             style = MaterialTheme.typography.labelLarge,
             color =
@@ -304,7 +304,7 @@ private fun AltTitles(
         val content: @Composable () -> Unit = {
             if (isCustomTitle) {
                 TextButton(onClick = resetClick) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.reset),
                         style = MaterialTheme.typography.labelLarge,
                         color = themeColorState.primaryColor,
@@ -328,12 +328,12 @@ private fun AltTitles(
                 content = { content() },
             )
         } else {
-            LazyRow(
+            LazyRowMMD(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Size.tiny),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // LazyRow requires items to be emitted this way
+                // LazyRowMMD requires items to be emitted this way
                 item {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(Size.tiny),
@@ -347,13 +347,13 @@ private fun AltTitles(
     }
 }
 
-/** A single, reusable AssistChip for an alternative title. */
+/** A single, reusable AssistChipMMD for an alternative title. */
 @Composable
 private fun AltTitleChip(title: String, isSelected: Boolean, tagColor: Color, onClick: () -> Unit) {
-    AssistChip(
+    AssistChipMMD(
         onClick = { if (!isSelected) onClick() },
         colors =
-            AssistChipDefaults.assistChipColors(
+            AssistChipDefaultsMMD.assistChipColors(
                 containerColor = tagColor,
                 labelColor =
                     MaterialTheme.colorScheme.onSurfaceVariant.copy(
@@ -373,7 +373,7 @@ private fun AltTitleChip(title: String, isSelected: Boolean, tagColor: Color, on
                 )
             }
         },
-        label = { Text(text = title, style = MaterialTheme.typography.labelLarge) },
+        label = { TextMMD(text = title, style = MaterialTheme.typography.labelLarge) },
     )
 }
 
@@ -394,7 +394,7 @@ private fun Genres(
     var selectedGenre by remember { mutableStateOf<String?>(null) }
 
     Column {
-        Text(
+        TextMMD(
             text = "Tags:",
             style = MaterialTheme.typography.labelLarge,
             color =
@@ -448,7 +448,7 @@ private fun MoreLessButton(buttonColor: Color, isMore: Boolean, modifier: Modifi
         }
 
     Row(modifier = modifier) {
-        Text(
+        TextMMD(
             modifier =
                 Modifier.background(MaterialTheme.colorScheme.surface).padding(start = Size.small),
             text = stringResource(text),

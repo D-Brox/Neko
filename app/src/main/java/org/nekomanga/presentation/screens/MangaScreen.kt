@@ -12,16 +12,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -45,6 +40,11 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import androidx.palette.graphics.Palette
+import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
+import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.snackbar.SnackbarHostStateMMD
+import com.mudita.mmd.components.snackbar.SnackbarResultMMD
 import eu.kanade.tachiyomi.data.database.models.uuid
 import eu.kanade.tachiyomi.ui.main.ObserveAsEvents
 import eu.kanade.tachiyomi.ui.main.states.RefreshState
@@ -110,7 +110,7 @@ fun MangaScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostStateMMD() }
 
     // Re-implementation of ObserveAsEvents from MainActivity
     ObserveAsEvents(flow = mangaViewModel.appSnackbarManager.events, snackbarHostState) { event ->
@@ -124,8 +124,8 @@ fun MangaScreen(
                     withDismissAction = true,
                 )
             when (result) {
-                SnackbarResult.ActionPerformed -> event.action?.invoke()
-                SnackbarResult.Dismissed -> event.dismissAction?.invoke()
+                SnackbarResultMMD.ActionPerformed -> event.action?.invoke()
+                SnackbarResultMMD.Dismissed -> event.dismissAction?.invoke()
             }
         }
     }
@@ -392,7 +392,7 @@ private fun MangaScreenWrapper(
     snackbarHost: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetMMDState(skipPartiallyExpanded = true)
 
     val themeColorState =
         rememberThemeColorState(
@@ -423,7 +423,7 @@ private fun MangaScreenWrapper(
     }
 
     if (currentBottomSheet != null) {
-        ModalBottomSheet(
+        ModalBottomSheetMMD(
             onDismissRequest = { scope.launch { currentBottomSheet = null } },
             sheetState = sheetState,
             content = {
@@ -652,7 +652,7 @@ private fun VerticalLayout(
         topContentPadding = incomingContentPadding.calculateTopPadding(),
         bottomContentPadding = incomingContentPadding.calculateBottomPadding(),
     ) {
-        LazyColumn(
+        LazyColumnMMD(
             state = listState,
             modifier = Modifier.fillMaxSize(),
             contentPadding = contentPadding,
@@ -731,7 +731,7 @@ private fun SideBySideLayout(
         )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
+        LazyColumnMMD(
             modifier = Modifier.fillMaxWidth(.5f).fillMaxHeight(),
             contentPadding = detailsContentPadding,
         ) {
@@ -776,7 +776,7 @@ private fun SideBySideLayout(
             topContentPadding = incomingContentPadding.calculateTopPadding(),
             bottomContentPadding = incomingContentPadding.calculateBottomPadding(),
         ) {
-            LazyColumn(state = listState, contentPadding = chapterContentPadding) {
+            LazyColumnMMD(state = listState, contentPadding = chapterContentPadding) {
                 if (isInitialized) {
                     chapterList(
                         chapters =

@@ -12,11 +12,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -30,6 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.buttons.ButtonMMD
+import com.mudita.mmd.components.buttons.OutlinedButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.util.CrashLogUtil
 import kotlinx.coroutines.launch
 import org.nekomanga.R
@@ -65,14 +65,14 @@ fun CrashScreen(exception: Throwable?, onRestartClick: () -> Unit) {
                         .padding(horizontal = Size.medium, vertical = Size.small),
                 verticalArrangement = Arrangement.spacedBy(Size.small),
             ) {
-                Button(
+                ButtonMMD(
                     onClick = { scope.launch { CrashLogUtil(context).dumpLogs(exception) } },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(text = stringResource(id = R.string.pref_dump_crash_logs))
+                    TextMMD(text = stringResource(id = R.string.pref_dump_crash_logs))
                 }
-                OutlinedButton(onClick = onRestartClick, modifier = Modifier.fillMaxWidth()) {
-                    Text(text = stringResource(R.string.crash_screen_restart_application))
+                OutlinedButtonMMD(onClick = onRestartClick, modifier = Modifier.fillMaxWidth()) {
+                    TextMMD(text = stringResource(R.string.crash_screen_restart_application))
                 }
             }
         },
@@ -89,11 +89,11 @@ fun CrashScreen(exception: Throwable?, onRestartClick: () -> Unit) {
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
             )
-            Text(
+            TextMMD(
                 text = stringResource(R.string.crash_screen_title),
                 style = MaterialTheme.typography.titleLarge,
             )
-            Text(
+            TextMMD(
                 text =
                     stringResource(
                         R.string.crash_screen_description,
@@ -108,7 +108,7 @@ fun CrashScreen(exception: Throwable?, onRestartClick: () -> Unit) {
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surfaceVariant)
             ) {
-                Text(
+                TextMMD(
                     text = exception.toString(),
                     fontSize = MaterialTheme.typography.bodySmall.fontSize,
                     modifier = Modifier.padding(all = Size.small),

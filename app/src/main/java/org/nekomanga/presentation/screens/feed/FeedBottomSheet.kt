@@ -9,15 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.DeleteSweep
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.menus.DropdownMenuItemMMD
+import com.mudita.mmd.components.switcher.SwitchMMD
+import com.mudita.mmd.components.text.TextMMD
+import com.mudita.mmd.components.text_field.TextFieldMMD
 import eu.kanade.tachiyomi.ui.feed.FeedHistoryGroup
 import eu.kanade.tachiyomi.ui.feed.FeedScreenType
 import jp.wasabeef.gap.Gap
@@ -116,7 +116,7 @@ private fun HistoryContent(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
+        TextMMD(
             text = stringResource(id = R.string.group_chapters_together),
             style = MaterialTheme.typography.bodyMedium,
         )
@@ -139,7 +139,7 @@ private fun HistoryContent(
                 ),
             onExpandedChange = { expanded = !expanded },
         ) {
-            TextField(
+            TextFieldMMD(
                 value = stringResource(id = selectedText),
                 onValueChange = {},
                 textStyle = MaterialTheme.typography.bodyMedium,
@@ -156,9 +156,9 @@ private fun HistoryContent(
                             FeedHistoryGroup.Day -> R.string.group_by_day
                             FeedHistoryGroup.Week -> R.string.group_by_week
                         }
-                    DropdownMenuItem(
+                    DropdownMenuItemMMD(
                         text = {
-                            Text(
+                            TextMMD(
                                 text = stringResource(id = textRes),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
@@ -181,7 +181,7 @@ private fun HistoryContent(
         TextButton(onClick = clearHistoryClick) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(imageVector = Icons.Outlined.DeleteForever, contentDescription = null)
-                Text(text = stringResource(id = R.string.clear_history))
+                TextMMD(text = stringResource(id = R.string.clear_history))
             }
         }
     }
@@ -207,7 +207,7 @@ private fun DownloadsContent(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(imageVector = Icons.Outlined.DeleteSweep, contentDescription = null)
                 Gap(Size.small)
-                Text(text = stringResource(id = R.string.clear_download_queue))
+                TextMMD(text = stringResource(id = R.string.clear_download_queue))
             }
         }
     }
@@ -237,7 +237,7 @@ private fun SwitchRow(@StringRes textRes: Int, checked: Boolean, onClick: () -> 
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = stringResource(id = textRes), style = MaterialTheme.typography.bodyMedium)
-        Switch(checked = checked, onCheckedChange = { onClick() })
+        TextMMD(text = stringResource(id = textRes), style = MaterialTheme.typography.bodyMedium)
+        SwitchMMD(checked = checked, onCheckedChange = { onClick() })
     }
 }

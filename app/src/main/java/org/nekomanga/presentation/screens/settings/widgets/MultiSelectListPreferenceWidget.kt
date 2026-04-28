@@ -1,10 +1,8 @@
 package org.nekomanga.presentation.screens.settings.widgets
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -16,6 +14,8 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.components.CheckboxRow
 import org.nekomanga.presentation.screens.settings.Preference
@@ -43,9 +43,9 @@ fun MultiSelectListPreferenceWidget(
         AlertDialog(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
             onDismissRequest = { isDialogShown = false },
-            title = { Text(text = preference.dialogTitle ?: preference.title) },
+            title = { TextMMD(text = preference.dialogTitle ?: preference.title) },
             text = {
-                LazyColumn {
+                LazyColumnMMD {
                     preference.entries.forEach { current ->
                         item(key = current.key) {
                             val isSelected = selected.contains(current.key)
@@ -73,12 +73,12 @@ fun MultiSelectListPreferenceWidget(
                         isDialogShown = false
                     }
                 ) {
-                    Text(text = stringResource(R.string.ok))
+                    TextMMD(text = stringResource(R.string.ok))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { isDialogShown = false }) {
-                    Text(text = stringResource(R.string.cancel))
+                    TextMMD(text = stringResource(R.string.cancel))
                 }
             },
         )

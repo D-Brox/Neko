@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +26,6 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -51,6 +49,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.mudita.mmd.components.lazy.LazyRowMMD
+import com.mudita.mmd.components.text.TextMMD
 import com.zedlabs.pastelplaceholder.Pastel
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
@@ -89,7 +89,7 @@ fun ArtworkSheet(
         BaseSheet(themeColor = themeColorState, maxSheetHeightPercentage = .9f) {
             if (alternativeArtwork.isEmpty() || currentImage == null) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(
+                    TextMMD(
                         text = stringResource(R.string.no_artwork_found),
                         textAlign = TextAlign.Center,
                     )
@@ -97,7 +97,7 @@ fun ArtworkSheet(
             } else {
                 val context = LocalContext.current
 
-                Text(
+                TextMMD(
                     text = currentImage!!.description,
                     modifier = Modifier.padding(horizontal = Size.small),
                     color = MaterialTheme.colorScheme.onSurface,
@@ -134,7 +134,7 @@ fun ArtworkSheet(
                     )
                     if (alternativeArtwork.size > 1) {
                         Gap(Size.small)
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(Size.tiny)) {
+                        LazyRowMMD(horizontalArrangement = Arrangement.spacedBy(Size.tiny)) {
                             item { Gap(Size.tiny) }
                             items(alternativeArtwork, key = { it.cover }) { artwork ->
                                 ArtworkThumbnail(
@@ -209,7 +209,7 @@ private fun ArtworkButton(text: String, color: Color, modifier: Modifier, onClic
                 contentColor = MaterialTheme.colorScheme.surface,
             ),
     ) {
-        Text(text = text)
+        TextMMD(text = text)
     }
 }
 
@@ -262,7 +262,7 @@ private fun BoxScope.VolumeLabel(volume: String, thumbnailSize: Dp, gradientHeig
                     )
                 )
     )
-    Text(
+    TextMMD(
         text = volume,
         modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = Size.tiny),
         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),

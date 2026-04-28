@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -24,6 +22,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.toPersistentList
 import org.nekomanga.R
 import org.nekomanga.presentation.theme.Size
@@ -110,7 +110,7 @@ fun SimpleStats(
             false -> Arrangement.Top
         }
 
-    LazyColumn(
+    LazyColumnMMD(
         modifier = Modifier.fillMaxSize(),
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
@@ -157,12 +157,12 @@ private fun BasicStat(value: String, label: String, isTablet: Boolean) {
     ElevatedCard(shape = RoundedCornerShape(25)) {
         Box(modifier = Modifier.padding(padding)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
+                TextMMD(
                     text = value,
                     style = titleTypography,
                     color = MaterialTheme.colorScheme.primary,
                 )
-                Text(text = label, style = labelTypography)
+                TextMMD(text = label, style = labelTypography)
             }
         }
     }

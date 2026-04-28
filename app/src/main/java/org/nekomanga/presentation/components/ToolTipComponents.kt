@@ -9,11 +9,6 @@ import androidx.compose.material.ripple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
-import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipAnchorPosition
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -28,6 +23,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.text.TextMMD
+import com.mudita.mmd.components.tooltip.TooltipBoxMMD
+import com.mudita.mmd.components.tooltip.TooltipMMD
 import kotlinx.coroutines.launch
 import org.nekomanga.presentation.theme.Size
 
@@ -71,16 +69,14 @@ fun ToolTipButton(
             Modifier
         }
 
-    TooltipBox(
-        positionProvider =
-            TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below, Size.tiny),
+    TooltipBoxMMD(
         state = textFieldTooltipState,
         tooltip = {
-            PlainTooltip(
+            TooltipMMD(
                 containerColor = MaterialTheme.colorScheme.inverseSurface,
                 contentColor = MaterialTheme.colorScheme.inverseOnSurface,
             ) {
-                Text(
+                TextMMD(
                     modifier = Modifier.padding(Size.tiny),
                     style = MaterialTheme.typography.bodyLarge,
                     text = toolTipLabel,

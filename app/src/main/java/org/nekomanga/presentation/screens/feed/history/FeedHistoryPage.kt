@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedHistoryGroup
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import eu.kanade.tachiyomi.ui.feed.FeedScreenActions
@@ -52,7 +52,7 @@ fun FeedHistoryPage(
     val scrollState = rememberLazyListState()
 
     // Optimize: Observe scroll state via snapshotFlow instead of attaching
-    // LaunchedEffect to individual LazyColumn items. This avoids unnecessary
+    // LaunchedEffect to individual LazyColumnMMD items. This avoids unnecessary
     // composition overhead and redundant pagination triggers.
     if (hasMoreResults && !loadingResults) {
         LaunchedEffect(scrollState) {
@@ -73,7 +73,7 @@ fun FeedHistoryPage(
     val now = Date().time
     var timeSpan by remember { mutableStateOf("") }
 
-    LazyColumn(
+    LazyColumnMMD(
         modifier = modifier.fillMaxSize(),
         state = scrollState,
         contentPadding = contentPadding,
@@ -85,7 +85,7 @@ fun FeedHistoryPage(
                 timeSpan = dateString
 
                 item(key = "header-$dateString") {
-                    Text(
+                    TextMMD(
                         text = dateString,
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleLarge,

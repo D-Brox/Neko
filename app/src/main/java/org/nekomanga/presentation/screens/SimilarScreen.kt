@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +24,8 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
+import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
 import eu.kanade.tachiyomi.ui.main.states.RefreshState
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ private fun SimilarWrapper(
     onRefresh: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetMMDState(skipPartiallyExpanded = true)
 
     val refreshState =
         remember(similarScreenState.isRefreshing) {
@@ -104,7 +104,7 @@ private fun SimilarWrapper(
     val openSheet: (DisplaySheetScreen) -> Unit = { scope.launch { currentBottomSheet = it } }
 
     currentBottomSheet?.let { currentSheet ->
-        ModalBottomSheet(
+        ModalBottomSheetMMD(
             sheetState = sheetState,
             onDismissRequest = { currentBottomSheet = null },
             content = {

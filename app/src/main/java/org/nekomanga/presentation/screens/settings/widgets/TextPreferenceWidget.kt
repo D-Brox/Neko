@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.screens.settings.BasePreferenceWidget
 import org.nekomanga.presentation.theme.Size
@@ -34,7 +34,7 @@ fun TextPreferenceWidget(
                 {
                     Column(Modifier.padding(horizontal = Size.medium)) {
                         if (!subtitle.isNullOrBlank()) {
-                            Text(
+                            TextMMD(
                                 text = subtitle,
                                 modifier = Modifier.alpha(NekoColors.mediumAlphaLowContrast),
                                 style = MaterialTheme.typography.bodySmall,
@@ -42,7 +42,7 @@ fun TextPreferenceWidget(
                             )
                         }
                         if (!footer.isNullOrBlank()) {
-                            Text(
+                            TextMMD(
                                 text = footer,
                                 modifier = Modifier.alpha(NekoColors.disabledAlphaLowContrast),
                                 style = MaterialTheme.typography.labelSmall,

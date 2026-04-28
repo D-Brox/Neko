@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -20,7 +19,6 @@ import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -35,6 +33,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.cheonjaeung.compose.grid.SimpleGridCells
 import com.cheonjaeung.compose.grid.VerticalGrid
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryCategoryActions
 import eu.kanade.tachiyomi.ui.library.LibraryDisplayMode
 import eu.kanade.tachiyomi.ui.library.LibraryScreenActions
@@ -105,7 +105,7 @@ fun VerticalCategoriesPage(
             )
         }
 
-    LazyColumn(
+    LazyColumnMMD(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = contentPadding,
         state = lazyListState,
@@ -365,7 +365,7 @@ fun LibraryCategoryHeader(
                 else -> categoryItem.name
             }
         Column(modifier = Modifier.weight(1f)) {
-            Text(
+            TextMMD(
                 text = text,
                 color = textColor,
                 style = MaterialTheme.typography.titleLarge,
@@ -374,7 +374,7 @@ fun LibraryCategoryHeader(
             )
 
             if (total > 0) {
-                Text(
+                TextMMD(
                     text = stringResource(org.nekomanga.R.string.total_items, total),
                     color = textColor,
                     style = MaterialTheme.typography.labelSmall,

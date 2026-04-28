@@ -13,11 +13,11 @@ import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.library.LibraryScreenActions
 import eu.kanade.tachiyomi.ui.library.LibraryScreenState
 import eu.kanade.tachiyomi.ui.library.filter.FilterBookmarked
@@ -80,7 +80,7 @@ fun LibraryButtonBar(
                     ),
                 onClick = groupByClick,
             ) {
-                Text(text = stringResource(R.string.group_library_by))
+                TextMMD(text = stringResource(R.string.group_library_by))
             }
         }
         AnimatedVisibility(libraryScreenState.hasActiveFilters) {
@@ -180,7 +180,7 @@ private fun ConnectedToggleButtons(
                         else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
                     },
             ) {
-                Text(buttonFilterType.UiText().asString())
+                TextMMD(buttonFilterType.UiText().asString())
             }
         }
     }

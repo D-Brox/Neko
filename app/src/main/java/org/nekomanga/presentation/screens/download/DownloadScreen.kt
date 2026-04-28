@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ClearAll
@@ -21,7 +20,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.database.models.MergeType
 import eu.kanade.tachiyomi.ui.feed.DownloadScreenActions
 import eu.kanade.tachiyomi.ui.feed.DownloaderStatus
@@ -64,7 +64,7 @@ fun DownloadScreen(
         }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
+        LazyColumnMMD(
             modifier = Modifier.fillMaxWidth().padding(start = Size.small, end = Size.small),
             state = scrollState,
             contentPadding =
@@ -94,7 +94,7 @@ fun DownloadScreen(
                             )
                             Gap(Size.small)
 
-                            Text(
+                            TextMMD(
                                 text = "${entry.key} (${entry.value.size})",
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.primary,
@@ -174,7 +174,7 @@ fun DownloadScreen(
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                     ),
             ) {
-                Text(
+                TextMMD(
                     modifier = Modifier.fillMaxWidth().padding(vertical = Size.smedium),
                     textAlign = TextAlign.Center,
                     text = stringResource(R.string.no_unmetered_connection),
@@ -202,8 +202,8 @@ fun DownloadScreen(
                 },
                 text = {
                     when (downloaderStatus) {
-                        DownloaderStatus.Running -> Text(text = stringResource(R.string.pause))
-                        else -> Text(text = stringResource(R.string.resume))
+                        DownloaderStatus.Running -> TextMMD(text = stringResource(R.string.pause))
+                        else -> TextMMD(text = stringResource(R.string.resume))
                     }
                 },
             )

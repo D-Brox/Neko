@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,6 +29,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.text.TextMMD
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import org.nekomanga.presentation.theme.Size
@@ -68,7 +68,7 @@ internal fun BasePreferenceWidget(
         }
         Column(modifier = Modifier.weight(1f).padding(vertical = PrefsVerticalPadding)) {
             if (!title.isNullOrBlank()) {
-                Text(
+                TextMMD(
                     modifier = Modifier.padding(horizontal = PrefsHorizontalPadding),
                     text = title,
                     overflow = TextOverflow.Ellipsis,

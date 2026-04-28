@@ -1,15 +1,15 @@
 package org.nekomanga.presentation.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import com.mudita.mmd.components.chips.FilterChipDefaultsMMD
+import com.mudita.mmd.components.chips.FilterChipMMD
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.presentation.extensions.surfaceColorAtElevationCustomColor
 import org.nekomanga.presentation.theme.Size
 
@@ -20,7 +20,7 @@ fun FooterFilterChip(
     name: String,
     icon: ImageVector? = null,
 ) {
-    FilterChip(
+    FilterChipMMD(
         selected = selected,
         onClick = onClick,
         leadingIcon = {},
@@ -29,7 +29,7 @@ fun FooterFilterChip(
             when (icon != null) {
                 true -> Icon(imageVector = icon, contentDescription = null)
                 false -> {
-                    Text(
+                    TextMMD(
                         text = name,
                         style =
                             MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
@@ -38,7 +38,7 @@ fun FooterFilterChip(
             }
         },
         colors =
-            FilterChipDefaults.filterChipColors(
+            FilterChipDefaultsMMD.filterChipColors(
                 containerColor =
                     MaterialTheme.colorScheme.surfaceColorAtElevationCustomColor(
                         MaterialTheme.colorScheme.primary,
@@ -50,7 +50,7 @@ fun FooterFilterChip(
                 selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
             ),
         border =
-            FilterChipDefaults.filterChipBorder(
+            FilterChipDefaultsMMD.filterChipBorder(
                 enabled = true,
                 selected = false,
                 borderColor = MaterialTheme.colorScheme.primary.copy(NekoColors.veryLowContrast),

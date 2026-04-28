@@ -8,7 +8,6 @@ import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.database.models.BrowseFilterImpl
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
@@ -56,13 +56,13 @@ fun SaveFilterDialog(
         }
 
         AlertDialog(
-            title = { Text(text = stringResource(id = R.string.save_filter)) },
+            title = { TextMMD(text = stringResource(id = R.string.save_filter)) },
             text = {
                 Column {
                     OutlinedTextField(
                         value = saveFilterText,
                         onValueChange = { saveFilterText = it },
-                        label = { Text(text = stringResource(id = R.string.name)) },
+                        label = { TextMMD(text = stringResource(id = R.string.name)) },
                         singleLine = true,
                         maxLines = 1,
                         colors =
@@ -73,7 +73,7 @@ fun SaveFilterDialog(
                             ),
                     )
                     Gap(Size.extraTiny)
-                    Text(
+                    TextMMD(
                         text = errorMessage,
                         style =
                             MaterialTheme.typography.labelSmall.copy(
@@ -93,7 +93,7 @@ fun SaveFilterDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.save))
+                    TextMMD(text = stringResource(id = R.string.save))
                 }
             },
             dismissButton = {
@@ -102,7 +102,7 @@ fun SaveFilterDialog(
                     colors =
                         ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    TextMMD(text = stringResource(id = R.string.cancel))
                 }
             },
         )

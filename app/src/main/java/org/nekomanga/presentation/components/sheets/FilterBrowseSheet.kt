@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,8 +33,6 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -53,6 +50,9 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.lazy.LazyRowMMD
+import com.mudita.mmd.components.radio_button.RadioButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.database.models.BrowseFilterImpl
 import eu.kanade.tachiyomi.source.online.utils.MdSort
 import eu.kanade.tachiyomi.util.lang.isUUID
@@ -185,7 +185,7 @@ fun FilterBrowseSheet(
                             QueryType.Group -> stringResource(id = R.string.scanlator_group)
                             QueryType.List -> stringResource(id = R.string.list_id)
                         }
-                    Text(
+                    TextMMD(
                         text = name,
                         fontWeight = FontWeight.Medium,
                         style = MaterialTheme.typography.labelLarge,
@@ -343,7 +343,7 @@ fun FilterBrowseSheet(
                 ) {
                     Icon(imageVector = Icons.Default.RestartAlt, contentDescription = null)
                     Gap(Size.tiny)
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.reset),
                         style = MaterialTheme.typography.titleSmall,
                     )
@@ -364,7 +364,7 @@ fun FilterBrowseSheet(
                     ) {
                         Icon(imageVector = Icons.Default.Save, contentDescription = null)
                         Gap(Size.tiny)
-                        Text(
+                        TextMMD(
                             text = stringResource(id = R.string.save),
                             style = MaterialTheme.typography.titleSmall,
                         )
@@ -385,7 +385,7 @@ fun FilterBrowseSheet(
                         tint = MaterialTheme.colorScheme.onPrimary,
                     )
                     Gap(Size.tiny)
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.filter),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onPrimary,
@@ -527,29 +527,29 @@ fun OtherRow(
                 )
 
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.tag_inclusion_mode),
                         modifier = Modifier.padding(start = Size.small),
                         style = MaterialTheme.typography.labelMedium,
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
+                        RadioButtonMMD(
                             selected = filters.tagInclusionMode.mode == TagMode.And,
                             onClick = {
                                 filterChanged(filters.tagInclusionMode.copy(mode = TagMode.And))
                             },
                         )
-                        Text(
+                        TextMMD(
                             text = stringResource(id = R.string.and),
                             color = MaterialTheme.colorScheme.onSurface,
                         )
-                        RadioButton(
+                        RadioButtonMMD(
                             selected = filters.tagInclusionMode.mode == TagMode.Or,
                             onClick = {
                                 filterChanged(filters.tagInclusionMode.copy(mode = TagMode.Or))
                             },
                         )
-                        Text(
+                        TextMMD(
                             text = stringResource(id = R.string.or),
                             color = MaterialTheme.colorScheme.onSurface,
                         )
@@ -557,29 +557,29 @@ fun OtherRow(
                 }
 
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(
+                    TextMMD(
                         text = stringResource(id = R.string.tag_exclusion_mode),
                         modifier = Modifier.padding(start = Size.small),
                         style = MaterialTheme.typography.labelMedium,
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
+                        RadioButtonMMD(
                             selected = filters.tagExclusionMode.mode == TagMode.And,
                             onClick = {
                                 filterChanged(filters.tagExclusionMode.copy(mode = TagMode.And))
                             },
                         )
-                        Text(
+                        TextMMD(
                             text = stringResource(id = R.string.and),
                             color = MaterialTheme.colorScheme.onSurface,
                         )
-                        RadioButton(
+                        RadioButtonMMD(
                             selected = filters.tagExclusionMode.mode == TagMode.Or,
                             onClick = {
                                 filterChanged(filters.tagExclusionMode.copy(mode = TagMode.Or))
                             },
                         )
-                        Text(
+                        TextMMD(
                             text = stringResource(id = R.string.or),
                             color = MaterialTheme.colorScheme.onSurface,
                         )
@@ -656,7 +656,7 @@ fun SavedFilters(
                 }
             val listState: LazyListState = rememberLazyListState()
             val scope = rememberCoroutineScope()
-            LazyRow(verticalAlignment = Alignment.CenterVertically, state = listState) {
+            LazyRowMMD(verticalAlignment = Alignment.CenterVertically, state = listState) {
                 item { Gap(Size.tiny) }
 
                 items(items = sortedFilters, key = { it.name }) { filter ->

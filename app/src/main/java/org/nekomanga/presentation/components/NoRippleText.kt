@@ -4,7 +4,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.text.TextMMD
 
 @Composable
 fun NoRippleText(
@@ -26,7 +26,7 @@ fun NoRippleText(
 ) {
     val haptic = LocalHapticFeedback.current
     val noRippleInteraction = remember { MutableInteractionSource() }
-    Text(
+    TextMMD(
         text = text,
         modifier =
             modifier

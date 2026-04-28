@@ -9,6 +9,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import com.mudita.mmd.components.text.TextMMD
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -36,7 +37,7 @@ fun RemoveFilterDialog(themeColorState: ThemeColorState, currentFilter: String, 
                     OutlinedTextField(
                         value = saveFilterText,
                         onValueChange = { saveFilterText = it },
-                        label = { Text(text = stringResource(id = R.string.name)) },
+                        label = { TextMMD(text = stringResource(id = R.string.name)) },
                         singleLine = true,
                         maxLines = 1,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -47,7 +48,7 @@ fun RemoveFilterDialog(themeColorState: ThemeColorState, currentFilter: String, 
                             ),
                     )
                     Gap(2.dp)
-                    Text(text = errorMessage, style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error))
+                    TextMMD(text = errorMessage, style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error))
                 }
             },
             onDismissRequest = onDismiss,
@@ -60,12 +61,12 @@ fun RemoveFilterDialog(themeColorState: ThemeColorState, currentFilter: String, 
                     enabled = saveEnabled,
                     colors = ButtonDefaults.textButtonColors(contentColor = themeColorState.buttonColor),
                 ) {
-                    Text(text = stringResource(id = R.string.save))
+                    TextMMD(text = stringResource(id = R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss, colors = ButtonDefaults.textButtonColors(contentColor = themeColorState.buttonColor)) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    TextMMD(text = stringResource(id = R.string.cancel))
                 }
             },
         )

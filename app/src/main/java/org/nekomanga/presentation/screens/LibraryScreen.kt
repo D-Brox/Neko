@@ -14,10 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -34,6 +31,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
+import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.library.LibraryUpdateJob
 import eu.kanade.tachiyomi.ui.library.LibraryCategoryActions
 import eu.kanade.tachiyomi.ui.library.LibraryScreenActions
@@ -197,7 +197,7 @@ private fun LibraryWrapper(
     val libraryScreenState by libraryStateFlow.collectAsState()
 
     val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetMMDState(skipPartiallyExpanded = true)
 
     var selectionMode by
         remember(libraryScreenState.selectedItems) {
@@ -243,7 +243,7 @@ private fun LibraryWrapper(
     Box(modifier = Modifier.fillMaxSize()) {
         if (currentBottomSheet != null) {
 
-            ModalBottomSheet(
+            ModalBottomSheetMMD(
                 sheetState = sheetState,
                 shape =
                     RoundedCornerShape(topStart = Shapes.sheetRadius, topEnd = Shapes.sheetRadius),
@@ -411,7 +411,7 @@ private fun GlobalSearchRow(
         contentAlignment = Alignment.Center,
     ) {
         ElevatedButton(onClick = { onSearchMangaDex(query) }) {
-            Text(text = stringResource(R.string.search_globally) + ": " + query)
+            TextMMD(text = stringResource(R.string.search_globally) + ": " + query)
         }
     }
 }

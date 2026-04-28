@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -39,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
 import org.nekomanga.presentation.components.FlexibleTopBar
@@ -96,7 +96,7 @@ fun SearchTopAppBar(
                                 .focusRequester(focusRequester),
                         value = searchText,
                         placeholder = {
-                            Text(text = stringResource(id = R.string.search_chapters))
+                            TextMMD(text = stringResource(id = R.string.search_chapters))
                         },
                         onValueChange = {
                             searchText = it

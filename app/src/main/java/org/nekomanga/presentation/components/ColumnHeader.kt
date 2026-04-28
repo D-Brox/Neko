@@ -8,12 +8,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
 import org.nekomanga.presentation.components.Divider
@@ -31,7 +31,7 @@ fun ColumnScope.Header(text: String, cancelClick: () -> Unit) {
                 tint = MaterialTheme.colorScheme.onSurface,
             )
         }
-        Text(
+        TextMMD(
             modifier = Modifier.fillMaxWidth().align(Alignment.Center),
             text = text,
             style = MaterialTheme.typography.titleLarge,

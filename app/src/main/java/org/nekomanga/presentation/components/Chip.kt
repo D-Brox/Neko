@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.theme.Size
 
@@ -22,7 +22,7 @@ fun Chip(label: String, containerColor: Color, modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(Size.small),
         color = containerColor,
     ) {
-        Text(
+        TextMMD(
             text = label,
             style = MaterialTheme.typography.labelLarge,
             modifier =

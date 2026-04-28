@@ -20,16 +20,12 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.rounded.CheckBox
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.DisabledByDefault
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+import com.mudita.mmd.components.checkbox.CheckboxMMD
+import com.mudita.mmd.components.menus.DropdownMenuItemMMD
+import com.mudita.mmd.components.radio_button.RadioButtonMMD
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
@@ -52,7 +52,7 @@ import tachiyomi.core.preference.toggle
 
 @Composable
 fun HeadingItem(text: UiText) {
-    Text(
+    TextMMD(
         text = text.asString(),
         style = MaterialTheme.typography.headlineLarge,
         modifier =
@@ -124,7 +124,7 @@ fun CheckboxItem(labelText: UiText, preference: Preference<Boolean>) {
 fun CheckboxItem(labelText: UiText, checked: Boolean, onClick: () -> Unit) {
     BaseSettingsItem(
         labelText = labelText,
-        widget = { Checkbox(checked = checked, onCheckedChange = null) },
+        widget = { CheckboxMMD(checked = checked, onCheckedChange = null) },
         onClick = onClick,
     )
 }
@@ -133,7 +133,7 @@ fun CheckboxItem(labelText: UiText, checked: Boolean, onClick: () -> Unit) {
 fun RadioItem(labelText: UiText, selected: Boolean, onClick: () -> Unit) {
     BaseSettingsItem(
         labelText = labelText,
-        widget = { RadioButton(selected = selected, onClick = null) },
+        widget = { RadioButtonMMD(selected = selected, onClick = null) },
         onClick = onClick,
     )
 }
@@ -153,7 +153,7 @@ fun SelectItem(
                 Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
                     .fillMaxWidth()
                     .padding(horizontal = horizontalPadding, vertical = verticalPadding),
-            label = { Text(text = labelText.asString()) },
+            label = { TextMMD(text = labelText.asString()) },
             value = options[selectedIndex].toString(),
             onValueChange = {},
             readOnly = true,
@@ -168,8 +168,8 @@ fun SelectItem(
             onDismissRequest = { expanded = false },
         ) {
             options.forEachIndexed { index, text ->
-                DropdownMenuItem(
-                    text = { Text(text.toString()) },
+                DropdownMenuItemMMD(
+                    text = { TextMMD(text.toString()) },
                     onClick = {
                         onSelect(index)
                         expanded = false
@@ -228,7 +228,7 @@ fun TriStateItem(
                     }
                 },
         )
-        Text(
+        TextMMD(
             text = labelText.asString(),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = stateAlpha),
             style = MaterialTheme.typography.bodyMedium,
@@ -241,7 +241,7 @@ fun TextItem(labelText: UiText, value: String, onChange: (String) -> Unit) {
     OutlinedTextField(
         modifier =
             Modifier.fillMaxWidth().padding(horizontal = horizontalPadding, vertical = Size.tiny),
-        label = { Text(text = labelText.asString()) },
+        label = { TextMMD(text = labelText.asString()) },
         value = value,
         onValueChange = onChange,
         singleLine = true,
@@ -306,6 +306,6 @@ private fun BaseSettingsItem(
         horizontalArrangement = Arrangement.spacedBy(Size.large),
     ) {
         widget(this)
-        Text(text = labelText.asString(), style = MaterialTheme.typography.bodyLarge)
+        TextMMD(text = labelText.asString(), style = MaterialTheme.typography.bodyLarge)
     }
 }

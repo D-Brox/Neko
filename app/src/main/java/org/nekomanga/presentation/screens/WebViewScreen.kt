@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import com.kevinnzou.web.LoadingState
 import com.kevinnzou.web.WebView
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.kevinnzou.web.rememberWebViewState
+import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import eu.kanade.tachiyomi.util.system.openInBrowser
 import eu.kanade.tachiyomi.util.system.toast
 import org.nekomanga.BuildConfig
@@ -116,7 +116,7 @@ fun WebViewWrapper(
         Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
             val loadingState = state.loadingState
             if (loadingState is LoadingState.Loading) {
-                LinearProgressIndicator(
+                LinearProgressIndicatorMMD(
                     progress = { loadingState.progress },
                     modifier = Modifier.fillMaxWidth(),
                 )

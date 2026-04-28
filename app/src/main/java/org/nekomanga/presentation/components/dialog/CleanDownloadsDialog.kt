@@ -3,7 +3,6 @@ package org.nekomanga.presentation.components.dialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -12,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
 import org.nekomanga.presentation.components.CheckboxRow
@@ -25,7 +25,7 @@ fun CleanDownloadsDialog(onDismiss: () -> Unit, onConfirm: (Boolean, Boolean) ->
 
     AlertDialog(
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
-        title = { Text(text = stringResource(id = R.string.clean_up_downloaded_chapters)) },
+        title = { TextMMD(text = stringResource(id = R.string.clean_up_downloaded_chapters)) },
         text = {
             Column {
                 CheckboxRow(
@@ -56,11 +56,11 @@ fun CleanDownloadsDialog(onDismiss: () -> Unit, onConfirm: (Boolean, Boolean) ->
                     onDismiss()
                 }
             ) {
-                Text(text = stringResource(id = R.string.ok))
+                TextMMD(text = stringResource(id = R.string.ok))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(text = stringResource(id = R.string.cancel)) }
+            TextButton(onClick = onDismiss) { TextMMD(text = stringResource(id = R.string.cancel)) }
         },
     )
 }

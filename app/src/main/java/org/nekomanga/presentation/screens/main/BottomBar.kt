@@ -1,12 +1,12 @@
 package org.nekomanga.presentation.screens.main
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
+import com.mudita.mmd.components.nav_bar.NavigationBarItemMMD
+import com.mudita.mmd.components.nav_bar.NavigationBarMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.main.NavigationItem
 
 @Composable
@@ -18,11 +18,11 @@ fun BottomBar(
     onNavigate: (NavKey) -> Unit,
 ) {
 
-    NavigationBar(
+    NavigationBarMMD(
         modifier = Modifier.fillMaxWidth(),
         content = {
             items.forEachIndexed { index, item ->
-                NavigationBarItem(
+                NavigationBarItemMMD(
                     selected = selectedItemIndex == index,
                     onClick = { onNavigate(item.screen) },
                     icon = {
@@ -36,7 +36,7 @@ fun BottomBar(
                             contentDescription = null,
                         )
                     },
-                    label = { Text(text = item.title) },
+                    label = { TextMMD(text = item.title) },
                 )
             }
         },

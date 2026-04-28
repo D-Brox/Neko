@@ -2,9 +2,9 @@ package org.nekomanga.presentation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Newspaper
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.mudita.mmd.components.text.TextMMD
 
 @Preview
 @Composable
@@ -18,6 +18,6 @@ private fun InfoScaffoldPreview() {
         rejectText = "Reject",
         onRejectClick = {},
     ) {
-        Text("Hello world")
+        TextMMD("Hello world")
     }
 }

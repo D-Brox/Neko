@@ -1,7 +1,6 @@
 package org.nekomanga.presentation.screens.feed.history
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -10,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.util.system.timeSpanFromNow
 import org.nekomanga.R
 import org.nekomanga.constants.Constants
@@ -36,7 +36,7 @@ fun LastReadLine(
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
+        TextMMD(
             text = statuses.joinToString(Constants.SEPARATOR),
             style = style.copy(color = textColor, fontWeight = FontWeight.Medium),
             maxLines = 1,

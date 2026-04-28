@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +19,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import eu.kanade.tachiyomi.ui.feed.FeedScreenActions
 import jp.wasabeef.gap.Gap
@@ -58,7 +58,7 @@ fun FeedSummaryPage(
             false -> MaterialTheme.colorScheme.onSurface
         }
 
-    LazyColumn(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
+    LazyColumnMMD(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
         item {
             SummaryHeader(
                 text = stringResource(R.string.feed_continue_reading),
@@ -218,7 +218,7 @@ private fun SummaryHeader(text: String, isRefreshing: Boolean, color: Color) {
         modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium, vertical = Size.small),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
+        TextMMD(
             text = text,
             style = MaterialTheme.typography.titleLarge,
             color = color,

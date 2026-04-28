@@ -13,14 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,6 +34,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import com.mudita.mmd.components.cards.CardColorsMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.feed.FeedManga
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.persistentListOf
@@ -97,7 +97,7 @@ fun HistoryCard(
         Row {
             Column(modifier = Modifier.weight(2f)) {
                 Gap(Size.tiny)
-                Text(
+                TextMMD(
                     text = feedManga.mangaTitle,
                     style =
                         MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
@@ -132,7 +132,7 @@ fun HistoryCard(
         if (expanded) {
             if (groupedBySeries) {
                 Gap(Size.small)
-                Text(
+                TextMMD(
                     modifier = Modifier.padding(start = Size.small).fillMaxWidth(),
                     text = stringResource(id = R.string.showing_x_most_recent),
                     textAlign = TextAlign.Center,
@@ -212,7 +212,7 @@ fun HistoryCard(
 fun Card(
     modifier: Modifier = Modifier,
     outlineCard: Boolean,
-    cardColor: CardColors,
+    cardColor: CardColorsMMD,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     when (outlineCard) {
@@ -364,7 +364,7 @@ private fun Buttons(
 @Composable
 private fun ScanlatorLine(scanlator: String, textColor: Color, style: TextStyle) {
     if (scanlator.isNotBlank()) {
-        Text(
+        TextMMD(
             text = scanlator,
             style = style.copy(color = textColor, fontWeight = FontWeight.Medium),
             maxLines = 1,
