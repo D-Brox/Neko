@@ -195,7 +195,7 @@ fun <T> ExpressivePicker(
                     .height(lineThickness)
                     .align(Alignment.TopCenter)
                     .padding(top = lineYOffset)
-                    .background(themeColorState.containerColor.copy(alpha = 0.5f))
+                    .background(themeColorState.containerColor.copy(alpha = 0f))
         )
 
         // Bottom Line
@@ -205,7 +205,7 @@ fun <T> ExpressivePicker(
                     .height(lineThickness)
                     .align(Alignment.BottomCenter)
                     .padding(bottom = lineYOffset)
-                    .background(themeColorState.containerColor.copy(alpha = 0.5f))
+                    .background(themeColorState.containerColor.copy(alpha = 0f))
         )
     }
 }

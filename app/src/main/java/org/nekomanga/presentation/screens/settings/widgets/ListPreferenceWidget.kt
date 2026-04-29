@@ -9,7 +9,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.minimumInteractiveComponentSize
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +25,6 @@ import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
-import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun <T> ListPreferenceWidget(
@@ -48,7 +46,7 @@ fun <T> ListPreferenceWidget(
 
     if (isDialogShown) {
         AlertDialog(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
+            containerColor = MaterialTheme.colorScheme.surface,
             onDismissRequest = { isDialogShown = false },
             title = { TextMMD(text = title) },
             text = {

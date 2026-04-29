@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,7 +18,6 @@ import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.components.CheckboxRow
 import org.nekomanga.presentation.screens.settings.Preference
-import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun MultiSelectListPreferenceWidget(
@@ -41,7 +39,7 @@ fun MultiSelectListPreferenceWidget(
             preference.entries.keys.filter { values.contains(it) }.toMutableStateList()
         }
         AlertDialog(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Size.tiny),
+            containerColor = MaterialTheme.colorScheme.surface,
             onDismissRequest = { isDialogShown = false },
             title = { TextMMD(text = preference.dialogTitle ?: preference.title) },
             text = {

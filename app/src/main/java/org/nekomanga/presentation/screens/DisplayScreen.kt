@@ -253,7 +253,7 @@ private fun DisplayWrapper(
             if (displayScreenState.isLoading && displayScreenState.page != 1) {
                 Box(Modifier.fillMaxSize()) {
                     LinearProgressIndicatorMMD(
-                        progress = { 0.5f },
+                        progress = { 0f },
                         modifier =
                             Modifier.fillMaxWidth().align(Alignment.TopStart).statusBarsPadding(),
                         color = MaterialTheme.colorScheme.secondary,

@@ -6,11 +6,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.mudita.mmd.components.text.TextMMD
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.screens.settings.BasePreferenceWidget
 import org.nekomanga.presentation.theme.Size
 
@@ -36,7 +34,7 @@ fun TextPreferenceWidget(
                         if (!subtitle.isNullOrBlank()) {
                             TextMMD(
                                 text = subtitle,
-                                modifier = Modifier.alpha(NekoColors.mediumAlphaLowContrast),
+                                modifier = Modifier,
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 10,
                             )
@@ -44,7 +42,7 @@ fun TextPreferenceWidget(
                         if (!footer.isNullOrBlank()) {
                             TextMMD(
                                 text = footer,
-                                modifier = Modifier.alpha(NekoColors.disabledAlphaLowContrast),
+                                modifier = Modifier,
                                 style = MaterialTheme.typography.labelSmall,
                                 maxLines = 1,
                             )

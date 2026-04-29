@@ -114,7 +114,7 @@ fun getReadTextColor(
 ): Color {
     return when (isRead) {
         true ->
-            MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.disabledAlphaLowContrast)
+            MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.disabledAlphaHighContrast)
         false -> defaultColor
     }
 }

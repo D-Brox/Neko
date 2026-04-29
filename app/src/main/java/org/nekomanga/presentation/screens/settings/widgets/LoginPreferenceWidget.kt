@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.domain.track.TrackServiceItem
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.screens.settings.BasePreferenceWidget
 import org.nekomanga.presentation.theme.Size
 
@@ -42,9 +41,7 @@ fun TrackingPreferenceWidget(
                 {
                     TextMMD(
                         text = subtitle,
-                        modifier =
-                            Modifier.padding(horizontal = Size.medium)
-                                .alpha(NekoColors.mediumAlphaLowContrast),
+                        modifier = Modifier.padding(horizontal = Size.medium),
                         style = MaterialTheme.typography.bodySmall,
                         maxLines = 10,
                     )
@@ -74,10 +71,7 @@ fun TrackingPreferenceWidget(
                     if (loggedIn) Icons.Filled.AccountCircle else Icons.Outlined.AccountCircle,
                 tint =
                     if (loggedIn) MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.onSurface.copy(
-                            NekoColors.disabledAlphaHighContrast
-                        ),
+                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0f),
                 contentDescription = null,
             )
         },
@@ -103,10 +97,7 @@ fun SitePreferenceWidget(
                     if (loggedIn) Icons.Filled.AccountCircle else Icons.Outlined.AccountCircle,
                 tint =
                     if (loggedIn) MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.onSurface.copy(
-                            NekoColors.disabledAlphaHighContrast
-                        ),
+                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0f),
                 contentDescription = null,
             )
         },

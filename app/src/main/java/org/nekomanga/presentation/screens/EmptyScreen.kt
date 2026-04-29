@@ -18,7 +18,6 @@ import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.theme.Size
 
@@ -88,8 +87,7 @@ fun EmptyScreen(
         TextMMD(
             text = errorFace,
             style = MaterialTheme.typography.displayMedium,
-            color =
-                MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.mediumAlphaLowContrast),
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.clearAndSetSemantics {},
         )
         Gap(Size.large)
@@ -99,8 +97,7 @@ fun EmptyScreen(
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium),
             textAlign = TextAlign.Center,
-            color =
-                MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.mediumAlphaLowContrast),
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Gap(Size.large)
 

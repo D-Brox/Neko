@@ -227,20 +227,23 @@ fun TriStateItem(
             contentDescription = null,
             tint =
                 if (!enabled || state == ToggleableState.Indeterminate) {
-                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = stateAlpha)
+                    if (stateAlpha == 0f) MaterialTheme.colorScheme.onSurfaceVariant
+                    else MaterialTheme.colorScheme.onSurfaceVariant
                 } else {
                     when (onClick) {
-                        null ->
-                            MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = NekoColors.disabledAlphaLowContrast
-                            )
+                        null -> MaterialTheme.colorScheme.onSurface
                         else -> MaterialTheme.colorScheme.primary
                     }
                 },
         )
         TextMMD(
             text = labelText.asString(),
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = stateAlpha),
+            color =
+                if (stateAlpha == 0f)
+                    MaterialTheme.colorScheme.onSurface.copy(
+                        alpha = NekoColors.disabledAlphaHighContrast
+                    )
+                else MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium,
         )
     }

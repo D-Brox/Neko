@@ -39,7 +39,6 @@ import org.nekomanga.domain.chapter.ChapterItem
 import org.nekomanga.domain.chapter.SimpleChapter
 import org.nekomanga.domain.manga.Artwork
 import org.nekomanga.presentation.components.Divider
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.dropdown.SimpleDropDownItem
 import org.nekomanga.presentation.components.dropdown.SimpleDropdownMenu
@@ -63,8 +62,7 @@ fun HistoryCard(
     var expanded by rememberSaveable { mutableStateOf(false) }
     val canExpand by remember { mutableStateOf(feedManga.chapters.size > 1) }
     val allChaptersRead = feedManga.chapters.all { it.chapter.read }
-    val lowContrastColor =
-        MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.mediumAlphaLowContrast)
+    val lowContrastColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0f)
 
     CardMMD(
         modifier = modifier.fillMaxWidth().padding(horizontal = Size.small).animateContentSize()
@@ -115,10 +113,7 @@ fun HistoryCard(
                     textAlign = TextAlign.Center,
                     style =
                         MaterialTheme.typography.labelMedium.copy(
-                            color =
-                                MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = NekoColors.mediumAlphaLowContrast
-                                )
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0f)
                         ),
                 )
                 Gap(Size.small)
@@ -193,8 +188,7 @@ private fun HistoryRow(
     dynamicCovers: Boolean,
     mangaClick: () -> Unit,
 ) {
-    val mediumAlphaColor =
-        MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.mediumAlphaLowContrast)
+    val mediumAlphaColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0f)
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         FeedCover(
             artwork = artwork,

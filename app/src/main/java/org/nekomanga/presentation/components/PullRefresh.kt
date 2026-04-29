@@ -84,7 +84,7 @@ private fun WavyLinearIndicator(
     Box(modifier = modifier.fillMaxWidth()) {
         if (showIndeterminateIndicator) {
             LinearProgressIndicatorMMD(
-                progress = { 0.5f },
+                progress = { 0f },
                 modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
                 color = color,
             )

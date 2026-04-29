@@ -20,7 +20,6 @@ sqliteVersion = "2.6.2"
 kspVersion = "2.3.7"
 material3Version = "1.4.0"
 
-
 [libraries]
 mmd = { module = "com.mudita:MMD", version.ref = "mmdVersion" }
 cascade-compose = { module = "me.saket.cascade:cascade-compose", version.ref = "cascadeComposeVersion" }

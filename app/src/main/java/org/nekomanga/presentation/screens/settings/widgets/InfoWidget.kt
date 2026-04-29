@@ -10,17 +10,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.theme.Size
 
 @Composable
 internal fun InfoWidget(text: String) {
     Row(
-        modifier =
-            Modifier.fillMaxWidth().padding(Size.medium).alpha(NekoColors.mediumAlphaHighContrast),
+        modifier = Modifier.fillMaxWidth().padding(Size.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(imageVector = Icons.Outlined.Info, contentDescription = null)

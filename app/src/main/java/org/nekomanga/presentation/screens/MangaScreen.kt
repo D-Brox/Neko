@@ -77,7 +77,6 @@ import org.nekomanga.constants.MdConstants
 import org.nekomanga.domain.chapter.ChapterItem
 import org.nekomanga.domain.chapter.ChapterMarkActions
 import org.nekomanga.domain.snackbar.SnackbarColor
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.VerticalDivider
 import org.nekomanga.presentation.components.VerticalFastScroller
@@ -88,14 +87,12 @@ import org.nekomanga.presentation.components.scaffold.ChildScreenScaffold
 import org.nekomanga.presentation.components.snackbar.NekoSnackbarHost
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.components.theme.defaultThemeColorState
-import org.nekomanga.presentation.extensions.surfaceColorAtElevationCustomColor
 import org.nekomanga.presentation.screens.manga.ChapterHeader
 import org.nekomanga.presentation.screens.manga.DetailsBottomSheet
 import org.nekomanga.presentation.screens.manga.DetailsBottomSheetScreen
 import org.nekomanga.presentation.screens.manga.MangaChapterListItem
 import org.nekomanga.presentation.screens.manga.MangaDetailsHeader
 import org.nekomanga.presentation.screens.manga.MangaScreenTopBar
-import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun MangaScreen(
@@ -823,17 +820,12 @@ private fun rememberThemeColorState(
 
             ThemeColorState(
                 primaryColor = color,
-                rippleColor = color.copy(alpha = NekoColors.mediumAlphaLowContrast),
+                rippleColor = color,
                 rippleConfiguration = nekoRippleConfiguration(color),
                 textSelectionColors = dynamicTextSelectionColor(color),
                 containerColor = containerColor,
                 onContainerColor = onContainerColor,
-                altContainerColor =
-                    surfaceColor.surfaceColorAtElevationCustomColor(
-                        surfaceColor,
-                        color,
-                        Size.small,
-                    ),
+                altContainerColor = surfaceColor,
                 onAltContainerColor = color,
             )
         } else {
