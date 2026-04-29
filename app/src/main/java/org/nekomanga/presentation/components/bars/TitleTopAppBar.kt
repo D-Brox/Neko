@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,20 +35,9 @@ fun TitleTopAppBar(
     incognitoMode: Boolean,
     onNavigationIconClicked: () -> Unit = {},
     actions: @Composable (RowScope.() -> Unit) = {},
-    scrolledContainerColor: Color = Color.Transparent,
-    scrollBehavior: TopAppBarScrollBehavior,
 ) {
-    FlexibleTopBar(
-        scrollBehavior = scrollBehavior,
-        colors =
-            FlexibleTopBarColors(
-                containerColor = color,
-                scrolledContainerColor = scrolledContainerColor,
-            ),
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = Size.small)
-        ) {
+    FlexibleTopBar(colors = FlexibleTopBarColors(containerColor = color)) {
+        Box(modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small)) {
             Column(modifier = Modifier.fillMaxWidth(.8f).align(Alignment.Center)) {
                 if (title.isEmpty() && subtitle.isEmpty()) {
                     // Do nothing

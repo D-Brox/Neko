@@ -29,7 +29,6 @@ fun ResultList(
     LazyColumnMMD(
         modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
         state = scrollState,
-        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(Size.small),
     ) {
         items(items = results, key = { result -> result.uuid }) { displayResult ->

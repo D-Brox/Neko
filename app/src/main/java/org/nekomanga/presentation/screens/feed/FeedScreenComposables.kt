@@ -1,7 +1,6 @@
 package org.nekomanga.presentation.screens.feed
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -58,7 +57,6 @@ fun FeedScreenDialogs(
 @Composable
 fun FeedScreenContent(
     downloadScreenVisible: Boolean,
-    contentPadding: PaddingValues,
     feedScreenState: FeedScreenState,
     summaryScreenPagingState: SummaryScreenPagingState,
     historyPagingScreenState: HistoryScreenPagingState,
@@ -122,14 +120,12 @@ fun FeedScreenContent(
         when (downloadScreenVisible) {
             true ->
                 DownloadScreen(
-                    contentPadding = contentPadding,
                     downloads = feedScreenState.downloads,
                     downloaderStatus = feedScreenState.downloaderStatus,
                     downloadScreenActions = downloadScreenActions,
                 )
             false -> {
                 FeedPage(
-                    contentPadding = contentPadding,
                     modifier = Modifier.fillMaxSize(),
                     summaryScreenPagingState = summaryScreenPagingState,
                     feedMangaList = feedManga,

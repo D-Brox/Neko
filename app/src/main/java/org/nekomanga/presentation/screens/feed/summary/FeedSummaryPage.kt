@@ -1,7 +1,5 @@
 package org.nekomanga.presentation.screens.feed.summary
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +32,6 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun FeedSummaryPage(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
     updatingUpdates: Boolean = false,
     updatingContinueReading: Boolean = false,
     updatingNewlyAdded: Boolean = false,
@@ -54,7 +51,7 @@ fun FeedSummaryPage(
             false -> MaterialTheme.colorScheme.onSurface
         }
 
-    LazyColumnMMD(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
+    LazyColumnMMD(modifier = modifier, state = scrollState) {
         item {
             SummaryHeader(
                 text = stringResource(R.string.feed_continue_reading),
@@ -217,7 +214,7 @@ private fun SummaryHeader(text: String, isRefreshing: Boolean, color: Color) {
             color = color,
             modifier = Modifier.fillMaxWidth().weight(1f).padding(),
         )
-        AnimatedVisibility(isRefreshing) {
+        if (isRefreshing) {
             CircularProgressIndicatorMMD(modifier = Modifier.size(Size.large))
         }
     }

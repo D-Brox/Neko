@@ -1,15 +1,6 @@
 package org.nekomanga.presentation.components.sheets
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -350,11 +341,7 @@ fun FilterBrowseSheet(
                     )
                 }
 
-                AnimatedVisibility(
-                    nameOfEnabledFilter.isEmpty(),
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
+                if (nameOfEnabledFilter.isEmpty()) {
                     TextButton(
                         onClick = { showSaveFilterDialog = true },
                         shape = RoundedCornerShape(Size.extraLarge),
@@ -424,7 +411,7 @@ private fun <T> FilterRow(
             rowText = stringResource(id = headerRes),
         )
 
-        AnimatedVisibility(visible = expanded, enter = slideEnter(), exit = slideExit()) {
+        if (expanded) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
                 horizontalArrangement = Arrangement.spacedBy(Size.small, Alignment.Start),
@@ -472,7 +459,7 @@ private fun <T> FilterTriStateRow(
             rowText = stringResource(id = headerRes),
         )
 
-        AnimatedVisibility(visible = expanded, enter = slideEnter(), exit = slideExit()) {
+        if (expanded) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
                 horizontalArrangement = Arrangement.spacedBy(Size.small, Alignment.Start),
@@ -516,7 +503,7 @@ fun OtherRow(
                 else MaterialTheme.colorScheme.onSurface,
             rowText = stringResource(id = R.string.other),
         )
-        AnimatedVisibility(visible = isExpanded, enter = slideEnter(), exit = slideExit()) {
+        if (isExpanded) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 CheckboxRow(
                     modifier = Modifier.fillMaxWidth(),
@@ -648,7 +635,7 @@ fun SavedFilters(
     deleteFilterClick: (String) -> Unit,
     filterDefaultClick: (String, Boolean) -> Unit,
 ) {
-    AnimatedVisibility(visible = visible, enter = slideEnter(), exit = slideExit()) {
+    if (visible) {
         Column(modifier = Modifier.fillMaxWidth()) {
             val sortedFilters by
                 remember(nameOfEnabledFilter) {
@@ -726,16 +713,4 @@ fun SavedFilters(
             }
         }
     }
-}
-
-private fun slideEnter(): EnterTransition {
-    return slideInVertically() +
-        expandVertically(clip = true, expandFrom = Alignment.Top) +
-        fadeIn()
-}
-
-private fun slideExit(): ExitTransition {
-    return slideOutVertically { it / 3 } +
-        shrinkVertically(shrinkTowards = Alignment.Top) +
-        fadeOut()
 }

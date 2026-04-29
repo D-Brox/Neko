@@ -1,8 +1,5 @@
 package org.nekomanga.presentation.components.bars
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -22,7 +19,6 @@ import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -57,17 +53,12 @@ fun SearchTopAppBar(
     incognitoMode: Boolean = false,
     onNavigationIconClicked: () -> Unit,
     actions: @Composable (RowScope.() -> Unit),
-    scrollBehavior: TopAppBarScrollBehavior,
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
     var showTextField by rememberSaveable { mutableStateOf(false) }
     var alreadyRequestedFocus by rememberSaveable { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
-    FlexibleTopBar(
-        scrollBehavior = scrollBehavior,
-        colors =
-            FlexibleTopBarColors(containerColor = color, scrolledContainerColor = Color.Transparent),
-    ) {
+    FlexibleTopBar(colors = FlexibleTopBarColors(containerColor = color)) {
         Box(
             modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = Size.small)
         ) {
@@ -115,11 +106,7 @@ fun SearchTopAppBar(
                                 unfocusedIndicatorColor = Color.Transparent,
                             ),
                         trailingIcon = {
-                            AnimatedVisibility(
-                                visible = searchText.isNotBlank(),
-                                enter = fadeIn(),
-                                exit = fadeOut(),
-                            ) {
+                            if (searchText.isNotBlank()) {
                                 ToolTipButton(
                                     toolTipLabel = stringResource(id = R.string.clear),
                                     icon = Icons.Filled.Close,

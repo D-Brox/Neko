@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.screens.feed.history
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -64,9 +63,7 @@ fun HistoryCard(
     val allChaptersRead = feedManga.chapters.all { it.chapter.read }
     val lowContrastColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0f)
 
-    CardMMD(
-        modifier = modifier.fillMaxWidth().padding(horizontal = Size.small).animateContentSize()
-    ) {
+    CardMMD(modifier = modifier.fillMaxWidth().padding(horizontal = Size.small)) {
         val titleColor =
             getReadTextColor(isRead = allChaptersRead, MaterialTheme.colorScheme.onSurfaceVariant)
 

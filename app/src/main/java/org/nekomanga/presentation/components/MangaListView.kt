@@ -1,9 +1,6 @@
 package org.nekomanga.presentation.components
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import kotlinx.collections.immutable.ImmutableMap
@@ -47,6 +44,7 @@ fun MangaList(
     mangaList: PersistentList<DisplayManga>,
     dynamicCover: Boolean,
     contentPadding: PaddingValues = PaddingValues(),
+    pageLoading: Boolean = false,
     onClick: (Long) -> Unit = {},
     onLongClick: (DisplayManga) -> Unit = {},
     lastPage: Boolean = true,
@@ -91,6 +89,16 @@ fun MangaList(
                 onClick = onClick,
                 onLongClick = onLongClick,
             )
+        }
+
+        if (pageLoading) {
+            item {
+                LinearProgressIndicatorMMD(
+                    progress = { 0.5F },
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+            }
         }
     }
 }
@@ -217,15 +225,10 @@ fun MangaRow(
                 StartReadingButton(onStartReadingClick = onStartReadingClick)
             }
         }
-        AnimatedVisibility(
-            visible = isSelected,
-            modifier = Modifier.matchParentSize(),
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
+        if (isSelected) {
             Box(
                 modifier =
-                    Modifier.fillMaxSize()
+                    Modifier.matchParentSize()
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f))
             )
         }

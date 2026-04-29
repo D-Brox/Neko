@@ -25,7 +25,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -111,8 +110,6 @@ import eu.kanade.tachiyomi.util.view.isCollapsed
 import eu.kanade.tachiyomi.util.view.isExpanded
 import eu.kanade.tachiyomi.util.view.popupMenu
 import eu.kanade.tachiyomi.util.view.snack
-import eu.kanade.tachiyomi.widget.doOnEnd
-import eu.kanade.tachiyomi.widget.doOnStart
 import java.io.ByteArrayOutputStream
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -1043,13 +1040,8 @@ class ReaderActivity : BaseActivity<ReaderActivityBinding>() {
             }
             if (animate && oldVisibility != menuVisible) {
                 if (!menuStickyVisible) {
-                    val toolbarAnimation = AnimationUtils.loadAnimation(this, R.anim.enter_from_top)
-                    toolbarAnimation.doOnStart {
-                        window.addFlags(
-                            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-                        )
-                    }
-                    binding.appBar.startAnimation(toolbarAnimation)
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                    binding.appBar.isVisible = true
                 }
                 binding.chaptersSheet.chaptersBottomSheet.sheetBehavior?.collapse()
             }
@@ -1061,9 +1053,7 @@ class ReaderActivity : BaseActivity<ReaderActivityBinding>() {
             }
 
             if (animate && binding.appBar.isVisible) {
-                val toolbarAnimation = AnimationUtils.loadAnimation(this, R.anim.exit_to_top)
-                toolbarAnimation.doOnEnd { binding.appBar.isVisible = false }
-                binding.appBar.startAnimation(toolbarAnimation)
+                binding.appBar.isVisible = false
                 BottomSheetBehavior.from(binding.chaptersSheet.chaptersBottomSheet).isHideable =
                     true
                 binding.chaptersSheet.chaptersBottomSheet.sheetBehavior?.hide()
@@ -1157,7 +1147,6 @@ class ReaderActivity : BaseActivity<ReaderActivityBinding>() {
         binding.readerNav.pageSeekbar.isRTL = newViewer is R2LPagerViewer
 
         binding.pleaseWait.isVisible = true
-        binding.pleaseWait.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_long))
         invalidateOptionsMenu()
         updateCropBordersShortcut()
         updateBottomShortcuts()
@@ -1691,11 +1680,7 @@ class ReaderActivity : BaseActivity<ReaderActivityBinding>() {
                     )
             }
             binding.appBar.isVisible = true
-            val toolbarAnimation = AnimationUtils.loadAnimation(this, R.anim.enter_from_top)
-            toolbarAnimation.doOnStart {
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            }
-            binding.appBar.startAnimation(toolbarAnimation)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         } else if (!visible && (menuStickyVisible || menuVisible)) {
             if (menuStickyVisible && !menuVisible) {
                 setMenuVisibility(false)

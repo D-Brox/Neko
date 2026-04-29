@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ZoomInMap
 import androidx.compose.material.icons.filled.ZoomOutMap
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
@@ -18,7 +17,6 @@ import org.nekomanga.presentation.screens.stats.StatsConstants.ScreenState
 fun StatsTopBar(
     statsState: StatsConstants.SimpleState,
     onNavigationIconClicked: () -> Unit,
-    scrollBehavior: TopAppBarScrollBehavior,
     onSwitchClick: () -> Unit,
 ) {
     val (color, onColor, useDarkIcons) = getTopAppBarColor(true, false)
@@ -40,7 +38,6 @@ fun StatsTopBar(
         onNavigationIconClicked = onNavigationIconClicked,
         navigationIconLabel = stringResource(R.string.back),
         incognitoMode = false,
-        scrollBehavior = scrollBehavior,
         actions = {
             // Group the specific action logic directly by state
             when (statsState.screenState) {

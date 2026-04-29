@@ -1,6 +1,5 @@
 package eu.kanade.tachiyomi.ui.base
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
@@ -95,26 +94,16 @@ class MaterialMenuSheet(
         }
 
         var isElevated = false
-        var elevationAnimator: ValueAnimator? = null
 
         fun elevate(elevate: Boolean) {
-            elevationAnimator?.cancel()
             isElevated = elevate
-            elevationAnimator?.cancel()
-            val nonElevateColor = activity.getResourceColor(R.attr.colorSurface)
-            val elevateColor = activity.getResourceColor(R.attr.colorPrimaryVariant)
-
-            elevationAnimator =
-                ValueAnimator.ofArgb(
-                    if (elevate) nonElevateColor else elevateColor,
-                    if (elevate) elevateColor else nonElevateColor,
-                )
-
-            elevationAnimator?.addUpdateListener {
-                binding.titleLayout.backgroundTintList =
-                    ColorStateList.valueOf(it.animatedValue as Int)
-            }
-            elevationAnimator?.start()
+            val color =
+                if (elevate) {
+                    activity.getResourceColor(R.attr.colorPrimaryVariant)
+                } else {
+                    activity.getResourceColor(R.attr.colorSurface)
+                }
+            binding.titleLayout.backgroundTintList = ColorStateList.valueOf(color)
         }
         elevate(binding.menuSheetRecycler.canScrollVertically(-1))
         if (binding.titleLayout.isVisible) {

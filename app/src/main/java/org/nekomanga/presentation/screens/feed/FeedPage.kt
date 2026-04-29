@@ -4,7 +4,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -58,13 +57,11 @@ fun FeedPage(
     loadNextPage: () -> Unit,
     feedScreenType: FeedScreenType,
     historyGrouping: FeedHistoryGroup,
-    contentPadding: PaddingValues = PaddingValues(),
 ) {
     when (feedScreenType) {
         FeedScreenType.Summary -> {
             FeedSummaryPage(
                 modifier = modifier,
-                contentPadding = contentPadding,
                 dynamicCovers = dynamicCovers,
                 useVividColorHeaders = useVividColorHeaders,
                 feedScreenActions = feedScreenActions,
@@ -79,7 +76,6 @@ fun FeedPage(
         FeedScreenType.History -> {
             FeedHistoryPage(
                 modifier = modifier,
-                contentPadding = contentPadding,
                 feedHistoryMangaList = feedMangaList,
                 dynamicCovers = dynamicCovers,
                 feedScreenActions = feedScreenActions,
@@ -92,7 +88,6 @@ fun FeedPage(
         FeedScreenType.Updates -> {
             FeedUpdatesPage(
                 modifier = modifier,
-                contentPadding = contentPadding,
                 useVividColorHeaders = useVividColorHeaders,
                 feedUpdatesMangaList = feedMangaList,
                 dynamicCovers = dynamicCovers,

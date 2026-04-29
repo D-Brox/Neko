@@ -1,7 +1,6 @@
 package org.nekomanga.presentation.screens.manga
 
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -233,9 +232,7 @@ fun InformationBlock(
                 color = mediumAlpha,
                 onClick = { showEstimatedMissingChapters = !showEstimatedMissingChapters },
             )
-            AnimatedVisibility(
-                visible = showEstimatedMissingChapters && !estimatedMissingChapters.isNullOrBlank()
-            ) {
+            if (showEstimatedMissingChapters && !estimatedMissingChapters.isNullOrBlank()) {
                 NoRippleText(
                     modifier = Modifier.padding(top = Size.tiny),
                     text = estimatedMissingChapters!!,

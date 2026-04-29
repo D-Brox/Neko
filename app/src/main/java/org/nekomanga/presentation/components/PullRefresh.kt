@@ -1,26 +1,20 @@
 package org.nekomanga.presentation.components
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
+import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,28 +23,29 @@ fun PullRefresh(
     isRefreshing: Boolean,
     onRefresh: (() -> Unit)?,
     trackColor: Color = MaterialTheme.colorScheme.secondary,
-    content: @Composable () -> Unit,
+    content: @Composable (Modifier) -> Unit,
 ) {
-    val state = rememberPullToRefreshState()
-
     if (enabled && onRefresh != null) {
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = onRefresh,
-            state = state,
-            indicator = {
-                WavyLinearIndicator(
+        val state = rememberPullToRefreshState()
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            content(
+                Modifier.pullToRefresh(
                     state = state,
                     isRefreshing = isRefreshing,
-                    color = trackColor,
-                    modifier = Modifier.align(Alignment.TopCenter).statusBarsPadding(),
+                    onRefresh = onRefresh,
                 )
-            },
-        ) {
-            content()
+            )
+
+            WavyLinearIndicator(
+                state = state,
+                isRefreshing = isRefreshing,
+                color = trackColor,
+                modifier = Modifier.align(Alignment.TopCenter).statusBarsPadding(),
+            )
         }
     } else {
-        Box() { content() }
+        content(Modifier)
     }
 }
 
@@ -63,37 +58,15 @@ private fun WavyLinearIndicator(
 ) {
     val targetProgress = state.distanceFraction.coerceIn(0f, 1f)
 
-    val animatedProgress by
-        animateFloatAsState(
-            targetValue = targetProgress,
-            animationSpec = tween(durationMillis = 150),
-            label = "WavyProgressAnimation",
+    PullToRefreshDefaults.IndicatorBox(
+        state = state,
+        isRefreshing = isRefreshing,
+        modifier = modifier,
+    ) {
+        LinearProgressIndicatorMMD(
+            modifier = Modifier.fillMaxWidth(),
+            color = color,
+            progress = { if (isRefreshing) 0f else targetProgress },
         )
-
-    var showIndeterminateIndicator by remember { mutableStateOf(isRefreshing) }
-
-    LaunchedEffect(isRefreshing) {
-        if (isRefreshing) {
-            showIndeterminateIndicator = true
-        } else {
-            delay(1000)
-            showIndeterminateIndicator = false
-        }
-    }
-
-    Box(modifier = modifier.fillMaxWidth()) {
-        if (showIndeterminateIndicator) {
-            LinearProgressIndicatorMMD(
-                progress = { 0f },
-                modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
-                color = color,
-            )
-        } else if (animatedProgress > 0f) {
-            LinearProgressIndicatorMMD(
-                progress = { animatedProgress },
-                modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
-                color = color,
-            )
-        }
     }
 }

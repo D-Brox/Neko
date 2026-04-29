@@ -22,7 +22,6 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -159,44 +158,42 @@ fun AppThemePreviewItem(
             modifier = Modifier.fillMaxWidth().weight(1f),
             contentAlignment = Alignment.BottomCenter,
         ) {
-            Surface() {
-                Row(
+            Row(
+                modifier =
+                    Modifier.height(Size.extraLarge)
+                        .fillMaxWidth()
+                        .background(colorScheme.surfaceContainerLow)
+                        .padding(horizontal = Size.small),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
                     modifier =
-                        Modifier.height(Size.extraLarge)
-                            .fillMaxWidth()
-                            .background(colorScheme.surfaceContainerLow)
-                            .padding(horizontal = Size.small),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Box(
-                        modifier =
-                            Modifier.size(Size.medium)
-                                .background(
-                                    color =
-                                        colorScheme.onSurface.copy(
-                                            alpha = NekoColors.mediumAlphaHighContrast
-                                        ),
-                                    shape = CircleShape,
-                                )
-                    )
-                    Box(
-                        modifier =
-                            Modifier.size(Size.medium)
-                                .background(color = colorScheme.primary, shape = CircleShape)
-                    )
-                    Box(
-                        modifier =
-                            Modifier.size(Size.medium)
-                                .background(
-                                    color =
-                                        colorScheme.onSurface.copy(
-                                            alpha = NekoColors.mediumAlphaHighContrast
-                                        ),
-                                    shape = CircleShape,
-                                )
-                    )
-                }
+                        Modifier.size(Size.medium)
+                            .background(
+                                color =
+                                    colorScheme.onSurface.copy(
+                                        alpha = NekoColors.mediumAlphaHighContrast
+                                    ),
+                                shape = CircleShape,
+                            )
+                )
+                Box(
+                    modifier =
+                        Modifier.size(Size.medium)
+                            .background(color = colorScheme.primary, shape = CircleShape)
+                )
+                Box(
+                    modifier =
+                        Modifier.size(Size.medium)
+                            .background(
+                                color =
+                                    colorScheme.onSurface.copy(
+                                        alpha = NekoColors.mediumAlphaHighContrast
+                                    ),
+                                shape = CircleShape,
+                            )
+                )
             }
         }
     }

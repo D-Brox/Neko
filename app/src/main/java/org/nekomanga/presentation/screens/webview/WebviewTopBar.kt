@@ -3,7 +3,6 @@ package org.nekomanga.presentation.screens.webview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.kevinnzou.web.WebViewNavigator
@@ -22,7 +21,6 @@ fun WebviewTopBar(
     navigator: WebViewNavigator,
     state: WebViewState,
     incognitoMode: Boolean = false,
-    scrollBehavior: TopAppBarScrollBehavior,
     onNavigationIconClicked: () -> Unit,
     onShare: (String) -> Unit,
     onOpenInBrowser: (String) -> Unit,
@@ -38,7 +36,6 @@ fun WebviewTopBar(
         onNavigationIconClicked = onNavigationIconClicked,
         navigationIconLabel = stringResource(R.string.back),
         incognitoMode = incognitoMode,
-        scrollBehavior = scrollBehavior,
         actions = {
             AppBarActions(
                 actions =

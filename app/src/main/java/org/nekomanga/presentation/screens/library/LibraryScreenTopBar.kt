@@ -1,10 +1,8 @@
 package org.nekomanga.presentation.screens.library
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
@@ -24,7 +22,6 @@ import org.nekomanga.presentation.functions.getTopAppBarColor
 fun LibraryScreenTopBar(
     libraryScreenState: LibraryScreenState,
     libraryScreenActions: LibraryScreenActions,
-    scrollBehavior: TopAppBarScrollBehavior,
     mainDropDown: AppBar.MainDropdown,
     onSearchLoaded: () -> Unit = {},
     groupByClick: () -> Unit,
@@ -40,7 +37,7 @@ fun LibraryScreenTopBar(
             libraryScreenState.selectedItems.isNotEmpty()
         }
 
-    val (color, onColor, useDarkIcons) = getTopAppBarColor(true, selectionMode)
+    val (color, onColor, _) = getTopAppBarColor(true, selectionMode)
 
     if (selectionMode) {
         TitleTopAppBar(
@@ -51,7 +48,6 @@ fun LibraryScreenTopBar(
             navigationIconLabel = stringResource(id = R.string.back),
             onNavigationIconClicked = { libraryScreenActions.clearSelectedManga() },
             incognitoMode = libraryScreenState.incognitoMode,
-            scrolledContainerColor = color,
             actions = {
                 LibraryAppBarActions(
                     downloadChapters = libraryScreenActions.downloadChapters,
@@ -63,7 +59,6 @@ fun LibraryScreenTopBar(
                     removeFromLibraryClick = removeFromLibraryClick,
                 )
             },
-            scrollBehavior = scrollBehavior,
         )
     } else {
 
@@ -89,7 +84,7 @@ fun LibraryScreenTopBar(
                 )
             },
             underHeaderActions = {
-                AnimatedVisibility(
+                if (
                     !libraryScreenState.selectedItems.isNotEmpty() &&
                         libraryScreenState.showLibraryButtonBar
                 ) {
@@ -103,7 +98,6 @@ fun LibraryScreenTopBar(
                     )
                 }
             },
-            scrollBehavior = scrollBehavior,
         )
     }
 }

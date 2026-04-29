@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -126,18 +124,14 @@ private fun SimilarWrapper(
         )
     }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
     val haptic = LocalHapticFeedback.current
 
     ChildScreenScaffold(
         refreshState = refreshState,
-        scrollBehavior = scrollBehavior,
         topBar = {
             SimilarTopBar(
                 screenState = similarScreenState,
                 onNavigationIconClicked = onBackPress,
-                scrollBehavior = scrollBehavior,
                 onSettingClick = {
                     scope.launch {
                         openSheet(

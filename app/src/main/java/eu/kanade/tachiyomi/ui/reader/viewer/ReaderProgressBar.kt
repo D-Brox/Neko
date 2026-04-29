@@ -1,29 +1,16 @@
 package eu.kanade.tachiyomi.ui.reader.viewer
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
 import eu.kanade.tachiyomi.util.system.getResourceColor
 import kotlin.math.min
 import org.nekomanga.R
 
-/**
- * A custom progress bar that always rotates while being determinate. By always rotating we give the
- * feedback to the user that the application isn't 'stuck', and by making it determinate the user
- * also approximately knows how much the operation will take.
- */
+/** A custom progress bar that always rotates while being determinate. */
 class ReaderProgressBar
 @JvmOverloads
 constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
@@ -41,10 +28,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     /** The paint to use to draw the progress bar. */
     private var paint = setPaint()
 
-    override fun setForegroundTintList(tint: ColorStateList?) {
-        super.setForegroundTintList(tint)
-        paint = setPaint()
-    }
+    // Removed setForegroundTintList override - no animation needed
 
     private fun setPaint(): Paint {
         return Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -61,23 +45,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
      * layout.
      */
     private val ovalRect = RectF()
-
-    /** The rotation animation to use while the progress bar is visible. */
-    private val rotationAnimation by lazy {
-        RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-            )
-            .apply {
-                interpolator = LinearInterpolator()
-                repeatCount = Animation.INFINITE
-                duration = 4000
-            }
-    }
 
     /**
      * Called when the view is layout. The position and thickness of the progress bar is calculated.
@@ -107,44 +74,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         return 360f / 100 * progress
     }
 
-    /** Called when this view is attached to window. It starts the rotation animation. */
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        startAnimation()
-    }
-
-    /** Called when this view is detached to window. It stops the rotation animation. */
-    override fun onDetachedFromWindow() {
-        stopAnimation()
-        super.onDetachedFromWindow()
-    }
-
-    /** Called when the visibility of this view changes. */
-    override fun setVisibility(visibility: Int) {
-        super.setVisibility(visibility)
-        val isVisible = visibility == View.VISIBLE
-        if (isVisible) {
-            startAnimation()
-        } else {
-            stopAnimation()
-        }
-    }
-
-    /** Starts the rotation animation if needed. */
-    private fun startAnimation() {
-        if (visibility != View.VISIBLE || windowVisibility != View.VISIBLE || animation != null) {
-            return
-        }
-
-        animation = rotationAnimation
-        animation.start()
-    }
-
-    /** Stops the rotation animation if needed. */
-    private fun stopAnimation() {
-        clearAnimation()
-    }
-
     /** Hides this progress bar with an optional fade out if [animate] is true. */
     fun hide(animate: Boolean = false) {
         if (visibility == GONE) return
@@ -152,23 +81,14 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         if (!animate) {
             visibility = GONE
         } else {
-            ObjectAnimator.ofFloat(this, "alpha", 1f, 0f).apply {
-                interpolator = DecelerateInterpolator()
-                duration = 1000
-                addListener(
-                    object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            visibility = GONE
-                            alpha = 1f
-                        }
-
-                        override fun onAnimationCancel(animation: Animator) {
-                            alpha = 1f
-                        }
-                    }
-                )
-                start()
-            }
+            animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .withEndAction {
+                    visibility = GONE
+                    alpha = 1f
+                }
+                .start()
         }
     }
 
@@ -193,14 +113,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
      * the rotation animation won't be noticed by the user because nothing changes in the canvas.
      */
     private fun setRealProgress(progress: Int) {
-        ValueAnimator.ofFloat(sweepAngle, calcSweepAngleFromProgress(progress)).apply {
-            interpolator = DecelerateInterpolator()
-            duration = 250
-            addUpdateListener { valueAnimator ->
-                sweepAngle = valueAnimator.animatedValue as Float
-                invalidate()
-            }
-            start()
-        }
+        sweepAngle = calcSweepAngleFromProgress(progress)
+        invalidate()
     }
 }

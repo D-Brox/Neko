@@ -4,12 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -19,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -63,9 +56,6 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, onBackPressed: () -> Unit, 
     val wasDeepLink = remember(deepLink) { deepLink != null }
 
     val settingsVm: SettingsViewModel = viewModel()
-
-    val animationSpec = tween<IntOffset>(durationMillis = 300)
-    val fadeSpec = tween<Float>(durationMillis = 300)
 
     val isTablet = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
 
@@ -436,27 +426,6 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, onBackPressed: () -> Unit, 
                         rememberSaveableStateHolderNavEntryDecorator(),
                         rememberViewModelStoreNavEntryDecorator(),
                     ),
-                transitionSpec = {
-                    slideInHorizontally(
-                        animationSpec = animationSpec,
-                        initialOffsetX = { it / 4 },
-                    ) + fadeIn(animationSpec = fadeSpec) togetherWith
-                        fadeOut(animationSpec = fadeSpec)
-                },
-                popTransitionSpec = {
-                    fadeIn(animationSpec = fadeSpec) togetherWith
-                        slideOutHorizontally(
-                            animationSpec = animationSpec,
-                            targetOffsetX = { it / 4 },
-                        ) + fadeOut(animationSpec = fadeSpec)
-                },
-                predictivePopTransitionSpec = {
-                    fadeIn(animationSpec = fadeSpec) togetherWith
-                        slideOutHorizontally(
-                            animationSpec = animationSpec,
-                            targetOffsetX = { it / 4 },
-                        ) + fadeOut(animationSpec = fadeSpec)
-                },
                 entryProvider = entryProvider,
             )
 
@@ -475,15 +444,6 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, onBackPressed: () -> Unit, 
                         rememberSaveableStateHolderNavEntryDecorator(),
                         rememberViewModelStoreNavEntryDecorator(),
                     ),
-                transitionSpec = {
-                    fadeIn(animationSpec = fadeSpec) togetherWith fadeOut(animationSpec = fadeSpec)
-                },
-                popTransitionSpec = {
-                    fadeIn(animationSpec = fadeSpec) togetherWith fadeOut(animationSpec = fadeSpec)
-                },
-                predictivePopTransitionSpec = {
-                    fadeIn(animationSpec = fadeSpec) togetherWith fadeOut(animationSpec = fadeSpec)
-                },
                 entryProvider = entryProvider,
             )
         }
@@ -502,24 +462,6 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, onBackPressed: () -> Unit, 
                     rememberSaveableStateHolderNavEntryDecorator(),
                     rememberViewModelStoreNavEntryDecorator(),
                 ),
-            transitionSpec = {
-                slideInHorizontally(animationSpec = animationSpec, initialOffsetX = { it / 4 }) +
-                    fadeIn(animationSpec = fadeSpec) togetherWith fadeOut(animationSpec = fadeSpec)
-            },
-            popTransitionSpec = {
-                fadeIn(animationSpec = fadeSpec) togetherWith
-                    slideOutHorizontally(
-                        animationSpec = animationSpec,
-                        targetOffsetX = { it / 4 },
-                    ) + fadeOut(animationSpec = fadeSpec)
-            },
-            predictivePopTransitionSpec = {
-                fadeIn(animationSpec = fadeSpec) togetherWith
-                    slideOutHorizontally(
-                        animationSpec = animationSpec,
-                        targetOffsetX = { it / 4 },
-                    ) + fadeOut(animationSpec = fadeSpec)
-            },
             entryProvider = entryProvider,
         )
     }

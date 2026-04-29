@@ -2,7 +2,6 @@ package org.nekomanga.presentation.screens.about
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import org.nekomanga.R
@@ -10,11 +9,7 @@ import org.nekomanga.presentation.components.bars.TitleTopAppBar
 import org.nekomanga.presentation.functions.getTopAppBarColor
 
 @Composable
-fun AboutTopAppBar(
-    incognitoMode: Boolean,
-    scrollBehavior: TopAppBarScrollBehavior,
-    onNavigationClicked: () -> Unit,
-) {
+fun AboutTopAppBar(incognitoMode: Boolean, onNavigationClicked: () -> Unit) {
 
     val (color, onColor, useDarkIcons) = getTopAppBarColor(true, false)
 
@@ -26,6 +21,5 @@ fun AboutTopAppBar(
         navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
         incognitoMode = incognitoMode,
         onNavigationIconClicked = onNavigationClicked,
-        scrollBehavior = scrollBehavior,
     )
 }

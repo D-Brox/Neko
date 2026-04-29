@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.screens.settings
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +17,6 @@ import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.Security
 import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
@@ -67,20 +64,16 @@ fun SettingsMainScreen(
     selectedScreen: NavKey? = null,
 ) {
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
     var searchText: String by remember { mutableStateOf("") }
 
     ChildScreenScaffold(
-        scrollBehavior = scrollBehavior,
         topBar = {
             SettingsSearchTopBar(
                 onSearch = { searchText = it ?: "" },
                 incognitoMode = incognitoMode,
-                scrollBehavior = scrollBehavior,
                 onNavigationIconClick = onNavigationIconClick,
             )
-        },
+        }
     ) { contentPadding ->
         if (searchText.isNotEmpty()) {
             SearchResult(contentPadding = contentPadding, searchKey = searchText) { result ->
@@ -96,8 +89,8 @@ fun SettingsMainScreen(
                         SettingsScreenType.MangaDex -> Screens.Settings.MangaDex
                         SettingsScreenType.MergeSource -> Screens.Settings.MergeSource
                         SettingsScreenType.Reader -> Screens.Settings.Reader
-                        SettingsScreenType.Security -> Screens.Settings.Security
                         SettingsScreenType.Tracking -> Screens.Settings.Tracking
+                        SettingsScreenType.Security -> Screens.Settings.Security
                     }
                 onNavigateClick(route)
             }
@@ -172,7 +165,7 @@ private fun mainContent(
         }
         item {
             IconItem(
-                labelText = UiText.StringResource(R.string.reader),
+                labelText = UiText.StringResource(R.string.reader_settings),
                 icon = Icons.AutoMirrored.Default.ChromeReaderMode,
                 isSelected = selectedScreen == Screens.Settings.Reader,
                 onClick = { onNavigateClick(Screens.Settings.Reader) },
@@ -262,31 +255,30 @@ private fun SearchResult(
                     .toList()
         }
 
-    Crossfade(targetState = result, label = "results") {
-        when {
-            it == null -> {}
-            it.isEmpty() -> {
-                EmptyScreen(message = UiText.StringResource(resourceId = R.string.no_results_found))
-            }
-            else -> {
-                LazyColumnMMD(
-                    contentPadding = contentPadding,
-                    modifier = modifier.fillMaxSize().padding(top = Size.medium),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    itemsIndexed(
-                        items = it,
-                        key = { index, item ->
-                            "$index-${item.searchTerm.title}-${item.searchTerm.subtitle}"
-                        },
-                    ) { index, item ->
-                        TextPreferenceWidget(
-                            title = item.searchTerm.title,
-                            subtitle = item.searchTerm.subtitle,
-                            footer = item.footer(),
-                            onPreferenceClick = { onItemClick(item) },
-                        )
-                    }
+    val currentResult = result
+    when {
+        currentResult == null -> {}
+        currentResult.isEmpty() -> {
+            EmptyScreen(message = UiText.StringResource(resourceId = R.string.no_results_found))
+        }
+        else -> {
+            LazyColumnMMD(
+                contentPadding = contentPadding,
+                modifier = modifier.fillMaxSize().padding(top = Size.medium),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                itemsIndexed(
+                    items = currentResult,
+                    key = { index, item ->
+                        "$index-${item.searchTerm.title}-${item.searchTerm.subtitle}"
+                    },
+                ) { index, item ->
+                    TextPreferenceWidget(
+                        title = item.searchTerm.title,
+                        subtitle = item.searchTerm.subtitle,
+                        footer = item.footer(),
+                        onPreferenceClick = { onItemClick(item) },
+                    )
                 }
             }
         }
@@ -295,64 +287,77 @@ private fun SearchResult(
 
 @Composable
 @NonRestartableComposable
-private fun searchTerms() =
-    persistentListOf(
+private fun searchTerms(): PersistentList<SettingsData> {
+    val generalTitle = stringResource(R.string.general)
+    val appearanceTitle = stringResource(R.string.appearance)
+    val libraryTitle = stringResource(R.string.library)
+    val dataStorageTitle = stringResource(R.string.data_storage)
+    val siteSpecificTitle = stringResource(R.string.site_specific_settings)
+    val mergeTitle = stringResource(R.string.merge_source_settings)
+    val readerTitle = stringResource(R.string.reader_settings)
+    val downloadsTitle = stringResource(R.string.downloads)
+    val trackingTitle = stringResource(R.string.tracking)
+    val securityTitle = stringResource(R.string.security)
+    val advancedTitle = stringResource(R.string.advanced)
+
+    return persistentListOf(
         SettingsData(
             settingScreenType = SettingsScreenType.General,
-            settingsStringTitle = stringResource(R.string.general),
+            settingsStringTitle = generalTitle,
             contents = GeneralSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Appearance,
-            settingsStringTitle = stringResource(R.string.appearance),
+            settingsStringTitle = appearanceTitle,
             contents = AppearanceSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Library,
-            settingsStringTitle = stringResource(R.string.library),
+            settingsStringTitle = libraryTitle,
             contents = LibrarySettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.DataAndStorage,
-            settingsStringTitle = stringResource(R.string.data_storage),
+            settingsStringTitle = dataStorageTitle,
             contents = DataStorageSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.MangaDex,
-            settingsStringTitle = stringResource(R.string.site_specific_settings),
+            settingsStringTitle = siteSpecificTitle,
             contents = MangaDexSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.MergeSource,
-            settingsStringTitle = stringResource(R.string.merge_source_settings),
+            settingsStringTitle = mergeTitle,
             contents = MergeSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Reader,
-            settingsStringTitle = stringResource(R.string.reader_settings),
+            settingsStringTitle = readerTitle,
             contents = ReaderSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Downloads,
-            settingsStringTitle = stringResource(R.string.downloads),
+            settingsStringTitle = downloadsTitle,
             contents = DownloadSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Tracking,
-            settingsStringTitle = stringResource(R.string.tracking),
+            settingsStringTitle = trackingTitle,
             contents = TrackingSettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Security,
-            settingsStringTitle = stringResource(R.string.security),
+            settingsStringTitle = securityTitle,
             contents = SecuritySettingsScreen.getSearchTerms(),
         ),
         SettingsData(
             settingScreenType = SettingsScreenType.Advanced,
-            settingsStringTitle = stringResource(R.string.advanced),
+            settingsStringTitle = advancedTitle,
             contents = AdvancedSettingsScreen.getSearchTerms(),
         ),
     )
+}
 
 private data class SettingsData(
     val settingScreenType: SettingsScreenType,

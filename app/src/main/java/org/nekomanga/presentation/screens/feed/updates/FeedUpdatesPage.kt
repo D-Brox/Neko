@@ -34,7 +34,6 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun FeedUpdatesPage(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
     feedUpdatesMangaList: PersistentList<FeedManga> = persistentListOf(),
     dynamicCovers: Boolean,
     useVividColorHeaders: Boolean,
@@ -61,7 +60,6 @@ fun FeedUpdatesPage(
         true -> {
             Grouped(
                 modifier = modifier,
-                contentPadding = contentPadding,
                 feedUpdatesMangaList = feedUpdatesMangaList,
                 dynamicCovers = dynamicCovers,
                 headerColor = headerColor,
@@ -75,7 +73,6 @@ fun FeedUpdatesPage(
         false -> {
             Ungrouped(
                 modifier = modifier,
-                contentPadding = contentPadding,
                 feedUpdatesMangaList = feedUpdatesMangaList,
                 dynamicCovers = dynamicCovers,
                 headerColor = headerColor,
@@ -92,7 +89,6 @@ fun FeedUpdatesPage(
 @Composable
 private fun Grouped(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
     feedUpdatesMangaList: PersistentList<FeedManga> = persistentListOf(),
     headerColor: Color,
     dynamicCovers: Boolean = false,
@@ -142,7 +138,7 @@ private fun Grouped(
                 .flatten()
         }
 
-    LazyColumnMMD(modifier = modifier, state = scrollState, contentPadding = contentPadding) {
+    LazyColumnMMD(modifier = modifier, state = scrollState) {
 
         // 1. Group the already processed list by date string for rendering
         val renderedGroups = groupedBySeries.groupBy { getDateString(it.date, now) }

@@ -1,15 +1,5 @@
 package org.nekomanga.presentation.components
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.EaseInOutCirc
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.rememberTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -25,8 +15,6 @@ import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
@@ -297,96 +284,27 @@ private fun Downloaded(
 
 @Composable
 private fun DownloadToComplete(modifier: Modifier, color: Color, onAnimationComplete: () -> Unit) {
-    val transitionState = remember {
-        MutableTransitionState(AnimationState.START).apply { targetState = AnimationState.MIDDLE }
+    LaunchedEffect(Unit) {
+        delay(500)
+        onAnimationComplete()
     }
-    val transition = rememberTransition(transitionState, label = "download-complete")
-    val animationSpec = tween<Float>(durationMillis = 200)
-
-    val rotation by
-        transition.animateFloat(label = "rotation", transitionSpec = { animationSpec }) {
-            when (it) {
-                AnimationState.START -> 0f
-                AnimationState.MIDDLE -> 180f
-                AnimationState.END -> 0f
-            }
-        }
-    val checkAlpha by
-        transition.animateFloat(label = "check-alpha", transitionSpec = { animationSpec }) {
-            when (it) {
-                AnimationState.START -> 0f
-                AnimationState.MIDDLE -> 1f
-                AnimationState.END -> 0f
-            }
-        }
-
-    val arrowAlpha by
-        transition.animateFloat(label = "arrow-alpha", transitionSpec = { animationSpec }) {
-            when (it) {
-                AnimationState.START -> 1f
-                AnimationState.MIDDLE -> 0f
-                AnimationState.END -> 1f
-            }
-        }
-
-    val check = rememberVectorPainter(image = Icons.Filled.Check)
-    val arrow = rememberVectorPainter(image = Icons.Filled.ArrowDownward)
-
-    LaunchedEffect(transition.currentState) {
-        if (transition.currentState == AnimationState.MIDDLE) {
-            delay(1000)
-            transitionState.targetState = AnimationState.END
-        } else if (
-            transition.currentState == AnimationState.END &&
-                transition.targetState == AnimationState.END
-        ) {
-            onAnimationComplete()
-        }
-    }
-
-    Background(color = color, modifier = modifier.rotate(rotation)) {
+    Background(color = color, modifier = modifier) {
         DownloadIcon(
-            modifier = Modifier.rotate(180f),
             color = MaterialTheme.colorScheme.surface,
-            icon = check,
-            alpha = checkAlpha,
+            icon = rememberVectorPainter(image = Icons.Filled.Check),
         )
-        DownloadIcon(color = MaterialTheme.colorScheme.surface, icon = arrow, alpha = arrowAlpha)
     }
-}
-
-private enum class AnimationState {
-    START,
-    MIDDLE,
-    END,
 }
 
 @Composable
 private fun Draining(buttonColor: Color, modifier: Modifier, onAnimationEnd: () -> Unit) {
     var progress by remember { mutableStateOf(1f) }
 
-    val animatedProgress by
-        animateFloatAsState(
-            targetValue = progress,
-            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-            label = "downloadingProgress",
-            finishedListener = { onAnimationEnd() },
-        )
-
-    LaunchedEffect(key1 = Unit) { progress = 0f }
-
-    val infiniteTransition = rememberInfiniteTransition(label = "infinite")
-    val waveOffset by
-        infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = 1f,
-            animationSpec =
-                infiniteRepeatable(
-                    animation = tween(durationMillis = 2000, easing = EaseInOutCirc),
-                    repeatMode = RepeatMode.Restart,
-                ),
-            label = "waveOffset",
-        )
+    LaunchedEffect(key1 = Unit) {
+        progress = 0f
+        delay(2000) // Approximate time for "draining" effect
+        onAnimationEnd()
+    }
 
     Background(
         color = buttonColor.copy(alpha = .4f),
@@ -396,7 +314,7 @@ private fun Draining(buttonColor: Color, modifier: Modifier, onAnimationEnd: () 
         Canvas(modifier = Modifier.fillMaxSize()) {
             val width = size.width
             val height = size.height
-            val fillHeight = height * (1 - animatedProgress)
+            val fillHeight = height * (1 - progress)
 
             val path = Path()
             path.moveTo(0f, fillHeight)
@@ -405,10 +323,7 @@ private fun Draining(buttonColor: Color, modifier: Modifier, onAnimationEnd: () 
             val frequency = 2 * Math.PI / width // Adjust for wave frequency
 
             for (x in 0..width.toInt()) {
-                val y =
-                    fillHeight +
-                        amplitude *
-                            kotlin.math.sin((x * frequency + waveOffset * 2 * Math.PI)).toFloat()
+                val y = fillHeight + amplitude * kotlin.math.sin((x * frequency)).toFloat()
                 path.lineTo(x.toFloat(), y)
             }
 
@@ -425,69 +340,25 @@ private fun Draining(buttonColor: Color, modifier: Modifier, onAnimationEnd: () 
 private fun Queued(modifier: Modifier) {
     val disabledColor =
         MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.disabledAlphaHighContrast)
-    val infiniteTransition = rememberInfiniteTransition(label = "queued-rotation")
-    val rotation by
-        infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = 360f,
-            animationSpec =
-                infiniteRepeatable(
-                    animation = tween(durationMillis = 1000, easing = EaseInOutCirc),
-                    repeatMode = RepeatMode.Restart,
-                ),
-            label = "rotation",
-        )
 
     Background(
         color = Color.Transparent,
         borderStroke = BorderStroke(width = borderSize.dp, color = disabledColor),
-        modifier = modifier.rotate(rotation),
+        modifier = modifier,
     ) {}
 }
 
 @Composable
 private fun Downloading(buttonColor: Color, modifier: Modifier, downloadProgress: Int) {
-    val animatedProgress by
-        animateFloatAsState(
-            targetValue = (downloadProgress / Download.MaxProgress.toFloat()),
-            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-            label = "downloadingProgress",
-        )
-
-    val infiniteTransition = rememberInfiniteTransition(label = "infinite")
-    val waveOffset by
-        infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = 1f,
-            animationSpec =
-                infiniteRepeatable(
-                    animation = tween(durationMillis = 2000, easing = EaseInOutCirc),
-                    repeatMode = RepeatMode.Restart,
-                ),
-            label = "waveOffset",
-        )
-
+    val progress = downloadProgress / Download.MaxProgress.toFloat()
     val iconPainter = rememberVectorPainter(image = Icons.Filled.ArrowDownward)
 
-    val iconColor by
-        animateColorAsState(
-            targetValue =
-                if (animatedProgress < 0.4f) {
-                    MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = NekoColors.disabledAlphaLowContrast
-                    )
-                } else {
-                    MaterialTheme.colorScheme.surface
-                },
-            label = "iconColor",
-        )
-
-    val alpha by
-        animateFloatAsState(
-            targetValue = if (animatedProgress == 1f) 1f else 0f,
-            animationSpec = tween(durationMillis = 500, delayMillis = 250),
-            label = "alpha",
-        )
+    val iconColor =
+        if (progress < 0.4f) {
+            MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.disabledAlphaLowContrast)
+        } else {
+            MaterialTheme.colorScheme.surface
+        }
 
     Background(
         color = buttonColor.copy(alpha = .4f),
@@ -497,7 +368,7 @@ private fun Downloading(buttonColor: Color, modifier: Modifier, downloadProgress
         Canvas(modifier = Modifier.fillMaxSize()) {
             val width = size.width
             val height = size.height
-            val fillHeight = height * (1 - animatedProgress)
+            val fillHeight = height * (1 - progress)
 
             val path = Path()
             path.moveTo(0f, fillHeight)
@@ -506,10 +377,7 @@ private fun Downloading(buttonColor: Color, modifier: Modifier, downloadProgress
             val frequency = 2 * Math.PI / width // Adjust for wave frequency
 
             for (x in 0..width.toInt()) {
-                val y =
-                    fillHeight +
-                        amplitude *
-                            kotlin.math.sin((x * frequency + waveOffset * 2 * Math.PI)).toFloat()
+                val y = fillHeight + amplitude * kotlin.math.sin((x * frequency)).toFloat()
                 path.lineTo(x.toFloat(), y)
             }
 
@@ -519,7 +387,7 @@ private fun Downloading(buttonColor: Color, modifier: Modifier, downloadProgress
 
             drawPath(path = path, color = buttonColor)
         }
-        DownloadIcon(color = iconColor, icon = iconPainter, alpha = alpha)
+        DownloadIcon(color = iconColor, icon = iconPainter, alpha = if (progress == 1f) 1f else 0f)
     }
 }
 
@@ -550,14 +418,7 @@ private fun Background(
         modifier = Modifier.clip(shape).size(Size.extraLarge + 4.dp).then(modifier),
         contentAlignment = Alignment.Center,
     ) {
-        Surface(
-            modifier = Modifier.size(Size.extraLarge),
-            shape = shape,
-            border = borderStroke,
-            color = color,
-        ) {
-            Box(contentAlignment = Alignment.Center) { content() }
-        }
+        content()
     }
 }
 

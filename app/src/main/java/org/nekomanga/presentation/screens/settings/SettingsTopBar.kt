@@ -2,7 +2,6 @@ package org.nekomanga.presentation.screens.settings
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import org.nekomanga.R
@@ -14,7 +13,6 @@ fun SettingsTopBar(
     title: String = "",
     incognitoMode: Boolean = false,
     onNavigationIconClicked: (() -> Unit)? = null,
-    scrollBehavior: TopAppBarScrollBehavior,
 ) {
     val (color, onColor, useDarkIcons) = getTopAppBarColor(true, false)
     TitleTopAppBar(
@@ -25,6 +23,5 @@ fun SettingsTopBar(
         onNavigationIconClicked = onNavigationIconClicked ?: {},
         navigationIconLabel = stringResource(R.string.back),
         incognitoMode = incognitoMode,
-        scrollBehavior = scrollBehavior,
     )
 }

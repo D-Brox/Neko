@@ -1,10 +1,5 @@
 package org.nekomanga.presentation.screens.settings
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,17 +38,9 @@ fun StatusWrapper(
 ) {
     val enabled = item.enabled
     val highlighted = item.title == highlightKey
-    AnimatedVisibility(
-        visible = enabled,
-        enter = expandVertically() + fadeIn(),
-        exit = shrinkVertically() + fadeOut(),
-        content = {
-            CompositionLocalProvider(
-                LocalPreferenceHighlighted provides highlighted,
-                content = content,
-            )
-        },
-    )
+    if (enabled) {
+        CompositionLocalProvider(LocalPreferenceHighlighted provides highlighted, content = content)
+    }
 }
 
 @Composable

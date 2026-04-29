@@ -2,9 +2,6 @@ package org.nekomanga.presentation.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,8 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Downloading
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -27,11 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
@@ -237,7 +230,6 @@ private fun FeedWrapper(
                 },
             )
         }
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
         val refreshState =
             remember(
@@ -254,36 +246,20 @@ private fun FeedWrapper(
 
         RootScaffold(
             refreshState = refreshState,
-            scrollBehavior = scrollBehavior,
             navigationRail = navigationRail,
             bottomBar = bottomBar,
             topBar = {
                 FeedScreenTopBar(
-                    scrollBehavior = scrollBehavior,
                     mainDropDown = mainDropdown,
                     feedScreenState = feedScreenState,
                     feedScreenActions = feedScreenActions,
                     openSheetClick = { showBottomSheet = true },
                 )
             },
-        ) { innerPadding ->
-            val layoutDirection = LocalLayoutDirection.current
-            // Create new padding that ignores the top bar's height
-            val contentPadding =
-                PaddingValues(
-                    start = innerPadding.calculateStartPadding(layoutDirection),
-                    end = innerPadding.calculateEndPadding(layoutDirection),
-                    bottom = innerPadding.calculateBottomPadding(),
-                    top = 0.dp,
-                )
-
-            val recyclerPadding =
-                PaddingValues(top = innerPadding.calculateTopPadding(), bottom = Size.huge)
-
+        ) { contentPadding ->
             Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
                 FeedScreenContent(
                     downloadScreenVisible = downloadScreenVisible,
-                    contentPadding = recyclerPadding,
                     feedScreenState = feedScreenState,
                     summaryScreenPagingState = summaryScreenPagingState,
                     historyPagingScreenState = historyPagingScreenState,

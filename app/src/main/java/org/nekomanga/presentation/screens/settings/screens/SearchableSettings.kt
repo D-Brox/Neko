@@ -1,8 +1,6 @@
 package org.nekomanga.presentation.screens.settings.screens
 
 import androidx.annotation.StringRes
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
@@ -22,17 +20,14 @@ internal abstract class SearchableSettings(
 
     @Composable
     fun Content() {
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
         ChildScreenScaffold(
-            scrollBehavior = scrollBehavior,
             topBar = {
                 SettingsTopBar(
-                    scrollBehavior = scrollBehavior,
                     incognitoMode = incognitoMode,
                     onNavigationIconClicked = onNavigationBackClick,
                     title = stringResource(getTitleRes()),
                 )
-            },
+            }
         ) { contentPadding ->
             PreferenceScreen(contentPadding = contentPadding, items = getPreferences())
         }

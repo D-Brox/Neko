@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -137,15 +134,11 @@ private fun AboutWrapper(
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
     ChildScreenScaffold(
-        scrollBehavior = scrollBehavior,
         snackbarHost = snackbarHost,
         topBar = {
             AboutTopAppBar(
                 incognitoMode = aboutScreenState.incognitoMode,
-                scrollBehavior = scrollBehavior,
                 onNavigationClicked = onBackPressed,
             )
         },
@@ -264,14 +257,12 @@ private fun AboutWrapper(
 @Composable
 private fun LogoHeader() {
     Column {
-        Surface(modifier = Modifier.fillMaxWidth().padding(top = Size.huge)) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_neko_yokai),
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(Size.extraExtraHuge * 2),
-                contentDescription = null,
-            )
-        }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_neko_yokai),
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(Size.extraExtraHuge * 2),
+            contentDescription = null,
+        )
     }
 }
 

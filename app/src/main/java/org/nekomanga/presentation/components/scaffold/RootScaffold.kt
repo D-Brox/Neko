@@ -5,17 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import eu.kanade.tachiyomi.ui.main.states.RefreshState
 import org.nekomanga.presentation.components.PullRefresh
 
 @Composable
 fun RootScaffold(
     refreshState: RefreshState = RefreshState(),
-    scrollBehavior: TopAppBarScrollBehavior,
     navigationRail: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     topBar: @Composable () -> Unit,
@@ -27,15 +24,12 @@ fun RootScaffold(
         isRefreshing = refreshState.isRefreshing,
         onRefresh = refreshState.onRefresh,
         trackColor = refreshState.trackColor ?: MaterialTheme.colorScheme.secondary,
-    ) {
-        Row(modifier = Modifier.fillMaxSize()) {
+    ) { modifier ->
+        Row(modifier = modifier.fillMaxSize()) {
             navigationRail() // if composable is empty this wont show
 
             Scaffold(
-                modifier =
-                    Modifier.fillMaxSize()
-                        .weight(1f)
-                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                modifier = Modifier.fillMaxSize().weight(1f),
                 topBar = topBar,
                 bottomBar = bottomBar,
             ) { contentPadding ->

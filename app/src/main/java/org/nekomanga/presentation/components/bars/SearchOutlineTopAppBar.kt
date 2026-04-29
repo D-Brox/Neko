@@ -1,21 +1,16 @@
 package org.nekomanga.presentation.components.bars
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,7 +53,6 @@ fun SearchOutlineTopAppBar(
     onSearchDisabled: () -> Unit = {},
     actions: @Composable (RowScope.() -> Unit) = {},
     underHeaderActions: @Composable () -> Unit = {},
-    scrollBehavior: TopAppBarScrollBehavior,
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -75,11 +69,8 @@ fun SearchOutlineTopAppBar(
     }
 
     val focusManager = LocalFocusManager.current
-    FlexibleTopBar(
-        scrollBehavior = scrollBehavior,
-        colors = FlexibleTopBarColors(containerColor = color, scrolledContainerColor = color),
-    ) {
-        Column(Modifier.fillMaxWidth().statusBarsPadding()) {
+    FlexibleTopBar(colors = FlexibleTopBarColors(containerColor = color)) {
+        Column(Modifier.fillMaxWidth()) {
             SearchBarMMD(
                 modifier =
                     Modifier.fillMaxWidth()
@@ -150,11 +141,7 @@ fun SearchOutlineTopAppBar(
                         },
                         trailingIcon = {
                             Row {
-                                AnimatedVisibility(
-                                    visible = searchText.isNotBlank(),
-                                    enter = fadeIn(),
-                                    exit = fadeOut(),
-                                ) {
+                                if (searchText.isNotBlank()) {
                                     ToolTipButton(
                                         toolTipLabel = stringResource(id = R.string.clear),
                                         icon = Icons.Filled.Close,

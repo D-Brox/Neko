@@ -4,17 +4,12 @@ import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,9 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
 import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
 import com.mudita.mmd.components.progress_indicator.CircularProgressIndicatorMMD
@@ -262,20 +255,6 @@ private fun LibraryWrapper(
             )
         }
 
-        val topAppBarState = rememberTopAppBarState()
-        val scrollBehavior =
-            if (selectionMode) {
-                TopAppBarDefaults.pinnedScrollBehavior(state = topAppBarState)
-            } else {
-                TopAppBarDefaults.enterAlwaysScrollBehavior(state = topAppBarState)
-            }
-
-        LaunchedEffect(selectionMode) {
-            if (selectionMode) {
-                topAppBarState.heightOffset = 0f
-            }
-        }
-
         val refreshState =
             remember(libraryScreenState.isRefreshing, libraryScreenActions.updateLibrary) {
                 RefreshState(
@@ -287,12 +266,10 @@ private fun LibraryWrapper(
 
         RootScaffold(
             refreshState = refreshState,
-            scrollBehavior = scrollBehavior,
             navigationRail = navigationRail,
             bottomBar = bottomBar,
             topBar = {
                 LibraryScreenTopBar(
-                    scrollBehavior = scrollBehavior,
                     mainDropDown = mainDropdown,
                     libraryScreenState = libraryScreenState,
                     libraryScreenActions = libraryScreenActions,
@@ -311,19 +288,7 @@ private fun LibraryWrapper(
                     removeActionClick = { removeAction -> removeActionConfirmation = removeAction },
                 )
             },
-        ) { innerPadding ->
-            val layoutDirection = LocalLayoutDirection.current
-            // Create new padding that ignores the top bar's height
-            val contentPadding =
-                PaddingValues(
-                    start = innerPadding.calculateStartPadding(layoutDirection),
-                    end = innerPadding.calculateEndPadding(layoutDirection),
-                    bottom = innerPadding.calculateBottomPadding(),
-                    top = 0.dp,
-                )
-
-            val recyclerPadding = PaddingValues(top = innerPadding.calculateTopPadding())
-
+        ) { contentPadding ->
             Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
                 LibraryDialogs(
                     deleteMangaConfirmation = deleteMangaConfirmation,
@@ -344,21 +309,15 @@ private fun LibraryWrapper(
                     if (!libraryScreenState.searchQuery.isNullOrBlank()) {
                         GlobalSearchRow(
                             query = libraryScreenState.searchQuery!!,
-                            paddingValues = recyclerPadding, // Apply TopBar padding here
                             onSearchMangaDex = libraryScreenActions.onSearchMangaDex,
                         )
                     }
-
-                    val listPadding =
-                        if (!libraryScreenState.searchQuery.isNullOrBlank()) PaddingValues(0.dp)
-                        else recyclerPadding
 
                     if (libraryScreenState.items.isEmpty()) {
                         EmptyLibrary(libraryScreenState = libraryScreenState)
                     } else {
                         if (libraryScreenState.horizontalCategories) {
                             HorizontalCategoriesPage(
-                                contentPadding = listPadding,
                                 selectionMode = selectionMode,
                                 libraryScreenState = libraryScreenState,
                                 libraryScreenActions = libraryScreenActions,
@@ -375,7 +334,6 @@ private fun LibraryWrapper(
                             )
                         } else {
                             VerticalCategoriesPage(
-                                contentPadding = listPadding,
                                 selectionMode = selectionMode,
                                 libraryScreenState = libraryScreenState,
                                 libraryScreenActions = libraryScreenActions,
@@ -399,13 +357,9 @@ private fun LibraryWrapper(
 }
 
 @Composable
-private fun GlobalSearchRow(
-    query: String,
-    paddingValues: PaddingValues,
-    onSearchMangaDex: (String) -> Unit,
-) {
+private fun GlobalSearchRow(query: String, onSearchMangaDex: (String) -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(paddingValues).padding(Size.small),
+        modifier = Modifier.fillMaxWidth().padding(Size.small),
         contentAlignment = Alignment.Center,
     ) {
         ElevatedButton(onClick = { onSearchMangaDex(query) }) {

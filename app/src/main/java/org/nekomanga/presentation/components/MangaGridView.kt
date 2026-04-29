@@ -1,8 +1,5 @@
 package org.nekomanga.presentation.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,11 +10,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -36,9 +30,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cheonjaeung.compose.grid.SimpleGridCells
 import com.cheonjaeung.compose.grid.VerticalGrid
 import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.PersistentList
@@ -112,10 +108,12 @@ fun MangaGrid(
     onLongClick: (DisplayManga) -> Unit = {},
     lastPage: Boolean = true,
     loadNextItems: () -> Unit = {},
+    pageLoading: Boolean = false,
 ) {
-    val cells = GridCells.Fixed(columns)
+    val scrollState = rememberLazyListState()
 
-    val scrollState = rememberLazyGridState()
+    val chunkedMangaList =
+        remember(mangaList, columns) { mangaList.filter { it.isVisible }.chunked(columns) }
 
     if (!lastPage && mangaList.isNotEmpty()) {
         // Optimize: Use snapshotFlow to observe scroll state for pagination instead of
@@ -135,22 +133,40 @@ fun MangaGrid(
         }
     }
 
-    LazyVerticalGrid(
-        columns = cells,
+    LazyColumnMMD(
         state = scrollState,
         modifier = Modifier.fillMaxSize().padding(Size.tiny),
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(Size.tiny),
-        horizontalArrangement = Arrangement.spacedBy(Size.medium),
     ) {
-        itemsIndexed(mangaList, key = { _, display -> display.mangaId }) { _, displayManga ->
-            MangaGridItem(
-                displayManga = displayManga,
-                dynamicCover = dynamicCover,
-                isComfortable = isComfortable,
-                onClick = onClick,
-                onLongClick = onLongClick,
-            )
+        itemsIndexed(items = chunkedMangaList, key = { index, _ -> "grid-row-$index" }) {
+            _,
+            rowItems ->
+            VerticalGrid(
+                columns = SimpleGridCells.Fixed(columns),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
+                horizontalArrangement = Arrangement.spacedBy(Size.small),
+            ) {
+                rowItems.forEach { displayManga ->
+                    MangaGridItem(
+                        displayManga = displayManga,
+                        dynamicCover = dynamicCover,
+                        isComfortable = isComfortable,
+                        onClick = onClick,
+                        onLongClick = onLongClick,
+                    )
+                }
+            }
+        }
+
+        if (pageLoading) {
+            item {
+                LinearProgressIndicatorMMD(
+                    progress = { 0.5F },
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+            }
         }
     }
 }
@@ -241,18 +257,13 @@ fun MangaGridItem(
                 }
             }
 
-            AnimatedVisibility(
-                visible = isSelected,
-                modifier = Modifier.matchParentSize(),
-                enter = fadeIn(),
-                exit = fadeOut(),
-            ) {
+            if (isSelected) {
                 Box(
                     modifier =
                         Modifier.fillMaxSize()
                             .clip(RoundedCornerShape(Shapes.coverRadius))
                             .background(
-                                MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
+                                MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0f)
                             )
                 )
             }
@@ -347,8 +358,10 @@ fun MangaGridTitle(
         text = title,
         style = MaterialTheme.typography.bodyMedium,
         color = if (isComfortable) MaterialTheme.colorScheme.onSurface else Color.White,
+        fontSize = 12.sp,
         fontWeight = FontWeight.Medium,
         maxLines = maxLines,
+        minLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         modifier =
             Modifier.padding(
@@ -370,6 +383,7 @@ fun MangaGridSubtitle(subtitleText: String, isComfortable: Boolean = true) {
             color =
                 if (isComfortable) MaterialTheme.colorScheme.onSurface
                 else Color.White.copy(alpha = NekoColors.mediumAlphaLowContrast),
+            fontSize = 12.sp,
             fontWeight = if (isComfortable) FontWeight.Normal else FontWeight.SemiBold,
             overflow = TextOverflow.Ellipsis,
             modifier =

@@ -3,8 +3,6 @@ package org.nekomanga.presentation.screens
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ZoomInMap
 import androidx.compose.material.icons.filled.ZoomOutMap
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -92,19 +90,14 @@ fun StatsWrapper(
             false -> Icons.Default.ZoomOutMap
         }
 
-    val scrollBehavior =
-        TopAppBarDefaults.enterAlwaysScrollBehavior(state = rememberTopAppBarState())
-
     ChildScreenScaffold(
-        scrollBehavior = scrollBehavior,
         topBar = {
             StatsTopBar(
                 statsState = statsState,
                 onNavigationIconClicked = onBackPressed,
-                scrollBehavior = scrollBehavior,
                 onSwitchClick = onSwitchClick,
             )
-        },
+        }
     ) { contentPadding ->
         if (
             statsState.screenState is Loading ||

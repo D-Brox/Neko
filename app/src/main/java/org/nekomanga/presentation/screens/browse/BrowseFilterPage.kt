@@ -1,15 +1,7 @@
 package org.nekomanga.presentation.screens.browse
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import eu.kanade.tachiyomi.ui.source.browse.DisplayMangaHolder
 import org.nekomanga.R
 import org.nekomanga.domain.manga.DisplayManga
@@ -39,38 +31,30 @@ fun BrowseFilterPage(
             contentPadding = contentPadding,
         )
     } else {
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (isList) {
-                MangaList(
-                    mangaList = displayMangaHolder.filteredDisplayManga,
-                    dynamicCover = dynamicCovers,
-                    contentPadding = contentPadding,
-                    onClick = onClick,
-                    onLongClick = onLongClick,
-                    lastPage = lastPage,
-                    loadNextItems = loadNextPage,
-                )
-            } else {
-                MangaGrid(
-                    mangaList = displayMangaHolder.filteredDisplayManga,
-                    dynamicCover = dynamicCovers,
-                    contentPadding = contentPadding,
-                    columns = numberOfColumns(rawValue = rawColumnCount),
-                    isComfortable = isComfortableGrid,
-                    onClick = onClick,
-                    onLongClick = onLongClick,
-                    lastPage = lastPage,
-                    loadNextItems = loadNextPage,
-                )
-            }
-            if (pageLoading) {
-                LinearProgressIndicatorMMD(
-                    progress = { 0.5F },
-                    modifier =
-                        Modifier.fillMaxWidth().align(Alignment.TopStart).statusBarsPadding(),
-                    color = MaterialTheme.colorScheme.secondary,
-                )
-            }
+        if (isList) {
+            MangaList(
+                mangaList = displayMangaHolder.filteredDisplayManga,
+                dynamicCover = dynamicCovers,
+                contentPadding = contentPadding,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                lastPage = lastPage,
+                loadNextItems = loadNextPage,
+                pageLoading = pageLoading,
+            )
+        } else {
+            MangaGrid(
+                mangaList = displayMangaHolder.filteredDisplayManga,
+                dynamicCover = dynamicCovers,
+                contentPadding = contentPadding,
+                columns = numberOfColumns(rawValue = rawColumnCount),
+                isComfortable = isComfortableGrid,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                lastPage = lastPage,
+                loadNextItems = loadNextPage,
+                pageLoading = pageLoading,
+            )
         }
     }
 }

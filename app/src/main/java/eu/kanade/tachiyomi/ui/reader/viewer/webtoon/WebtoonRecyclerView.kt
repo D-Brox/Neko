@@ -1,14 +1,10 @@
 package eu.kanade.tachiyomi.ui.reader.viewer.webtoon
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.ViewConfiguration
-import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import eu.kanade.tachiyomi.ui.reader.viewer.GestureDetectorWithLongTap
 import kotlin.math.abs
@@ -104,35 +100,11 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
         toY: Float,
     ) {
         isZooming = true
-        val animatorSet = AnimatorSet()
-        val translationXAnimator = ValueAnimator.ofFloat(fromX, toX)
-        translationXAnimator.addUpdateListener { animation -> x = animation.animatedValue as Float }
-
-        val translationYAnimator = ValueAnimator.ofFloat(fromY, toY)
-        translationYAnimator.addUpdateListener { animation -> y = animation.animatedValue as Float }
-
-        val scaleAnimator = ValueAnimator.ofFloat(fromRate, toRate)
-        scaleAnimator.addUpdateListener { animation ->
-            setScaleRate(animation.animatedValue as Float)
-        }
-        animatorSet.playTogether(translationXAnimator, translationYAnimator, scaleAnimator)
-        animatorSet.duration = ANIMATOR_DURATION_TIME.toLong()
-        animatorSet.interpolator = DecelerateInterpolator()
-        animatorSet.start()
-        animatorSet.addListener(
-            object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator) {}
-
-                override fun onAnimationEnd(animation: Animator) {
-                    isZooming = false
-                    currentScale = toRate
-                }
-
-                override fun onAnimationCancel(animation: Animator) {}
-
-                override fun onAnimationRepeat(animation: Animator) {}
-            }
-        )
+        // Directly set values without animation
+        x = toX
+        y = toY
+        setScaleRate(toRate)
+        isZooming = false
     }
 
     fun zoomFling(velocityX: Int, velocityY: Int): Boolean {
@@ -151,15 +123,9 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
             newY = getPositionY(y + dy)
         }
 
-        animate()
-            .apply {
-                newX?.let { x(it) }
-                newY?.let { y(it) }
-            }
-            .setInterpolator(DecelerateInterpolator())
-            .setDuration(400)
-            .start()
-
+        if (newX != null || newY != null) {
+            zoom(currentScale, currentScale, currentScale, newX ?: x, currentScale, newY ?: y)
+        }
         return true
     }
 
@@ -284,7 +250,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
                     val x = (ev.getX(index) + 0.5f).toInt()
                     val y = (ev.getY(index) + 0.5f).toInt()
                     var dx = x - downX
-                    var dy = if (atFirstPosition || atLastPosition) y - downY else 0
+                    var dy = y - downY
 
                     if (!isZoomDragging && currentScale > 1f) {
                         var startScroll = false

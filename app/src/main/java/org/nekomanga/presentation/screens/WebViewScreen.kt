@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -92,12 +90,9 @@ fun WebViewWrapper(
 
     var currentUrl by remember { mutableStateOf(url) }
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(state = rememberTopAppBarState())
-
     val navigator = rememberWebViewNavigator()
 
     ChildScreenScaffold(
-        scrollBehavior = scrollBehavior,
         topBar = {
             WebviewTopBar(
                 state = state,
@@ -105,13 +100,12 @@ fun WebViewWrapper(
                 title = title,
                 subtitle = currentUrl,
                 onNavigationIconClicked = onClose,
-                scrollBehavior = scrollBehavior,
                 onShare = onShare,
                 onOpenInBrowser = onOpenInBrowser,
                 canOpenInApp = canOpenInApp,
                 onOpenInApp = onOpenInApp,
             )
-        },
+        }
     ) { contentPadding ->
         Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
             val loadingState = state.loadingState

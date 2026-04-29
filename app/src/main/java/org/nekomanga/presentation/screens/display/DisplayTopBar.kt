@@ -3,7 +3,6 @@ package org.nekomanga.presentation.screens.display
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import eu.kanade.tachiyomi.ui.source.latest.DisplayScreenState
@@ -18,7 +17,6 @@ import org.nekomanga.presentation.functions.getTopAppBarColor
 fun DisplayTopBar(
     screenState: DisplayScreenState,
     onNavigationIconClicked: () -> Unit,
-    scrollBehavior: TopAppBarScrollBehavior,
     onSettingClick: () -> Unit,
 ) {
     val (color, onColor, useDarkIcons) = getTopAppBarColor(true, false)
@@ -29,7 +27,6 @@ fun DisplayTopBar(
         onNavigationIconClicked = onNavigationIconClicked,
         navigationIconLabel = stringResource(R.string.back),
         incognitoMode = screenState.incognitoMode,
-        scrollBehavior = scrollBehavior,
         actions = {
             AppBarActions(
                 actions =

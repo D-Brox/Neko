@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.screens.library
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -49,7 +48,7 @@ fun LibraryButtonBar(
     ) {
         Gap(Size.tiny)
 
-        AnimatedVisibility(showCollapseAll) {
+        if (showCollapseAll) {
             ButtonMMD(onClick = { libraryScreenActions.collapseExpandAllCategories() }) {
                 Icon(
                     imageVector =
@@ -63,7 +62,7 @@ fun LibraryButtonBar(
             TextMMD(text = stringResource(R.string.group_library_by))
         }
 
-        AnimatedVisibility(libraryScreenState.hasActiveFilters) {
+        if (libraryScreenState.hasActiveFilters) {
             ButtonMMD(onClick = libraryScreenActions.clearActiveFilters) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = null)
             }

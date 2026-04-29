@@ -1,8 +1,6 @@
 package org.nekomanga.presentation.screens.download
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,7 +45,6 @@ import soup.compose.material.motion.MaterialFade
 
 @Composable
 fun DownloadScreen(
-    contentPadding: PaddingValues,
     downloads: PersistentList<DownloadItem>,
     downloaderStatus: DownloaderStatus,
     downloadScreenActions: DownloadScreenActions,
@@ -67,18 +64,13 @@ fun DownloadScreen(
         LazyColumnMMD(
             modifier = Modifier.fillMaxWidth().padding(start = Size.small, end = Size.small),
             state = scrollState,
-            contentPadding =
-                PaddingValues(
-                    top = contentPadding.calculateTopPadding(),
-                    bottom = contentPadding.calculateBottomPadding() + Size.huge,
-                ),
         ) {
             downloadGroup.entries.forEach { entry ->
                 item(entry.key) {
                     var expanded by rememberSaveable { mutableStateOf(true) }
 
                     ElevatedCard(
-                        modifier = Modifier.fillMaxWidth().padding(Size.tiny).animateContentSize(),
+                        modifier = Modifier.fillMaxWidth().padding(Size.tiny),
                         onClick = { expanded = !expanded },
                     ) {
                         Row(
@@ -163,11 +155,7 @@ fun DownloadScreen(
                 modifier =
                     Modifier.fillMaxWidth()
                         .align(Alignment.BottomEnd)
-                        .padding(
-                            bottom = contentPadding.calculateBottomPadding() + Size.tiny,
-                            start = Size.small,
-                            end = Size.small,
-                        ),
+                        .padding(start = Size.small, end = Size.small),
                 colors =
                     CardDefaults.elevatedCardColors(
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -188,11 +176,7 @@ fun DownloadScreen(
             modifier = Modifier.align(Alignment.BottomEnd),
         ) {
             ExtendedFloatingActionButton(
-                modifier =
-                    Modifier.padding(
-                        bottom = contentPadding.calculateBottomPadding() + Size.tiny,
-                        end = Size.small,
-                    ),
+                modifier = Modifier.padding(end = Size.small),
                 onClick = downloadScreenActions.fabClick,
                 icon = {
                     when (downloaderStatus) {

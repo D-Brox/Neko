@@ -1,7 +1,6 @@
 package org.nekomanga.presentation.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +22,10 @@ import org.nekomanga.presentation.screens.onboarding.PermissionStep
 import org.nekomanga.presentation.screens.onboarding.StorageStep
 import org.nekomanga.presentation.screens.onboarding.ThemeStep
 import org.nekomanga.presentation.theme.Size
-import soup.compose.material.motion.animation.materialSharedAxisX
-import soup.compose.material.motion.animation.rememberSlideDistance
 
 @Composable
 fun OnboardingScreen(finishedOnBoarding: () -> Unit) {
 
-    val slideDistance = rememberSlideDistance()
     var currentStep by rememberSaveable { mutableIntStateOf(0) }
     val steps = remember { listOf(FirstStep(), ThemeStep(), StorageStep(), PermissionStep()) }
     val isLastStep = currentStep == steps.lastIndex
@@ -71,18 +67,7 @@ fun OnboardingScreen(finishedOnBoarding: () -> Unit) {
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            AnimatedContent(
-                targetState = currentStep,
-                transitionSpec = {
-                    materialSharedAxisX(
-                        forward = targetState > initialState,
-                        slideDistance = slideDistance,
-                    )
-                },
-                label = "stepContent",
-            ) { step ->
-                steps[step].Content()
-            }
+            steps[currentStep].Content()
         }
     }
 }

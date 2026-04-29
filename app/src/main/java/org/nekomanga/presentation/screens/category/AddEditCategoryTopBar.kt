@@ -2,7 +2,6 @@ package org.nekomanga.presentation.screens.category
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import org.nekomanga.R
@@ -10,10 +9,7 @@ import org.nekomanga.presentation.components.bars.TitleTopAppBar
 import org.nekomanga.presentation.functions.getTopAppBarColor
 
 @Composable
-fun AddEditCategoryTopBar(
-    onNavigationIconClicked: (() -> Unit)? = null,
-    scrollBehavior: TopAppBarScrollBehavior,
-) {
+fun AddEditCategoryTopBar(onNavigationIconClicked: (() -> Unit)? = null) {
     val (color, onColor, useDarkIcons) = getTopAppBarColor(true, false)
 
     TitleTopAppBar(
@@ -24,6 +20,5 @@ fun AddEditCategoryTopBar(
         onNavigationIconClicked = onNavigationIconClicked ?: {},
         navigationIconLabel = stringResource(R.string.back),
         incognitoMode = false,
-        scrollBehavior = scrollBehavior,
     )
 }

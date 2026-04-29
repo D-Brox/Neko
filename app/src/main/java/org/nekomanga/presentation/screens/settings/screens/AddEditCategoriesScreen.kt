@@ -18,8 +18,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -123,16 +121,8 @@ internal class AddEditCategoriesScreen(
             )
         }
 
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
         ChildScreenScaffold(
-            scrollBehavior = scrollBehavior,
-            topBar = {
-                AddEditCategoryTopBar(
-                    onNavigationIconClicked = onNavigationIconClick,
-                    scrollBehavior = scrollBehavior,
-                )
-            },
+            topBar = { AddEditCategoryTopBar(onNavigationIconClicked = onNavigationIconClick) }
         ) { contentPadding ->
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumnMMD(

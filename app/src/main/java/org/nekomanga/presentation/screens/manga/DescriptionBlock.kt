@@ -1,13 +1,5 @@
 package org.nekomanga.presentation.screens.manga
 
-import android.animation.TimeInterpolator
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -114,7 +106,7 @@ fun DescriptionBlock(
                 .clickable(
                     enabled = !isTablet,
                     onClick = expandCollapseClick,
-                    indication = null, // No ripple effect
+                    indication = null,
                     interactionSource = remember { MutableInteractionSource() },
                 )
     ) {
@@ -134,38 +126,21 @@ fun DescriptionBlock(
             Gap(Size.medium)
         }
 
-        // Animated content for the description to smoothly transition between collapsed/expanded
-        // states
-        AnimatedContent(
-            targetState = isExpanded,
-            label = "descriptionAnimation",
-            transitionSpec = {
-                // The animation for the new content entering the screen
-                val enter = fadeIn(animationSpec = tween(300))
-
-                // The animation for the old content leaving the screen
-                val exit = fadeOut(animationSpec = tween(300))
-
-                // Combine the enter and exit transitions and animate the size change
-                (enter togetherWith exit).using(SizeTransform(clip = true))
-            },
-        ) { expanded ->
-            if (expanded) {
-                SelectionContainer {
-                    Markdown(
-                        markdownState = expandedMarkdownState,
-                        colors = nekoMarkdownColors(),
-                        typography = nekoMarkdownTypography(),
-                    )
-                }
-            } else {
-                CollapsedDescription(markdownState = collapsedMarkdownState) {
-                    MoreLessButton(
-                        buttonColor = themeColorState.primaryColor,
-                        isMore = true,
-                        modifier = Modifier.align(Alignment.BottomEnd),
-                    )
-                }
+        if (isExpanded) {
+            SelectionContainer {
+                Markdown(
+                    markdownState = expandedMarkdownState,
+                    colors = nekoMarkdownColors(),
+                    typography = nekoMarkdownTypography(),
+                )
+            }
+        } else {
+            CollapsedDescription(markdownState = collapsedMarkdownState) {
+                MoreLessButton(
+                    buttonColor = themeColorState.primaryColor,
+                    isMore = true,
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                )
             }
         }
 
@@ -491,5 +466,3 @@ private fun nekoMarkdownTypography() =
         quote = MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic),
         list = MaterialTheme.typography.bodyLarge,
     )
-
-fun TimeInterpolator.toEasing() = Easing { x -> getInterpolation(x) }

@@ -1,8 +1,6 @@
 package org.nekomanga.presentation.screens
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
@@ -16,16 +14,10 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun LicenseScreen(onBackPressed: () -> Unit) {
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
     val libraries by produceLibraries(R.raw.aboutlibraries)
 
-    ChildScreenScaffold(
-        scrollBehavior = scrollBehavior,
-        topBar = {
-            LicenseTopAppBar(scrollBehavior = scrollBehavior, onNavigationClicked = onBackPressed)
-        },
-    ) { contentPadding ->
+    ChildScreenScaffold(topBar = { LicenseTopAppBar(onNavigationClicked = onBackPressed) }) {
+        contentPadding ->
         LibrariesContainer(
             libraries = libraries,
             contentPadding = contentPadding,

@@ -2,7 +2,6 @@ package org.nekomanga.presentation.screens.feed
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
@@ -21,7 +20,6 @@ import org.nekomanga.presentation.functions.getTopAppBarColor
 fun FeedScreenTopBar(
     feedScreenState: FeedScreenState,
     feedScreenActions: FeedScreenActions,
-    scrollBehavior: TopAppBarScrollBehavior,
     mainDropDown: AppBar.MainDropdown,
     openSheetClick: () -> Unit,
 ) {
@@ -38,30 +36,29 @@ fun FeedScreenTopBar(
 
     val (color, _, _) = getTopAppBarColor(isSummaryView, false)
 
-    TitleTopAppBar(
-        color = color,
-        title = if (isSummaryView) stringResource(R.string.summary) else "",
-        incognitoMode = feedScreenState.incognitoMode,
-        actions = {
-            val actionsList = buildList {
-                if (!isSummaryView) {
-                    add(
-                        AppBar.Action(
-                            title = UiText.StringResource(R.string.settings),
-                            icon = Icons.Outlined.Tune,
-                            onClick = openSheetClick,
+    if (titleOnlyAppBar) {
+        TitleTopAppBar(
+            color = color,
+            title = if (isSummaryView) stringResource(R.string.summary) else "",
+            incognitoMode = feedScreenState.incognitoMode,
+            actions = {
+                val actionsList = buildList {
+                    if (!isSummaryView) {
+                        add(
+                            AppBar.Action(
+                                title = UiText.StringResource(R.string.settings),
+                                icon = Icons.Outlined.Tune,
+                                onClick = openSheetClick,
+                            )
                         )
-                    )
+                    }
+                    add(mainDropDown)
                 }
-                add(mainDropDown)
-            }
 
-            AppBarActions(actions = actionsList)
-        },
-        scrollBehavior = scrollBehavior,
-    )
-    if (!titleOnlyAppBar) {
-
+                AppBarActions(actions = actionsList)
+            },
+        )
+    } else {
         val searchHint =
             when (feedScreenState.feedScreenType) {
                 FeedScreenType.History -> stringResource(R.string.search_history)
@@ -87,7 +84,6 @@ fun FeedScreenTopBar(
                         )
                 )
             },
-            scrollBehavior = scrollBehavior,
         )
     }
 }

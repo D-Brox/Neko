@@ -1,12 +1,9 @@
 package org.nekomanga.presentation.screens.library
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -56,7 +53,6 @@ import org.nekomanga.ui.theme.ThemedPreviews
 
 @Composable
 fun VerticalCategoriesPage(
-    contentPadding: PaddingValues,
     selectionMode: Boolean,
     libraryScreenState: LibraryScreenState,
     libraryScreenActions: LibraryScreenActions,
@@ -105,7 +101,6 @@ fun VerticalCategoriesPage(
 
     LazyColumnMMD(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = contentPadding,
         state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
@@ -309,21 +304,16 @@ fun LibraryCategoryHeader(
     enabled: Boolean,
 ) {
 
-    val textColor by
-        animateColorAsState(
-            targetValue =
-                if (enabled) {
-                    if (useVividColorHeaders) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
-                    }
-                } else {
-                    MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = NekoColors.disabledAlphaLowContrast
-                    )
-                }
-        )
+    val textColor =
+        if (enabled) {
+            if (useVividColorHeaders) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            }
+        } else {
+            MaterialTheme.colorScheme.onSurface.copy(alpha = NekoColors.disabledAlphaLowContrast)
+        }
 
     Row(
         modifier =
@@ -335,7 +325,7 @@ fun LibraryCategoryHeader(
                 .padding(vertical = Size.extraTiny, horizontal = Size.small),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AnimatedVisibility(isCollapsible && !selectionMode) {
+        if (isCollapsible && !selectionMode) {
             Icon(
                 imageVector =
                     if (categoryItem.isHidden) Icons.Default.ArrowDropDown
@@ -344,7 +334,7 @@ fun LibraryCategoryHeader(
                 tint = textColor,
             )
         }
-        AnimatedVisibility(selectionMode) {
+        if (selectionMode) {
             Icon(
                 imageVector =
                     if (allSelected) Icons.Default.CheckCircleOutline else Icons.Outlined.Circle,

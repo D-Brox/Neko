@@ -1,6 +1,5 @@
 package org.nekomanga.presentation.screens.library
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,10 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
@@ -57,7 +52,6 @@ import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun HorizontalCategoriesPage(
-    contentPadding: PaddingValues,
     selectionMode: Boolean,
     libraryScreenState: LibraryScreenState,
     libraryScreenActions: LibraryScreenActions,
@@ -125,7 +119,7 @@ fun HorizontalCategoriesPage(
             )
         }
 
-    Column(modifier = Modifier.fillMaxSize().padding(contentPadding).padding(top = Size.tiny)) {
+    Column(modifier = Modifier.fillMaxSize().padding(top = Size.tiny)) {
         if (isValidState) {
             SecondaryScrollableTabRowMMD(
                 selectedTabIndex = pagerState.currentPage,
@@ -167,7 +161,7 @@ fun HorizontalCategoriesPage(
                     is LibraryDisplayMode.ComfortableGrid,
                     is LibraryDisplayMode.CompactGrid -> {
                         val gridState =
-                            rememberLazyGridState(
+                            rememberLazyListState(
                                 initialFirstVisibleItemIndex =
                                     libraryScreenState.scrollPositions[page] ?: 0
                             )
@@ -196,16 +190,11 @@ fun HorizontalCategoriesPage(
                                 libraryCategoryActions = libraryCategoryActions,
                                 isRefreshing = item.isRefreshing,
                             )
-                            LazyVerticalGrid(
+                            LazyColumnMMD(
                                 state = gridState,
-                                columns = GridCells.Fixed(columns),
-                                modifier = Modifier.fillMaxSize().padding(horizontal = Size.small),
-                                horizontalArrangement = Arrangement.spacedBy(Size.small),
-                                contentPadding =
-                                    PaddingValues(
-                                        bottom = contentPadding.calculateBottomPadding(),
-                                        top = Size.small,
-                                    ),
+                                modifier = Modifier.fillMaxWidth(),
+                                contentPadding = PaddingValues(top = Size.small),
+                                verticalArrangement = Arrangement.spacedBy(Size.tiny),
                             ) {
                                 itemsIndexed(
                                     items = item.libraryItems,
@@ -260,8 +249,7 @@ fun HorizontalCategoriesPage(
                             LazyColumnMMD(
                                 state = listState,
                                 modifier = Modifier.fillMaxSize(),
-                                contentPadding =
-                                    PaddingValues(bottom = contentPadding.calculateBottomPadding()),
+                                contentPadding = PaddingValues(),
                             ) {
                                 itemsIndexed(
                                     items = item.libraryItems,
@@ -307,7 +295,7 @@ private fun HorizontalCategoryHeader(
     ) {
         if (totalItems == null) {
             Gap(Size.medium)
-            AnimatedVisibility(selectionMode) {
+            if (selectionMode) {
                 Icon(
                     imageVector =
                         if (allSelected) Icons.Default.CheckCircleOutline
@@ -317,7 +305,7 @@ private fun HorizontalCategoryHeader(
                 )
             }
         } else {
-            AnimatedVisibility(selectionMode) {
+            if (selectionMode) {
                 Row {
                     Gap(Size.medium)
                     Icon(
