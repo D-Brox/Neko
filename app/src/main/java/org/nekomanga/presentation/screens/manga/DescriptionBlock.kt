@@ -4,15 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -32,21 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
-import com.mikepenz.markdown.model.MarkdownState
 import com.mikepenz.markdown.model.rememberMarkdownState
-import com.mudita.mmd.components.chips.AssistChipDefaultsMMD
 import com.mudita.mmd.components.chips.AssistChipMMD
-import com.mudita.mmd.components.lazy.LazyRowMMD
+import com.mudita.mmd.components.chips.SuggestionChipMMD
 import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.ui.manga.MangaConstants
 import jp.wasabeef.gap.Gap
@@ -54,7 +45,6 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.nekomanga.R
-import org.nekomanga.presentation.Chip
 import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.dropdown.SimpleDropDownItem
@@ -68,17 +58,13 @@ fun DescriptionBlock(
     windowSizeClass: WindowSizeClass,
     title: String,
     description: String,
-    isInitialized: Boolean,
     altTitles: PersistentList<String>,
     genres: PersistentList<String>,
     themeColorState: ThemeColorState,
     wrapAltTitles: Boolean,
-    isExpanded: Boolean,
     expandCollapseClick: () -> Unit,
     descriptionActions: MangaConstants.DescriptionActions,
 ) {
-    if (!isInitialized) return
-
     val isTablet = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
 
     val smallDescription =
@@ -110,104 +96,31 @@ fun DescriptionBlock(
                     interactionSource = remember { MutableInteractionSource() },
                 )
     ) {
-        // Display Alt Titles and Genres first on tablet for a better layout
-        if (isExpanded && isTablet) {
-            AltTitlesAndGenres(
-                altTitles = altTitles,
-                genres = genres,
-                currentTitle = title,
-                shouldWrap = wrapAltTitles,
-                themeColorState = themeColorState,
-                altTitleClick = descriptionActions.altTitleClick,
-                resetClick = descriptionActions.altTitleResetClick,
-                genreSearch = descriptionActions.genreSearch,
-                genreLibrarySearch = descriptionActions.genreSearchLibrary,
-            )
-            Gap(Size.medium)
-        }
+        TextMMD(text = "Description:", style = MaterialTheme.typography.labelLarge)
 
-        if (isExpanded) {
-            SelectionContainer {
-                Markdown(
-                    markdownState = expandedMarkdownState,
-                    colors = nekoMarkdownColors(),
-                    typography = nekoMarkdownTypography(),
-                )
-            }
-        } else {
-            CollapsedDescription(markdownState = collapsedMarkdownState) {
-                MoreLessButton(
-                    buttonColor = themeColorState.primaryColor,
-                    isMore = true,
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                )
-            }
-        }
+        Gap(Size.tiny)
 
-        // Display Alt Titles and Genres below the description on mobile
-        if (isExpanded && !isTablet) {
-            Gap(Size.tiny)
-            AltTitlesAndGenres(
-                altTitles = altTitles,
-                genres = genres,
-                currentTitle = title,
-                shouldWrap = wrapAltTitles,
-                themeColorState = themeColorState,
-                altTitleClick = descriptionActions.altTitleClick,
-                resetClick = descriptionActions.altTitleResetClick,
-                genreSearch = descriptionActions.genreSearch,
-                genreLibrarySearch = descriptionActions.genreSearchLibrary,
-            )
-            Gap(Size.medium)
-            MoreLessButton(
-                buttonColor = themeColorState.primaryColor,
-                isMore = false,
-                modifier = Modifier.align(Alignment.End),
+        SelectionContainer {
+            Markdown(
+                markdownState = expandedMarkdownState,
+                colors = nekoMarkdownColors(),
+                typography = nekoMarkdownTypography(),
             )
         }
-    }
-}
 
-/** A container for the collapsed description that shows a "More..." button with a gradient fade. */
-@Composable
-private fun CollapsedDescription(
-    markdownState: MarkdownState,
-    moreButton: @Composable BoxScope.() -> Unit,
-) {
+        Spacer(modifier = Modifier.size(Size.medium))
 
-    val lineHeight =
-        with(LocalDensity.current) {
-            MaterialTheme.typography.bodyLarge.fontSize.toDp() + Size.small
-        }
-
-    val descriptionHeight =
-        with(LocalDensity.current) { MaterialTheme.typography.bodyLarge.fontSize.toDp() * 3 }
-
-    Box(modifier = Modifier.clipToBounds()) {
-        Markdown(
-            markdownState = markdownState,
-            colors = nekoMarkdownColors(),
-            typography = nekoMarkdownTypography(),
-            modifier = Modifier.fillMaxWidth().heightIn(Size.none, descriptionHeight),
+        AltTitlesAndGenres(
+            altTitles = altTitles,
+            genres = genres,
+            currentTitle = title,
+            shouldWrap = wrapAltTitles,
+            themeColorState = themeColorState,
+            altTitleClick = descriptionActions.altTitleClick,
+            resetClick = descriptionActions.altTitleResetClick,
+            genreSearch = descriptionActions.genreSearch,
+            genreLibrarySearch = descriptionActions.genreSearchLibrary,
         )
-        // Gradient overlay to fade out the text
-        Box(
-            modifier =
-                Modifier.height(lineHeight)
-                    .align(Alignment.BottomEnd)
-                    .fillMaxWidth(.40f)
-                    .background(
-                        Brush.horizontalGradient(
-                            colors =
-                                listOf(
-                                    Color.Transparent,
-                                    MaterialTheme.colorScheme.surface.copy(alpha = .8f),
-                                    MaterialTheme.colorScheme.surface,
-                                )
-                        )
-                    )
-        )
-        moreButton()
     }
 }
 
@@ -230,6 +143,16 @@ private fun AltTitlesAndGenres(
             Size.medium,
         )
 
+    Genres(
+        genres = genres,
+        tagColor = tagColor,
+        themeColorState = themeColorState,
+        genreSearch = genreSearch,
+        genreLibrarySearch = genreLibrarySearch,
+    )
+
+    Spacer(modifier = Modifier.size(Size.medium))
+
     AltTitles(
         altTitles = altTitles,
         currentTitle = currentTitle,
@@ -238,16 +161,6 @@ private fun AltTitlesAndGenres(
         themeColorState = themeColorState,
         altTitleClick = altTitleClick,
         resetClick = resetClick,
-    )
-
-    Spacer(modifier = Modifier.size(Size.medium))
-
-    Genres(
-        genres = genres,
-        tagColor = tagColor,
-        themeColorState = themeColorState,
-        genreSearch = genreSearch,
-        genreLibrarySearch = genreLibrarySearch,
     )
 }
 
@@ -277,6 +190,14 @@ private fun AltTitles(
         )
 
         val content: @Composable () -> Unit = {
+            altTitles.forEach { title ->
+                AltTitleChip(
+                    title = title,
+                    isSelected = isCustomTitle && title == currentTitle,
+                    tagColor = tagColor,
+                    onClick = { altTitleClick(title) },
+                )
+            }
             if (isCustomTitle) {
                 TextButton(onClick = resetClick) {
                     TextMMD(
@@ -286,39 +207,13 @@ private fun AltTitles(
                     )
                 }
             }
-            altTitles.forEach { title ->
-                AltTitleChip(
-                    title = title,
-                    isSelected = isCustomTitle && title == currentTitle,
-                    tagColor = tagColor,
-                    onClick = { altTitleClick(title) },
-                )
-            }
         }
 
-        if (shouldWrap) {
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Size.small),
-                content = { content() },
-            )
-        } else {
-            LazyRowMMD(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Size.tiny),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                // LazyRowMMD requires items to be emitted this way
-                item {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(Size.tiny),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        content()
-                    }
-                }
-            }
-        }
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Size.small),
+            content = { content() },
+        )
     }
 }
 
@@ -327,15 +222,6 @@ private fun AltTitles(
 private fun AltTitleChip(title: String, isSelected: Boolean, tagColor: Color, onClick: () -> Unit) {
     AssistChipMMD(
         onClick = { if (!isSelected) onClick() },
-        colors =
-            AssistChipDefaultsMMD.assistChipColors(
-                containerColor = tagColor,
-                labelColor =
-                    MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                        alpha = NekoColors.mediumAlphaHighContrast
-                    ),
-            ),
-        border = null,
         leadingIcon = {
             if (isSelected) {
                 Icon(
@@ -382,11 +268,7 @@ private fun Genres(
             verticalArrangement = Arrangement.spacedBy(Size.smedium),
         ) {
             genres.forEach { genre ->
-                Chip(
-                    label = genre,
-                    containerColor = tagColor,
-                    modifier = Modifier.clickable { selectedGenre = genre },
-                )
+                SuggestionChipMMD(label = { TextMMD(genre) }, onClick = { selectedGenre = genre })
             }
         }
 

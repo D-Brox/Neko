@@ -1,5 +1,6 @@
 package org.nekomanga.presentation.screens.manga
 
+import android.annotation.SuppressLint
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -51,6 +52,7 @@ import org.nekomanga.presentation.components.icons.MergeCheckIcon
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.theme.Size
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun InformationBlock(
     themeColorState: ThemeColorState,
@@ -65,7 +67,6 @@ fun InformationBlock(
     isPornographic: Boolean,
     missingChapters: String?,
     estimatedMissingChapters: String?,
-    isExpanded: Boolean,
     showMergedIcon: Boolean,
     modifier: Modifier = Modifier,
     titleLongClick: (String) -> Unit = {},
@@ -126,7 +127,7 @@ fun InformationBlock(
         if (title.isNotEmpty()) {
             NoRippleText(
                 text = title,
-                maxLines = if (isExpanded) Int.MAX_VALUE else 4,
+                maxLines = Int.MAX_VALUE,
                 onLongClick = { titleLongClick(title) },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
                 color = highAlpha,
@@ -139,7 +140,7 @@ fun InformationBlock(
             NoRippleText(
                 text = creatorText,
                 onClick = { creatorExpanded = !creatorExpanded },
-                maxLines = if (isExpanded) 5 else 2,
+                maxLines = 5,
                 style = MaterialTheme.typography.bodyLarge,
                 color = mediumAlpha,
             )

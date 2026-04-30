@@ -1,5 +1,6 @@
 package org.nekomanga.presentation.screens
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,27 +10,32 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.PlayArrow
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -42,9 +48,13 @@ import androidx.navigation3.runtime.NavKey
 import androidx.palette.graphics.Palette
 import com.mudita.mmd.components.bottom_sheet.ModalBottomSheetMMD
 import com.mudita.mmd.components.bottom_sheet.rememberModalBottomSheetMMDState
+import com.mudita.mmd.components.buttons.FloatingActionButtonMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
+import com.mudita.mmd.components.nav_bar.NavigationBarItemMMD
+import com.mudita.mmd.components.nav_bar.NavigationBarMMD
 import com.mudita.mmd.components.snackbar.SnackbarHostStateMMD
 import com.mudita.mmd.components.snackbar.SnackbarResultMMD
+import com.mudita.mmd.components.text.TextMMD
 import eu.kanade.tachiyomi.data.database.models.uuid
 import eu.kanade.tachiyomi.ui.main.ObserveAsEvents
 import eu.kanade.tachiyomi.ui.main.states.RefreshState
@@ -79,7 +89,6 @@ import org.nekomanga.domain.chapter.ChapterMarkActions
 import org.nekomanga.domain.snackbar.SnackbarColor
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.VerticalDivider
-import org.nekomanga.presentation.components.VerticalFastScroller
 import org.nekomanga.presentation.components.dialog.RemovedChaptersDialog
 import org.nekomanga.presentation.components.dynamicTextSelectionColor
 import org.nekomanga.presentation.components.nekoRippleConfiguration
@@ -94,6 +103,7 @@ import org.nekomanga.presentation.screens.manga.MangaChapterListItem
 import org.nekomanga.presentation.screens.manga.MangaDetailsHeader
 import org.nekomanga.presentation.screens.manga.MangaScreenTopBar
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun MangaScreen(
     mangaViewModel: MangaViewModel,
@@ -409,6 +419,15 @@ private fun MangaScreenWrapper(
 
     var currentBottomSheet by remember { mutableStateOf<DetailsBottomSheetScreen?>(null) }
 
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+
+    // Auto-switch to chapters tab when searching
+    LaunchedEffect(screenState.general.isSearching) {
+        if (screenState.general.isSearching) {
+            selectedTabIndex = 1
+        }
+    }
+
     LaunchedEffect(currentBottomSheet) {
         if (currentBottomSheet != null) {
             sheetState.show()
@@ -440,8 +459,6 @@ private fun MangaScreenWrapper(
             },
         )
     }
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val isTablet =
         windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded &&
@@ -519,69 +536,115 @@ private fun MangaScreenWrapper(
 
     ChildScreenScaffold(
         refreshState = refreshState,
-        scrollBehavior = scrollBehavior,
         snackbarHost = snackbarHost,
         topBar = {
             MangaScreenTopBar(
                 screenState = screenState,
                 chapterActions = chapterActions,
                 themeColorState = themeColorState,
-                scrollBehavior = scrollBehavior,
                 onNavigationIconClick = onBackPressed,
                 onSearch = onSearch,
             )
         },
+        bottomBar =
+            if (!isTablet) {
+                {
+                    NavigationBarMMD(
+                        modifier = Modifier.fillMaxWidth(),
+                        content = {
+                            listOf(
+                                    Icons.Filled.Info to "Info",
+                                    Icons.AutoMirrored.Filled.List to "Chapters",
+                                )
+                                .forEachIndexed { index, (icon, title) ->
+                                    NavigationBarItemMMD(
+                                        selected = selectedTabIndex == index,
+                                        onClick = { selectedTabIndex = index },
+                                        icon = {
+                                            Icon(imageVector = icon, contentDescription = title)
+                                        },
+                                        label = { TextMMD(text = title) },
+                                    )
+                                }
+                        },
+                    )
+                }
+            } else {
+                {}
+            },
+        floatingActionButton =
+            if (!isTablet && selectedTabIndex == 0) {
+                {
+                    val nextReadText = screenState.chapters.nextUnreadChapter.text.asString()
+                    if (nextReadText.isNotBlank()) {
+                        FloatingActionButtonMMD(
+                            onClick = { chapterActions.openNext() },
+                            containerColor = themeColorState.primaryColor,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.PlayArrow,
+                                contentDescription = nextReadText,
+                            )
+                        }
+                    }
+                }
+            } else {
+                {}
+            },
     ) { contentPadding ->
-        if (isTablet) {
-            SideBySideLayout(
-                incomingContentPadding = contentPadding,
-                isInitialized = isInitialized,
-                screenState = screenState,
-                windowSizeClass = windowSizeClass,
-                themeColorState = themeColorState,
-                chapterActions = chapterActions,
-                informationActions = informationActions,
-                descriptionActions = descriptionActions,
-                onSimilarClick = onSimilarClick,
-                onShareClick = onShareClick,
-                onToggleFavorite = onToggleFavoriteAction,
-                generatePalette = generatePalette,
-                onOpenSheet = ::openSheet,
-                categoryActions = categoryActions,
-                onBookmark = onBookmark,
-                onRead = onRead,
-            )
-        } else {
-            VerticalLayout(
-                incomingContentPadding = contentPadding,
-                isInitialized = isInitialized,
-                screenState = screenState,
-                windowSizeClass = windowSizeClass,
-                themeColorState = themeColorState,
-                chapterActions = chapterActions,
-                informationActions = informationActions,
-                descriptionActions = descriptionActions,
-                onSimilarClick = onSimilarClick,
-                onShareClick = onShareClick,
-                onToggleFavorite = onToggleFavoriteAction,
-                generatePalette = generatePalette,
-                onOpenSheet = ::openSheet,
-                categoryActions = categoryActions,
-                onBookmark = onBookmark,
-                onRead = onRead,
-            )
-        }
+        Box(modifier = Modifier.padding(contentPadding).fillMaxSize()) {
+            if (isTablet) {
+                SideBySideLayout(
+                    incomingContentPadding = contentPadding,
+                    isInitialized = isInitialized,
+                    screenState = screenState,
+                    windowSizeClass = windowSizeClass,
+                    themeColorState = themeColorState,
+                    chapterActions = chapterActions,
+                    informationActions = informationActions,
+                    descriptionActions = descriptionActions,
+                    onSimilarClick = onSimilarClick,
+                    onShareClick = onShareClick,
+                    onToggleFavorite = onToggleFavoriteAction,
+                    generatePalette = generatePalette,
+                    onOpenSheet = ::openSheet,
+                    categoryActions = categoryActions,
+                    onBookmark = onBookmark,
+                    onRead = onRead,
+                )
+            } else {
+                VerticalLayout(
+                    isInitialized = isInitialized,
+                    screenState = screenState,
+                    windowSizeClass = windowSizeClass,
+                    themeColorState = themeColorState,
+                    chapterActions = chapterActions,
+                    informationActions = informationActions,
+                    descriptionActions = descriptionActions,
+                    onSimilarClick = onSimilarClick,
+                    onShareClick = onShareClick,
+                    onToggleFavorite = onToggleFavoriteAction,
+                    generatePalette = generatePalette,
+                    onOpenSheet = ::openSheet,
+                    categoryActions = categoryActions,
+                    onBookmark = onBookmark,
+                    onRead = onRead,
+                    selectedTabIndex = selectedTabIndex,
+                    incomingContentPadding = contentPadding,
+                )
+            }
 
-        if (screenState.general.removedChapters.isNotEmpty()) {
-            RemovedChaptersDialog(
-                themeColorState = themeColorState,
-                chapters = screenState.general.removedChapters,
-                onConfirm = {
-                    chapterActions.delete(screenState.general.removedChapters)
-                    chapterActions.clearRemoved()
-                },
-                onDismiss = { chapterActions.clearRemoved() },
-            )
+            if (screenState.general.removedChapters.isNotEmpty()) {
+                RemovedChaptersDialog(
+                    themeColorState = themeColorState,
+                    chapters = screenState.general.removedChapters,
+                    onConfirm = {
+                        chapterActions.delete(screenState.general.removedChapters)
+                        chapterActions.clearRemoved()
+                    },
+                    onDismiss = { chapterActions.clearRemoved() },
+                )
+            }
         }
     }
 }
@@ -638,49 +701,36 @@ private fun VerticalLayout(
     onOpenSheet: (DetailsBottomSheetScreen) -> Unit,
     onBookmark: (ChapterItem) -> Unit,
     onRead: (ChapterItem) -> Unit,
+    selectedTabIndex: Int,
 ) {
-    val contentPadding = PaddingValues(bottom = incomingContentPadding.calculateBottomPadding())
-    val listState = rememberLazyListState()
-
-    VerticalFastScroller(
-        listState = listState,
-        modifier = Modifier.fillMaxSize(),
-        thumbColor = themeColorState.primaryColor,
-        topContentPadding = incomingContentPadding.calculateTopPadding(),
-        bottomContentPadding = incomingContentPadding.calculateBottomPadding(),
-    ) {
-        LazyColumnMMD(
-            state = listState,
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = contentPadding,
-        ) {
-            item(key = "header") {
-                MangaDetailsHeader(
-                    mangaDetailScreenState = screenState,
-                    isInitialized = isInitialized,
-                    windowSizeClass = windowSizeClass,
-                    isLoggedIntoTrackers = screenState.track.loggedInTrackService.isNotEmpty(),
-                    themeColorState = themeColorState,
-                    generatePalette = generatePalette,
-                    toggleFavorite = onToggleFavorite,
-                    onCategoriesClick = {
-                        onOpenSheet(
-                            DetailsBottomSheetScreen.CategoriesSheet(
-                                setCategories = categoryActions.set
-                            )
-                        )
-                    },
-                    onTrackingClick = { onOpenSheet(DetailsBottomSheetScreen.TrackingSheet) },
-                    onArtworkClick = { onOpenSheet(DetailsBottomSheetScreen.ArtworkSheet) },
-                    onSimilarClick = onSimilarClick,
-                    onMergeClick = { onOpenSheet(DetailsBottomSheetScreen.MergeSheet) },
-                    onLinksClick = { onOpenSheet(DetailsBottomSheetScreen.ExternalLinksSheet) },
-                    onShareClick = onShareClick,
-                    descriptionActions = descriptionActions,
-                    informationActions = informationActions,
-                    onQuickReadClick = { chapterActions.openNext() },
+    if (selectedTabIndex == 0) {
+        // Info tab: Show full header with cover, info, buttons, description
+        MangaDetailsHeader(
+            mangaDetailScreenState = screenState,
+            isInitialized = isInitialized,
+            windowSizeClass = windowSizeClass,
+            isLoggedIntoTrackers = screenState.track.loggedInTrackService.isNotEmpty(),
+            themeColorState = themeColorState,
+            generatePalette = generatePalette,
+            toggleFavorite = onToggleFavorite,
+            onCategoriesClick = {
+                onOpenSheet(
+                    DetailsBottomSheetScreen.CategoriesSheet(setCategories = categoryActions.set)
                 )
-            }
+            },
+            onTrackingClick = { onOpenSheet(DetailsBottomSheetScreen.TrackingSheet) },
+            onArtworkClick = { onOpenSheet(DetailsBottomSheetScreen.ArtworkSheet) },
+            onSimilarClick = onSimilarClick,
+            onMergeClick = { onOpenSheet(DetailsBottomSheetScreen.MergeSheet) },
+            onLinksClick = { onOpenSheet(DetailsBottomSheetScreen.ExternalLinksSheet) },
+            onShareClick = onShareClick,
+            descriptionActions = descriptionActions,
+            informationActions = informationActions,
+            onQuickReadClick = { chapterActions.openNext() },
+        )
+    } else {
+        val listState = rememberLazyListState()
+        LazyColumnMMD(state = listState) {
             if (isInitialized) {
                 chapterList(
                     chapters =
@@ -722,71 +772,63 @@ private fun SideBySideLayout(
         PaddingValues(bottom = incomingContentPadding.calculateBottomPadding())
 
     val chapterContentPadding =
-        PaddingValues(
-            bottom = incomingContentPadding.calculateBottomPadding(),
-            top = incomingContentPadding.calculateTopPadding(),
-        )
+        PaddingValues(bottom = incomingContentPadding.calculateBottomPadding())
 
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumnMMD(
-            modifier = Modifier.fillMaxWidth(.5f).fillMaxHeight(),
-            contentPadding = detailsContentPadding,
-        ) {
-            item(key = "header") {
-                MangaDetailsHeader(
-                    mangaDetailScreenState = screenState,
-                    isInitialized = isInitialized,
-                    windowSizeClass = windowSizeClass,
-                    isLoggedIntoTrackers = screenState.track.loggedInTrackService.isNotEmpty(),
-                    themeColorState = themeColorState,
-                    generatePalette = generatePalette,
-                    toggleFavorite = onToggleFavorite,
-                    onCategoriesClick = {
-                        onOpenSheet(
-                            DetailsBottomSheetScreen.CategoriesSheet(
-                                setCategories = categoryActions.set
-                            )
+        Box(modifier = Modifier.fillMaxWidth(.5f).fillMaxHeight()) {
+            MangaDetailsHeader(
+                mangaDetailScreenState = screenState,
+                isInitialized = isInitialized,
+                windowSizeClass = windowSizeClass,
+                isLoggedIntoTrackers = screenState.track.loggedInTrackService.isNotEmpty(),
+                themeColorState = themeColorState,
+                generatePalette = generatePalette,
+                toggleFavorite = onToggleFavorite,
+                onCategoriesClick = {
+                    onOpenSheet(
+                        DetailsBottomSheetScreen.CategoriesSheet(
+                            setCategories = categoryActions.set
                         )
-                    },
-                    onTrackingClick = { onOpenSheet(DetailsBottomSheetScreen.TrackingSheet) },
-                    onArtworkClick = { onOpenSheet(DetailsBottomSheetScreen.ArtworkSheet) },
-                    onSimilarClick = onSimilarClick,
-                    onMergeClick = { onOpenSheet(DetailsBottomSheetScreen.MergeSheet) },
-                    onLinksClick = { onOpenSheet(DetailsBottomSheetScreen.ExternalLinksSheet) },
-                    onShareClick = onShareClick,
-                    descriptionActions = descriptionActions,
-                    informationActions = informationActions,
-                    onQuickReadClick = { chapterActions.openNext() },
-                )
-            }
+                    )
+                },
+                onTrackingClick = { onOpenSheet(DetailsBottomSheetScreen.TrackingSheet) },
+                onArtworkClick = { onOpenSheet(DetailsBottomSheetScreen.ArtworkSheet) },
+                onSimilarClick = onSimilarClick,
+                onMergeClick = { onOpenSheet(DetailsBottomSheetScreen.MergeSheet) },
+                onLinksClick = { onOpenSheet(DetailsBottomSheetScreen.ExternalLinksSheet) },
+                onShareClick = onShareClick,
+                descriptionActions = descriptionActions,
+                informationActions = informationActions,
+                onQuickReadClick = { chapterActions.openNext() },
+            )
         }
 
         VerticalDivider(Modifier.align(Alignment.TopCenter))
 
         val listState = rememberLazyListState()
 
-        VerticalFastScroller(
-            listState = listState,
-            modifier =
-                Modifier.align(Alignment.TopEnd).fillMaxWidth(.5f).fillMaxHeight().clipToBounds(),
-            thumbColor = themeColorState.primaryColor,
-            topContentPadding = incomingContentPadding.calculateTopPadding(),
-            bottomContentPadding = incomingContentPadding.calculateBottomPadding(),
+        LazyColumnMMD(
+            modifier = Modifier.align(Alignment.TopEnd).fillMaxWidth(.5f).fillMaxHeight(),
+            state = listState,
         ) {
-            LazyColumnMMD(state = listState, contentPadding = chapterContentPadding) {
-                if (isInitialized) {
-                    chapterList(
-                        chapters =
-                            if (screenState.general.isSearching) screenState.general.searchChapters
-                            else screenState.chapters.activeChapters,
-                        screenState = screenState,
-                        themeColorState = themeColorState,
-                        chapterActions = chapterActions,
-                        onBookmark = onBookmark,
-                        onRead = onRead,
-                        onOpenSheet = onOpenSheet,
-                    )
-                }
+            if (isInitialized) {
+                chapterList(
+                    chapters =
+                        if (screenState.general.isSearching) screenState.general.searchChapters
+                        else screenState.chapters.activeChapters,
+                    screenState = screenState,
+                    themeColorState = themeColorState,
+                    chapterActions = chapterActions,
+                    onBookmark = onBookmark,
+                    onRead = onRead,
+                    onOpenSheet = onOpenSheet,
+                )
+            }
+            item {
+                Spacer(
+                    modifier =
+                        Modifier.padding(bottom = chapterContentPadding.calculateBottomPadding())
+                )
             }
         }
     }

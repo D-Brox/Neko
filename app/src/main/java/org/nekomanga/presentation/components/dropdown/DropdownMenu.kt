@@ -1,31 +1,17 @@
 package org.nekomanga.presentation.components.dropdown
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
 import com.mudita.mmd.ThemeMMD
-import me.saket.cascade.CascadeColumnScope
-import me.saket.cascade.CascadeDropdownMenu
-import org.nekomanga.presentation.components.UiText
+import com.mudita.mmd.components.menus.DropdownMenuItemMMD
+import com.mudita.mmd.components.menus.DropdownMenuMMD
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.theme.Size
-
-@Immutable
-data class DropdownMenuItem(
-    val title: UiText,
-    val icon: ImageVector,
-    val subtitle: UiText? = null,
-    val onClick: () -> Unit,
-)
 
 @Composable
 fun NekoDropdownMenu(
@@ -33,7 +19,7 @@ fun NekoDropdownMenu(
     onDismissRequest: () -> Unit,
     themeColorState: ThemeColorState,
     modifier: Modifier = Modifier,
-    content: @Composable CascadeColumnScope.() -> Unit,
+    content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit,
 ) {
     val colors =
         MaterialTheme.colorScheme.copy(
@@ -45,19 +31,56 @@ fun NekoDropdownMenu(
         )
 
     ThemeMMD() {
-        CompositionLocalProvider(
-            LocalRippleConfiguration provides (themeColorState.rippleConfiguration)
+        DropdownMenuMMD(
+            expanded = expanded,
+            onDismissRequest = onDismissRequest,
+            offset = DpOffset(Size.smedium, Size.none),
+            modifier = modifier,
         ) {
-            CascadeDropdownMenu(
-                expanded = expanded,
-                offset = DpOffset(Size.smedium, Size.none),
-                fixedWidth = 250.dp,
-                modifier = modifier.background(color = MaterialTheme.colorScheme.surfaceContainer),
-                shape = RoundedCornerShape(Size.medium),
-                properties = PopupProperties(),
-                onDismissRequest = onDismissRequest,
-                content = content,
-            )
+            CompositionLocalProvider(
+                LocalRippleConfiguration provides themeColorState.rippleConfiguration
+            ) {
+                content()
+            }
         }
     }
+}
+
+@Composable
+fun NekoDropdownMenuItem(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    leadingIcon: ImageVector? = null,
+    trailingIcon: ImageVector? = null,
+    enabled: Boolean = true,
+) {
+    DropdownMenuItemMMD(
+        text = { androidx.compose.material3.Text(text = text) },
+        onClick = onClick,
+        modifier = modifier,
+        leadingIcon =
+            if (leadingIcon != null) {
+                {
+                    androidx.compose.material3.Icon(
+                        imageVector = leadingIcon,
+                        contentDescription = null,
+                    )
+                }
+            } else {
+                null
+            },
+        trailingIcon =
+            if (trailingIcon != null) {
+                {
+                    androidx.compose.material3.Icon(
+                        imageVector = trailingIcon,
+                        contentDescription = null,
+                    )
+                }
+            } else {
+                null
+            },
+        enabled = enabled,
+    )
 }

@@ -13,6 +13,8 @@ fun ChildScreenScaffold(
     refreshState: RefreshState = RefreshState(),
     snackbarHost: @Composable () -> Unit = {},
     topBar: @Composable () -> Unit,
+    bottomBar: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     PullRefresh(
@@ -21,8 +23,13 @@ fun ChildScreenScaffold(
         onRefresh = refreshState.onRefresh,
         trackColor = refreshState.trackColor ?: MaterialTheme.colorScheme.secondary,
     ) { modifier ->
-        Scaffold(modifier = modifier.fillMaxSize(), topBar = topBar, snackbarHost = snackbarHost) {
-            innerPadding ->
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            topBar = topBar,
+            bottomBar = bottomBar,
+            snackbarHost = snackbarHost,
+            floatingActionButton = floatingActionButton,
+        ) { innerPadding ->
             content(innerPadding)
         }
     }

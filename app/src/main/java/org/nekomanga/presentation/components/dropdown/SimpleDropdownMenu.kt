@@ -1,15 +1,10 @@
 package org.nekomanga.presentation.components.dropdown
 
-import androidx.compose.foundation.background
-import androidx.compose.material3.DropdownMenuItem as MaterialDropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.PersistentList
-import me.saket.cascade.CascadeColumnScope
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.theme.ThemeColorState
 
@@ -41,7 +36,7 @@ fun SimpleDropdownMenu(
 }
 
 @Composable
-private fun CascadeColumnScope.Row(
+private fun Row(
     item: SimpleDropDownItem,
     enabledStyle: TextStyle,
     disabledStyle: TextStyle,
@@ -50,69 +45,28 @@ private fun CascadeColumnScope.Row(
 
     when (item) {
         is SimpleDropDownItem.Parent -> {
-
-            val style =
-                when (item.enabled) {
-                    true -> enabledStyle
-                    false -> disabledStyle
-                }
-
-            DropdownMenuItem(
-                text = { TextMMD(text = item.text.asString(), style = style) },
-                modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
+            // DropdownMenuMMD doesn't support cascading menus
+            // Display parent as a regular item
+            NekoDropdownMenuItem(
+                text = item.text.asString(),
+                onClick = {
+                    onDismiss()
+                    // Parent items typically don't have a direct action
+                },
                 enabled = item.enabled,
-                children = {
-                    for (child in item.children) {
-                        Row(
-                            item = child,
-                            enabledStyle = enabledStyle,
-                            disabledStyle = disabledStyle,
-                            onDismiss = onDismiss,
-                        )
-                    }
-                },
-                childrenHeader = {
-                    DropdownMenuHeader(
-                        modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
-                        text = { TextMMD(text = item.text.asString(), style = style) },
-                    )
-                },
             )
         }
         is SimpleDropDownItem.Action -> {
-            val style =
-                when (item.enabled) {
-                    true -> enabledStyle
-                    false -> disabledStyle
-                }
-            Item(
+            NekoDropdownMenuItem(
                 text = item.text.asString(),
-                style = style,
+                onClick = {
+                    onDismiss()
+                    item.onClick()
+                },
                 enabled = item.enabled,
-                onClick = item.onClick,
-                onDismiss = onDismiss,
             )
         }
     }
-}
-
-@Composable
-private fun Item(
-    text: String,
-    style: TextStyle,
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    MaterialDropdownMenuItem(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
-        enabled = enabled,
-        text = { TextMMD(text = text, style = style) },
-        onClick = {
-            onDismiss()
-            onClick()
-        },
-    )
 }
 
 @Immutable

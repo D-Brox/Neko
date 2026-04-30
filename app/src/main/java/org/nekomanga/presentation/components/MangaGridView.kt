@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import com.cheonjaeung.compose.grid.SimpleGridCells
 import com.cheonjaeung.compose.grid.VerticalGrid
 import com.mudita.mmd.components.lazy.LazyColumnMMD
-import com.mudita.mmd.components.progress_indicator.LinearProgressIndicatorMMD
 import com.mudita.mmd.components.text.TextMMD
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.PersistentList
@@ -156,16 +155,6 @@ fun MangaGrid(
                         onLongClick = onLongClick,
                     )
                 }
-            }
-        }
-
-        if (pageLoading) {
-            item {
-                LinearProgressIndicatorMMD(
-                    progress = { 0.5F },
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.secondary,
-                )
             }
         }
     }

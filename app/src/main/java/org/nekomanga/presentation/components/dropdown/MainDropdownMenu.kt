@@ -1,28 +1,19 @@
 package org.nekomanga.presentation.components.dropdown
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.DropdownMenuItem as MaterialDropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.mudita.mmd.components.text.TextMMD
 import org.nekomanga.R
 import org.nekomanga.presentation.components.Divider
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.icons.IncognitoIcon
 import org.nekomanga.presentation.components.icons.IncognitoOffIcon
 import org.nekomanga.presentation.components.theme.ThemeColorState
 import org.nekomanga.presentation.components.theme.defaultThemeColorState
-import org.nekomanga.presentation.theme.Size
 
 @Composable
 fun MainDropdownMenu(
@@ -46,23 +37,23 @@ fun MainDropdownMenu(
                 }
 
             listOf(
-                DropdownMenuItem(
+                DropdownMenuItemData(
                     title = UiText.StringResource(incognitoText),
                     subtitle = UiText.StringResource(R.string.pauses_reading_history),
                     icon = incognitoIcon,
                     onClick = incognitoModeClick,
                 ),
-                DropdownMenuItem(
+                DropdownMenuItemData(
                     title = UiText.StringResource(R.string.settings),
                     icon = Icons.Outlined.Settings,
                     onClick = settingsClick,
                 ),
-                DropdownMenuItem(
+                DropdownMenuItemData(
                     title = UiText.StringResource(R.string.stats),
                     icon = Icons.Outlined.QueryStats,
                     onClick = statsClick,
                 ),
-                DropdownMenuItem(
+                DropdownMenuItemData(
                     title = UiText.StringResource(R.string.about),
                     icon = Icons.Outlined.Info,
                     onClick = aboutClick,
@@ -76,10 +67,15 @@ fun MainDropdownMenu(
         themeColorState = themeColorState,
     ) {
         menuItems.forEachIndexed { index, item ->
-            Row(title = item.title, subTitle = item.subtitle, icon = item.icon) {
-                item.onClick()
-                onDismiss()
-            }
+            Row(
+                title = item.title,
+                subTitle = item.subtitle,
+                icon = item.icon,
+                onClick = {
+                    onDismiss()
+                    item.onClick()
+                },
+            )
             if (index == 0) {
                 Divider()
             }
@@ -89,36 +85,12 @@ fun MainDropdownMenu(
 
 @Composable
 private fun Row(title: UiText, subTitle: UiText? = null, icon: ImageVector, onClick: () -> Unit) {
-    MaterialDropdownMenuItem(
-        text = {
-            Column {
-                TextMMD(
-                    text = title.asString(),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                if (subTitle != null) {
-                    TextMMD(
-                        text = subTitle.asString(),
-                        style =
-                            MaterialTheme.typography.bodySmall.copy(
-                                color =
-                                    MaterialTheme.colorScheme.onSurface.copy(
-                                        alpha = NekoColors.mediumAlphaLowContrast
-                                    )
-                            ),
-                    )
-                }
-            }
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                modifier = Modifier.size(Size.large),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface,
-            )
-        },
-        onClick = onClick,
-    )
+    NekoDropdownMenuItem(text = title.asString(), onClick = onClick, leadingIcon = icon)
 }
+
+private data class DropdownMenuItemData(
+    val title: UiText,
+    val subtitle: UiText? = null,
+    val icon: ImageVector,
+    val onClick: () -> Unit,
+)

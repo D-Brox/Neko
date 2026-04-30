@@ -111,7 +111,7 @@ dependencies {
 
     implementation(kotlinx.bundles.kotlin)
     implementation(libs.material3)
-    implementation(libs.foundation.layout)
+    implementation(compose.foundation)
 
     coreLibraryDesugaring(libs.desugaring)
 

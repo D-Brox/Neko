@@ -1,23 +1,21 @@
 package org.nekomanga.presentation.screens.manga
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Sync
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -28,12 +26,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import com.mudita.mmd.components.buttons.ButtonDefaultsMMD
+import com.mudita.mmd.components.buttons.ButtonMMD
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
@@ -41,7 +37,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.nekomanga.R
-import org.nekomanga.presentation.components.NekoColors
 import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.dropdown.SimpleDropDownItem
 import org.nekomanga.presentation.components.dropdown.SimpleDropdownMenu
@@ -63,7 +58,6 @@ import org.nekomanga.presentation.theme.Size
 @Composable
 fun ButtonBlock(
     hideButtonText: Boolean,
-    isInitialized: Boolean,
     isMerged: Boolean,
     inLibrary: Boolean,
     loggedIntoTrackers: Boolean,
@@ -78,17 +72,6 @@ fun ButtonBlock(
     shareClick: () -> Unit,
     moveCategories: () -> Unit,
 ) {
-    if (!isInitialized) return
-
-    val checkedButtonColors = ButtonDefaultsMMD.outlinedButtonColors()
-    val checkedBorderStroke = BorderStroke(Size.extraExtraTiny, Color.Transparent)
-    val uncheckedButtonColors = ButtonDefaultsMMD.outlinedButtonColors()
-    val uncheckedBorderStroke =
-        BorderStroke(
-            Size.extraExtraTiny,
-            themeColorState.containerColor.copy(alpha = NekoColors.mediumAlphaHighContrast),
-        )
-
     val (padding, buttonModifier) =
         remember(hideButtonText) {
             if (hideButtonText) {
@@ -209,13 +192,10 @@ fun ButtonBlock(
         }
 
     // The UI is rendered by iterating over the data list.
-    Row(
-        modifier =
-            Modifier.fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = Size.small),
-        verticalAlignment = Alignment.CenterVertically,
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(Size.small),
+        verticalArrangement = Arrangement.spacedBy(Size.small),
     ) {
         actionButtons.forEach { data ->
             // Use a key for performance and state correctness in loops
@@ -224,8 +204,7 @@ fun ButtonBlock(
                     data = data,
                     modifier = buttonModifier,
                     contentPadding = padding,
-                    colors = if (data.isChecked) checkedButtonColors else uncheckedButtonColors,
-                    border = if (data.isChecked) checkedBorderStroke else uncheckedBorderStroke,
+                    isChecked = data.isChecked,
                     hideText = hideButtonText,
                     themeColorState = themeColorState,
                 )
@@ -240,8 +219,7 @@ private fun ActionButton(
     data: ActionButtonData,
     modifier: Modifier,
     contentPadding: PaddingValues,
-    colors: ButtonColors,
-    border: BorderStroke,
+    isChecked: Boolean,
     hideText: Boolean,
     themeColorState: ThemeColorState,
 ) {
@@ -260,14 +238,7 @@ private fun ActionButton(
         }
     }
 
-    OutlinedButtonMMD(
-        onClick = finalOnClick,
-        modifier = if (data.dropdownItems != null) Modifier.size(Size.huge) else modifier,
-        colors = colors,
-        border = border,
-        contentPadding =
-            if (data.dropdownItems != null) PaddingValues(Size.none) else contentPadding,
-    ) {
+    val content: @Composable (RowScope.() -> Unit) = {
         Box {
             Row {
                 Icon(
@@ -316,6 +287,24 @@ private fun ActionButton(
                         .toPersistentList(),
             )
         }
+    }
+
+    if (isChecked) {
+        ButtonMMD(
+            onClick = finalOnClick,
+            modifier = if (data.dropdownItems != null) Modifier.size(Size.huge) else modifier,
+            contentPadding =
+                if (data.dropdownItems != null) PaddingValues(Size.none) else contentPadding,
+            content = content,
+        )
+    } else {
+        OutlinedButtonMMD(
+            onClick = finalOnClick,
+            modifier = if (data.dropdownItems != null) Modifier.size(Size.huge) else modifier,
+            contentPadding =
+                if (data.dropdownItems != null) PaddingValues(Size.none) else contentPadding,
+            content = content,
+        )
     }
 }
 
