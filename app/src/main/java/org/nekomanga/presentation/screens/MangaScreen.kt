@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -36,10 +38,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.unit.dp
 import androidx.core.content.getSystemService
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
@@ -91,7 +95,6 @@ import org.nekomanga.presentation.components.UiText
 import org.nekomanga.presentation.components.VerticalDivider
 import org.nekomanga.presentation.components.dialog.RemovedChaptersDialog
 import org.nekomanga.presentation.components.dynamicTextSelectionColor
-import org.nekomanga.presentation.components.nekoRippleConfiguration
 import org.nekomanga.presentation.components.scaffold.ChildScreenScaffold
 import org.nekomanga.presentation.components.snackbar.NekoSnackbarHost
 import org.nekomanga.presentation.components.theme.ThemeColorState
@@ -550,7 +553,7 @@ private fun MangaScreenWrapper(
             if (!isTablet) {
                 {
                     NavigationBarMMD(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().imePadding(),
                         content = {
                             listOf(
                                     Icons.Filled.Info to "Info",
@@ -703,46 +706,54 @@ private fun VerticalLayout(
     onRead: (ChapterItem) -> Unit,
     selectedTabIndex: Int,
 ) {
-    if (selectedTabIndex == 0) {
-        // Info tab: Show full header with cover, info, buttons, description
-        MangaDetailsHeader(
-            mangaDetailScreenState = screenState,
-            isInitialized = isInitialized,
-            windowSizeClass = windowSizeClass,
-            isLoggedIntoTrackers = screenState.track.loggedInTrackService.isNotEmpty(),
-            themeColorState = themeColorState,
-            generatePalette = generatePalette,
-            toggleFavorite = onToggleFavorite,
-            onCategoriesClick = {
-                onOpenSheet(
-                    DetailsBottomSheetScreen.CategoriesSheet(setCategories = categoryActions.set)
-                )
-            },
-            onTrackingClick = { onOpenSheet(DetailsBottomSheetScreen.TrackingSheet) },
-            onArtworkClick = { onOpenSheet(DetailsBottomSheetScreen.ArtworkSheet) },
-            onSimilarClick = onSimilarClick,
-            onMergeClick = { onOpenSheet(DetailsBottomSheetScreen.MergeSheet) },
-            onLinksClick = { onOpenSheet(DetailsBottomSheetScreen.ExternalLinksSheet) },
-            onShareClick = onShareClick,
-            descriptionActions = descriptionActions,
-            informationActions = informationActions,
-            onQuickReadClick = { chapterActions.openNext() },
-        )
-    } else {
-        val listState = rememberLazyListState()
-        LazyColumnMMD(state = listState) {
-            if (isInitialized) {
-                chapterList(
-                    chapters =
-                        if (screenState.general.isSearching) screenState.general.searchChapters
-                        else screenState.chapters.activeChapters,
-                    screenState = screenState,
-                    themeColorState = themeColorState,
-                    chapterActions = chapterActions,
-                    onBookmark = onBookmark,
-                    onRead = onRead,
-                    onOpenSheet = onOpenSheet,
-                )
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (selectedTabIndex == 0) {
+            // Info tab: Show full header with cover, info, buttons, description
+            MangaDetailsHeader(
+                mangaDetailScreenState = screenState,
+                isInitialized = isInitialized,
+                windowSizeClass = windowSizeClass,
+                isLoggedIntoTrackers = screenState.track.loggedInTrackService.isNotEmpty(),
+                themeColorState = themeColorState,
+                generatePalette = generatePalette,
+                toggleFavorite = onToggleFavorite,
+                onCategoriesClick = {
+                    onOpenSheet(
+                        DetailsBottomSheetScreen.CategoriesSheet(
+                            setCategories = categoryActions.set
+                        )
+                    )
+                },
+                onTrackingClick = { onOpenSheet(DetailsBottomSheetScreen.TrackingSheet) },
+                onArtworkClick = { onOpenSheet(DetailsBottomSheetScreen.ArtworkSheet) },
+                onSimilarClick = onSimilarClick,
+                onMergeClick = { onOpenSheet(DetailsBottomSheetScreen.MergeSheet) },
+                onLinksClick = { onOpenSheet(DetailsBottomSheetScreen.ExternalLinksSheet) },
+                onShareClick = onShareClick,
+                descriptionActions = descriptionActions,
+                informationActions = informationActions,
+                onQuickReadClick = { chapterActions.openNext() },
+            )
+        } else {
+            val listState = rememberLazyListState()
+            LazyColumnMMD(
+                modifier = Modifier.align(Alignment.TopStart).fillMaxHeight().clipToBounds(),
+                state = listState,
+            ) {
+                if (isInitialized) {
+                    chapterList(
+                        chapters =
+                            if (screenState.general.isSearching) screenState.general.searchChapters
+                            else screenState.chapters.activeChapters,
+                        screenState = screenState,
+                        themeColorState = themeColorState,
+                        chapterActions = chapterActions,
+                        onBookmark = onBookmark,
+                        onRead = onRead,
+                        onOpenSheet = onOpenSheet,
+                    )
+                }
+                item { Spacer(modifier = Modifier.size(200.dp)) }
             }
         }
     }
@@ -767,12 +778,6 @@ private fun SideBySideLayout(
     onBookmark: (ChapterItem) -> Unit,
     onRead: (ChapterItem) -> Unit,
 ) {
-
-    val detailsContentPadding =
-        PaddingValues(bottom = incomingContentPadding.calculateBottomPadding())
-
-    val chapterContentPadding =
-        PaddingValues(bottom = incomingContentPadding.calculateBottomPadding())
 
     Box(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxWidth(.5f).fillMaxHeight()) {
@@ -808,7 +813,8 @@ private fun SideBySideLayout(
         val listState = rememberLazyListState()
 
         LazyColumnMMD(
-            modifier = Modifier.align(Alignment.TopEnd).fillMaxWidth(.5f).fillMaxHeight(),
+            modifier =
+                Modifier.align(Alignment.TopEnd).fillMaxWidth(.5f).fillMaxHeight().imePadding(),
             state = listState,
         ) {
             if (isInitialized) {
@@ -825,10 +831,7 @@ private fun SideBySideLayout(
                 )
             }
             item {
-                Spacer(
-                    modifier =
-                        Modifier.padding(bottom = chapterContentPadding.calculateBottomPadding())
-                )
+                Spacer(modifier = Modifier.size(incomingContentPadding.calculateBottomPadding()))
             }
         }
     }
@@ -862,8 +865,6 @@ private fun rememberThemeColorState(
 
             ThemeColorState(
                 primaryColor = color,
-                rippleColor = color,
-                rippleConfiguration = nekoRippleConfiguration(color),
                 textSelectionColors = dynamicTextSelectionColor(color),
                 containerColor = containerColor,
                 onContainerColor = onContainerColor,

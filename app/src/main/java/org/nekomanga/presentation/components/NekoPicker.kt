@@ -40,7 +40,7 @@ import org.nekomanga.ui.theme.ThemedPreviews
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun <T> ExpressivePicker(
+fun <T> NekoPicker(
     value: T,
     items: List<T>,
     onValueChange: (T) -> Unit,
@@ -221,7 +221,7 @@ private fun PreviewNumberPicker(
         var selectedNumber by remember { mutableStateOf(15) }
 
         TextMMD("Integer Picker", style = MaterialTheme.typography.titleMedium)
-        ExpressivePicker(
+        NekoPicker(
             value = selectedNumber,
             items = numberItems,
             onValueChange = { newValue -> selectedNumber = newValue },
@@ -245,7 +245,7 @@ private fun PreviewWeekPicker(
         var selectedDay by remember { mutableStateOf("Wednesday") }
 
         TextMMD("String Picker", style = MaterialTheme.typography.titleMedium)
-        ExpressivePicker(
+        NekoPicker(
             value = selectedDay,
             items = stringItems,
             onValueChange = { newValue -> selectedDay = newValue },

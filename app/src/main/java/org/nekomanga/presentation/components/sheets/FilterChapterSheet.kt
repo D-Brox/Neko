@@ -5,11 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,29 +41,20 @@ fun FilterChapterSheet(
     changeLanguageFilter: (MangaConstants.LanguageOption?) -> Unit,
     setAsGlobal: (MangaConstants.SetGlobal) -> Unit,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        BaseSheet(themeColor = themeColorState) {
-            Sort(themeColorState = themeColorState, sortFilter, changeSort) {
-                setAsGlobal(MangaConstants.SetGlobal.Sort)
-            }
-
-            Filter(themeColorState = themeColorState, filter, changeFilter) {
-                setAsGlobal(MangaConstants.SetGlobal.Filter)
-            }
-
-            Scanlator(themeColorState = themeColorState, sourceFilter, true, changeScanlatorFilter)
-
-            Scanlator(
-                themeColorState = themeColorState,
-                scanlatorFilter,
-                false,
-                changeScanlatorFilter,
-            )
-
-            Language(themeColorState = themeColorState, languageFilter, changeLanguageFilter)
+    BaseSheet(themeColor = themeColorState) {
+        Sort(themeColorState = themeColorState, sortFilter, changeSort) {
+            setAsGlobal(MangaConstants.SetGlobal.Sort)
         }
+
+        Filter(themeColorState = themeColorState, filter, changeFilter) {
+            setAsGlobal(MangaConstants.SetGlobal.Filter)
+        }
+
+        Scanlator(themeColorState = themeColorState, sourceFilter, true, changeScanlatorFilter)
+
+        Scanlator(themeColorState = themeColorState, scanlatorFilter, false, changeScanlatorFilter)
+
+        Language(themeColorState = themeColorState, languageFilter, changeLanguageFilter)
     }
 }
 

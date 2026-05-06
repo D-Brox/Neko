@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +37,6 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.collections.immutable.toPersistentList
 import org.nekomanga.domain.manga.DisplayManga
-import org.nekomanga.presentation.components.listcard.ExpressiveListCard
 import org.nekomanga.presentation.components.listcard.ListCardType
 import org.nekomanga.presentation.theme.Size
 
@@ -160,10 +161,33 @@ private fun MangaListItem(
     onClick: (Long) -> Unit,
     onLongClick: (DisplayManga) -> Unit,
 ) {
-    ExpressiveListCard(
-        modifier = Modifier.padding(horizontal = Size.small),
-        listCardType = listCardType,
-    ) {
+    val shape =
+        when (listCardType) {
+            ListCardType.Top ->
+                RoundedCornerShape(
+                    topStart = Size.medium,
+                    topEnd = Size.medium,
+                    bottomEnd = Size.tiny,
+                    bottomStart = Size.tiny,
+                )
+            ListCardType.Center ->
+                RoundedCornerShape(
+                    topStart = Size.tiny,
+                    topEnd = Size.tiny,
+                    bottomEnd = Size.tiny,
+                    bottomStart = Size.tiny,
+                )
+            ListCardType.Single -> RoundedCornerShape(Size.medium)
+            ListCardType.Bottom ->
+                RoundedCornerShape(
+                    topStart = Size.tiny,
+                    topEnd = Size.tiny,
+                    bottomEnd = Size.medium,
+                    bottomStart = Size.medium,
+                )
+            else -> RoundedCornerShape(Size.medium)
+        }
+    ElevatedCard(modifier = Modifier.padding(horizontal = Size.small), shape = shape) {
         MangaRow(
             displayManga = displayManga,
             dynamicCover = dynamicCover,

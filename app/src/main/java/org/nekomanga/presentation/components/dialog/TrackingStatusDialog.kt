@@ -4,14 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,66 +35,61 @@ fun TrackingStatusDialog(
     onDismiss: () -> Unit,
     trackStatusChange: (Int) -> Unit,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration,
-        LocalTextSelectionColors provides themeColorState.textSelectionColors,
-    ) {
-        var selectedStatus by remember { mutableStateOf(initialStatus) }
-        val scope = rememberCoroutineScope()
-        AlertDialog(
-            title = {
-                TextMMD(
-                    text = stringResource(id = R.string.status),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            text = {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    service.statusList.forEachIndexed { index, status ->
-                        val clicked = {
-                            selectedStatus = status
-                            scope.launch {
-                                delay(100L)
-                                trackStatusChange(index)
-                                onDismiss()
-                            }
+    var selectedStatus by remember { mutableStateOf(initialStatus) }
+    val scope = rememberCoroutineScope()
+    AlertDialog(
+        title = {
+            TextMMD(
+                text = stringResource(id = R.string.status),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        text = {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                service.statusList.forEachIndexed { index, status ->
+                    val clicked = {
+                        selectedStatus = status
+                        scope.launch {
+                            delay(100L)
+                            trackStatusChange(index)
+                            onDismiss()
                         }
+                    }
 
-                        Row(
-                            modifier =
-                                Modifier.fillMaxWidth()
-                                    .selectable(
-                                        selected = (status == selectedStatus),
-                                        onClick = { clicked() },
-                                    ),
-                            verticalAlignment = Alignment.CenterVertically,
+                    Row(
+                        modifier =
+                            Modifier.fillMaxWidth()
+                                .selectable(
+                                    selected = (status == selectedStatus),
+                                    onClick = { clicked() },
+                                ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        ButtonMMD(
+                            onClick = { clicked() },
+                            colors =
+                                if (status == selectedStatus) ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
                         ) {
-                            ButtonMMD(
-                                onClick = { clicked() },
-                                colors =
-                                    if (status == selectedStatus) ButtonDefaultsMMD.buttonColors()
-                                    else ButtonDefaultsMMD.outlinedButtonColors(),
-                            ) {
-                                TextMMD(
-                                    text = service.status(status),
-                                    style = MaterialTheme.typography.titleMedium,
-                                )
-                            }
+                            TextMMD(
+                                text = service.status(status),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
                         }
                     }
                 }
-            },
-            onDismissRequest = onDismiss,
-            confirmButton = {
-                TextButton(
-                    onClick = onDismiss,
-                    colors =
-                        ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
-                ) {
-                    TextMMD(text = stringResource(id = R.string.cancel))
-                }
-            },
-        )
-    }
+            }
+        },
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(
+                onClick = onDismiss,
+                colors =
+                    ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
+            ) {
+                TextMMD(text = stringResource(id = R.string.cancel))
+            }
+        },
+    )
 }

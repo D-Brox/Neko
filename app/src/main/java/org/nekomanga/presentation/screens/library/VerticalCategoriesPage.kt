@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.outlined.Circle
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -43,7 +45,6 @@ import org.nekomanga.domain.manga.LibraryMangaItem
 import org.nekomanga.presentation.components.MangaGridItem
 import org.nekomanga.presentation.components.MangaRow
 import org.nekomanga.presentation.components.NekoColors
-import org.nekomanga.presentation.components.listcard.ExpressiveListCard
 import org.nekomanga.presentation.components.listcard.ListCardType
 import org.nekomanga.presentation.functions.numberOfColumns
 import org.nekomanga.presentation.theme.Size
@@ -247,10 +248,32 @@ private fun ListItem(
             totalSize == 1 -> ListCardType.Single
             else -> ListCardType.Center
         }
-    ExpressiveListCard(
-        modifier = modifier.padding(horizontal = Size.small),
-        listCardType = listCardType,
-    ) {
+    val shape =
+        when (listCardType) {
+            ListCardType.Top ->
+                RoundedCornerShape(
+                    topStart = Size.medium,
+                    topEnd = Size.medium,
+                    bottomEnd = Size.tiny,
+                    bottomStart = Size.tiny,
+                )
+            ListCardType.Center ->
+                RoundedCornerShape(
+                    topStart = Size.tiny,
+                    topEnd = Size.tiny,
+                    bottomEnd = Size.tiny,
+                    bottomStart = Size.tiny,
+                )
+            ListCardType.Single -> RoundedCornerShape(Size.medium)
+            ListCardType.Bottom ->
+                RoundedCornerShape(
+                    topStart = Size.tiny,
+                    topEnd = Size.tiny,
+                    bottomEnd = Size.medium,
+                    bottomStart = Size.medium,
+                )
+        }
+    ElevatedCard(modifier = modifier.padding(horizontal = Size.small), shape = shape) {
         MangaRow(
             modifier =
                 Modifier.fillMaxWidth()

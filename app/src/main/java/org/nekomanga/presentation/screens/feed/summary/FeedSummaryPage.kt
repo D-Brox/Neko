@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,7 +25,6 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import org.nekomanga.R
 import org.nekomanga.presentation.components.UiText
-import org.nekomanga.presentation.components.listcard.ExpressiveListCard
 import org.nekomanga.presentation.components.listcard.ListCardType
 import org.nekomanga.presentation.screens.EmptyScreen
 import org.nekomanga.presentation.screens.feed.updates.UpdatesCard
@@ -78,9 +79,34 @@ fun FeedSummaryPage(
                     }
                 if (feedManga.chapters.isNotEmpty()) {
                     val chapter = feedManga.chapters.first()
-                    ExpressiveListCard(
+                    val shape =
+                        when (listCardType) {
+                            ListCardType.Top ->
+                                RoundedCornerShape(
+                                    topStart = Size.medium,
+                                    topEnd = Size.medium,
+                                    bottomEnd = Size.tiny,
+                                    bottomStart = Size.tiny,
+                                )
+                            ListCardType.Center ->
+                                RoundedCornerShape(
+                                    topStart = Size.tiny,
+                                    topEnd = Size.tiny,
+                                    bottomEnd = Size.tiny,
+                                    bottomStart = Size.tiny,
+                                )
+                            ListCardType.Single -> RoundedCornerShape(Size.medium)
+                            ListCardType.Bottom ->
+                                RoundedCornerShape(
+                                    topStart = Size.tiny,
+                                    topEnd = Size.tiny,
+                                    bottomEnd = Size.medium,
+                                    bottomStart = Size.medium,
+                                )
+                        }
+                    ElevatedCard(
                         modifier = Modifier.padding(horizontal = Size.small),
-                        listCardType = listCardType,
+                        shape = shape,
                     ) {
                         ContinueReadingCard(
                             feedManga = feedManga,
@@ -129,10 +155,32 @@ fun FeedSummaryPage(
                         else -> ListCardType.Center
                     }
                 val chapter = feedManga.chapters.first()
-                ExpressiveListCard(
-                    modifier = Modifier.padding(horizontal = Size.small),
-                    listCardType = listCardType,
-                ) {
+                val shape =
+                    when (listCardType) {
+                        ListCardType.Top ->
+                            RoundedCornerShape(
+                                topStart = Size.medium,
+                                topEnd = Size.medium,
+                                bottomEnd = Size.tiny,
+                                bottomStart = Size.tiny,
+                            )
+                        ListCardType.Center ->
+                            RoundedCornerShape(
+                                topStart = Size.tiny,
+                                topEnd = Size.tiny,
+                                bottomEnd = Size.tiny,
+                                bottomStart = Size.tiny,
+                            )
+                        ListCardType.Single -> RoundedCornerShape(Size.medium)
+                        ListCardType.Bottom ->
+                            RoundedCornerShape(
+                                topStart = Size.tiny,
+                                topEnd = Size.tiny,
+                                bottomEnd = Size.medium,
+                                bottomStart = Size.medium,
+                            )
+                    }
+                ElevatedCard(modifier = Modifier.padding(horizontal = Size.small), shape = shape) {
                     UpdatesCard(
                         chapterItem = chapter,
                         updateDate = feedManga.date,
@@ -177,10 +225,32 @@ fun FeedSummaryPage(
                         else -> ListCardType.Center
                     }
                 val chapter = feedManga.chapters.first()
-                ExpressiveListCard(
-                    modifier = Modifier.padding(horizontal = Size.small),
-                    listCardType = listCardType,
-                ) {
+                val shape =
+                    when (listCardType) {
+                        ListCardType.Top ->
+                            RoundedCornerShape(
+                                topStart = Size.medium,
+                                topEnd = Size.medium,
+                                bottomEnd = Size.tiny,
+                                bottomStart = Size.tiny,
+                            )
+                        ListCardType.Center ->
+                            RoundedCornerShape(
+                                topStart = Size.tiny,
+                                topEnd = Size.tiny,
+                                bottomEnd = Size.tiny,
+                                bottomStart = Size.tiny,
+                            )
+                        ListCardType.Single -> RoundedCornerShape(Size.medium)
+                        ListCardType.Bottom ->
+                            RoundedCornerShape(
+                                topStart = Size.tiny,
+                                topEnd = Size.tiny,
+                                bottomEnd = Size.medium,
+                                bottomStart = Size.medium,
+                            )
+                    }
+                ElevatedCard(modifier = Modifier.padding(horizontal = Size.small), shape = shape) {
                     NewlyAddedCard(
                         chapterItem = chapter,
                         mangaTitle = feedManga.mangaTitle,

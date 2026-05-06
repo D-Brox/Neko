@@ -77,7 +77,6 @@ android {
         compose = true
         // Disable some unused things
         aidl = false
-        renderScript = false
         shaders = false
         buildConfig = true
     }
@@ -111,7 +110,6 @@ dependencies {
 
     implementation(kotlinx.bundles.kotlin)
     implementation(libs.material3)
-    implementation(compose.foundation)
 
     coreLibraryDesugaring(libs.desugaring)
 
@@ -168,6 +166,7 @@ dependencies {
     implementation(libs.cascade.compose)
 
     // Compose
+    implementation(compose.foundation)
     implementation(compose.bundles.compose)
     implementation(compose.gap)
     implementation(compose.bundles.accompanist)
@@ -201,7 +200,6 @@ tasks.withType<KotlinCompile> {
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                 "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
                 "-opt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi",
-                "-opt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi",
                 "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
                 "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
                 "-opt-in=coil3.annotation.ExperimentalCoilApi",

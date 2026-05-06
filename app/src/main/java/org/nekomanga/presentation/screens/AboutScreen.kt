@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -50,8 +52,6 @@ import org.nekomanga.presentation.components.ToolTipButton
 import org.nekomanga.presentation.components.dialog.AppUpdateDialog
 import org.nekomanga.presentation.components.icons.DiscordIcon
 import org.nekomanga.presentation.components.icons.GithubIcon
-import org.nekomanga.presentation.components.listcard.ExpressiveListCard
-import org.nekomanga.presentation.components.listcard.ListCardType
 import org.nekomanga.presentation.components.scaffold.ChildScreenScaffold
 import org.nekomanga.presentation.components.snackbar.NekoSnackbarHost
 import org.nekomanga.presentation.screens.about.AboutTopAppBar
@@ -162,7 +162,9 @@ private fun AboutWrapper(
             item { LogoHeader() }
             item { Spacer(modifier = Modifier.size(Size.large)) }
             item {
-                ExpressiveListCard(listCardType = ListCardType.Top) {
+                ElevatedCard(
+                    shape = RoundedCornerShape(Size.medium, Size.medium, Size.tiny, Size.tiny)
+                ) {
                     TextPreferenceWidget(
                         title = stringResource(R.string.version),
                         subtitle =
@@ -182,7 +184,9 @@ private fun AboutWrapper(
             }
 
             item {
-                ExpressiveListCard(listCardType = ListCardType.Center) {
+                ElevatedCard(
+                    shape = RoundedCornerShape(Size.tiny, Size.tiny, Size.tiny, Size.tiny)
+                ) {
                     TextPreferenceWidget(
                         title = stringResource(R.string.check_for_updates),
                         onPreferenceClick = {
@@ -196,7 +200,9 @@ private fun AboutWrapper(
                 }
             }
             item {
-                ExpressiveListCard(listCardType = ListCardType.Center) {
+                ElevatedCard(
+                    shape = RoundedCornerShape(Size.tiny, Size.tiny, Size.tiny, Size.tiny)
+                ) {
                     TextPreferenceWidget(
                         title = stringResource(R.string.whats_new),
                         onPreferenceClick = {
@@ -213,7 +219,9 @@ private fun AboutWrapper(
             }
 
             item {
-                ExpressiveListCard(listCardType = ListCardType.Center) {
+                ElevatedCard(
+                    shape = RoundedCornerShape(Size.tiny, Size.tiny, Size.tiny, Size.tiny)
+                ) {
                     TextPreferenceWidget(
                         title = stringResource(R.string.open_source_licenses),
                         onPreferenceClick = onClickLicenses,
@@ -222,7 +230,9 @@ private fun AboutWrapper(
             }
 
             item {
-                ExpressiveListCard(listCardType = ListCardType.Bottom) {
+                ElevatedCard(
+                    shape = RoundedCornerShape(Size.tiny, Size.tiny, Size.medium, Size.medium)
+                ) {
                     TextPreferenceWidget(
                         title = stringResource(R.string.privacy_policy),
                         onPreferenceClick = { uriHandler.openUri(PRIVACY_POLICY_URL) },

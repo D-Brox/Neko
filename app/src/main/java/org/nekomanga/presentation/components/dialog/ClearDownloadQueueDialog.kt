@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -13,18 +12,13 @@ import androidx.compose.ui.res.stringResource
 import com.mudita.mmd.components.text.TextMMD
 import jp.wasabeef.gap.Gap
 import org.nekomanga.R
-import org.nekomanga.presentation.components.nekoRippleConfiguration
 import org.nekomanga.presentation.theme.Size
 
 /** Simple Dialog to add a new category */
 @Composable
 fun ClearDownloadQueueDialog(onDismiss: () -> Unit, onConfirm: () -> Unit) {
 
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides
-            nekoRippleConfiguration(MaterialTheme.colorScheme.primary),
-        LocalContentColor provides MaterialTheme.colorScheme.onSurface,
-    ) {
+    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurface) {
         AlertDialog(
             text = {
                 Column {

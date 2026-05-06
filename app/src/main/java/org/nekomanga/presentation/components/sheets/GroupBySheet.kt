@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,43 +29,39 @@ fun GroupBySheet(
     themeColorState: ThemeColorState = defaultThemeColorState(),
     bottomContentPadding: Dp = Size.medium,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        BaseSheet(themeColor = themeColorState, bottomPaddingAroundContent = bottomContentPadding) {
-            val paddingModifier = Modifier.padding(horizontal = Size.small)
+    BaseSheet(themeColor = themeColorState, bottomPaddingAroundContent = bottomContentPadding) {
+        val paddingModifier = Modifier.padding(horizontal = Size.small)
 
-            Gap(Size.medium)
-            TextMMD(
-                modifier = paddingModifier.fillMaxWidth(),
-                text = stringResource(R.string.group_library_by),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-            Gap(Size.medium)
-            groupByOptions.forEach { groupBy ->
-                val textColor =
-                    if (currentGroupBy == groupBy) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.onSurface
+        Gap(Size.medium)
+        TextMMD(
+            modifier = paddingModifier.fillMaxWidth(),
+            text = stringResource(R.string.group_library_by),
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+        )
+        Gap(Size.medium)
+        groupByOptions.forEach { groupBy ->
+            val textColor =
+                if (currentGroupBy == groupBy) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.onSurface
 
-                Row(
-                    modifier =
-                        Modifier.fillMaxWidth()
-                            .conditional(currentGroupBy != groupBy) {
-                                this.clickable(onClick = { groupByClick(groupBy) })
-                            }
-                            .padding(Size.small),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(imageVector = groupBy.icon, contentDescription = null, tint = textColor)
-                    Gap(Size.small)
-                    TextMMD(
-                        text = stringResource(groupBy.nameRes),
-                        modifier = Modifier.weight(1f),
-                        color = textColor,
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .conditional(currentGroupBy != groupBy) {
+                            this.clickable(onClick = { groupByClick(groupBy) })
+                        }
+                        .padding(Size.small),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(imageVector = groupBy.icon, contentDescription = null, tint = textColor)
+                Gap(Size.small)
+                TextMMD(
+                    text = stringResource(groupBy.nameRes),
+                    modifier = Modifier.weight(1f),
+                    color = textColor,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
             }
         }
     }

@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,27 +30,23 @@ fun ExternalLinksSheet(
     externalLinks: List<ExternalLink>,
     onLinkClick: (String, String) -> Unit,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        BaseSheet(themeColor = themeColorState) {
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(Size.small),
-            ) {
-                externalLinks.chunked(2).forEach {
-                    Row(
-                        modifier = if (it.size == 1) Modifier else Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(Size.small),
-                    ) {
-                        it.forEach { externalLink ->
-                            LinkCard(
-                                modifier = if (it.size > 1) Modifier.weight(1f) else Modifier,
-                                externalLink = externalLink,
-                                onLinkClick = onLinkClick,
-                            )
-                        }
+    BaseSheet(themeColor = themeColorState) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = Size.small),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(Size.small),
+        ) {
+            externalLinks.chunked(2).forEach {
+                Row(
+                    modifier = if (it.size == 1) Modifier else Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(Size.small),
+                ) {
+                    it.forEach { externalLink ->
+                        LinkCard(
+                            modifier = if (it.size > 1) Modifier.weight(1f) else Modifier,
+                            externalLink = externalLink,
+                            onLinkClick = onLinkClick,
+                        )
                     }
                 }
             }

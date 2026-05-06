@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,124 +48,115 @@ fun EditCategorySheet(
     confirmClicked: (List<CategoryItem>) -> Unit,
     addToLibraryClick: () -> Unit = {},
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        val context = LocalContext.current
+    val context = LocalContext.current
 
-        val enabledCategories = remember { mangaCategories.associateBy { it.id }.toMutableMap() }
-        val acceptText = remember {
-            mutableStateOf(
-                calculateText(context, mangaCategories, enabledCategories, addingToLibrary)
+    val enabledCategories = remember { mangaCategories.associateBy { it.id }.toMutableMap() }
+    val acceptText = remember {
+        mutableStateOf(calculateText(context, mangaCategories, enabledCategories, addingToLibrary))
+    }
+
+    var showAddCategoryDialog by remember { mutableStateOf(false) }
+
+    val maxLazyHeight = LocalConfiguration.current.screenHeightDp * .4
+
+    BaseSheet(themeColor = themeColorState) {
+        if (showAddCategoryDialog) {
+            AddEditCategoryDialog(
+                themeColorState = themeColorState,
+                currentCategories = categories,
+                onDismiss = { showAddCategoryDialog = false },
+                onConfirm = { category -> addNewCategory(category) },
             )
         }
 
-        var showAddCategoryDialog by remember { mutableStateOf(false) }
+        val paddingModifier = Modifier.padding(horizontal = Size.small)
 
-        val maxLazyHeight = LocalConfiguration.current.screenHeightDp * .4
-
-        BaseSheet(themeColor = themeColorState) {
-            if (showAddCategoryDialog) {
-                AddEditCategoryDialog(
-                    themeColorState = themeColorState,
-                    currentCategories = categories,
-                    onDismiss = { showAddCategoryDialog = false },
-                    onConfirm = { category -> addNewCategory(category) },
-                )
-            }
-
-            val paddingModifier = Modifier.padding(horizontal = Size.small)
-
-            Gap(Size.medium)
-            Row(
-                modifier = paddingModifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                val stringRes = if (addingToLibrary) R.string.add_x_to else R.string.move_x_to
+        Gap(Size.medium)
+        Row(
+            modifier = paddingModifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            val stringRes = if (addingToLibrary) R.string.add_x_to else R.string.move_x_to
+            TextMMD(
+                modifier = paddingModifier,
+                text = stringResource(stringRes),
+                style = MaterialTheme.typography.titleLarge,
+            )
+            TextButton(modifier = paddingModifier, onClick = { showAddCategoryDialog = true }) {
                 TextMMD(
-                    modifier = paddingModifier,
-                    text = stringResource(stringRes),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                TextButton(modifier = paddingModifier, onClick = { showAddCategoryDialog = true }) {
-                    TextMMD(
-                        text = stringResource(id = R.string.plus_new_category),
-                        style =
-                            MaterialTheme.typography.titleSmall.copy(
-                                color = themeColorState.primaryColor
-                            ),
-                    )
-                }
-            }
-            Gap(Size.medium)
-            Divider()
-
-            LazyColumnMMD(
-                modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp)
-            ) {
-                items(items = categories, key = { category -> category.id }) {
-                    category: CategoryItem ->
-                    var state by remember {
-                        mutableStateOf(enabledCategories.contains(category.id))
-                    }
-                    CheckboxRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        checkedState = state,
-                        checkedChange = { newState ->
-                            state = newState
-                            if (state) {
-                                enabledCategories[category.id] = category
-                            } else {
-                                enabledCategories.remove(category.id)
-                            }
-                            acceptText.value =
-                                calculateText(
-                                    context,
-                                    mangaCategories,
-                                    enabledCategories,
-                                    addingToLibrary,
-                                )
-                        },
-                        rowText = category.name,
-                        themeColorState = themeColorState,
-                    )
-                }
-            }
-
-            Divider()
-            Gap(Size.tiny)
-            Row(
-                modifier = paddingModifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                TextButton(
-                    onClick = cancelClick,
-                    colors =
-                        ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
-                ) {
-                    TextMMD(
-                        text = stringResource(id = R.string.cancel),
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                }
-                ElevatedButton(
-                    onClick = {
-                        confirmClicked(enabledCategories.values.toList())
-                        addToLibraryClick()
-                        cancelClick()
-                    },
-                    colors =
-                        ButtonDefaults.elevatedButtonColors(
-                            containerColor = themeColorState.primaryColor
+                    text = stringResource(id = R.string.plus_new_category),
+                    style =
+                        MaterialTheme.typography.titleSmall.copy(
+                            color = themeColorState.primaryColor
                         ),
-                ) {
-                    TextMMD(
-                        text = acceptText.value,
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.surface,
-                    )
-                }
+                )
+            }
+        }
+        Gap(Size.medium)
+        Divider()
+
+        LazyColumnMMD(
+            modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp)
+        ) {
+            items(items = categories, key = { category -> category.id }) { category: CategoryItem ->
+                var state by remember { mutableStateOf(enabledCategories.contains(category.id)) }
+                CheckboxRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    checkedState = state,
+                    checkedChange = { newState ->
+                        state = newState
+                        if (state) {
+                            enabledCategories[category.id] = category
+                        } else {
+                            enabledCategories.remove(category.id)
+                        }
+                        acceptText.value =
+                            calculateText(
+                                context,
+                                mangaCategories,
+                                enabledCategories,
+                                addingToLibrary,
+                            )
+                    },
+                    rowText = category.name,
+                    themeColorState = themeColorState,
+                )
+            }
+        }
+
+        Divider()
+        Gap(Size.tiny)
+        Row(
+            modifier = paddingModifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            TextButton(
+                onClick = cancelClick,
+                colors =
+                    ButtonDefaults.textButtonColors(contentColor = themeColorState.primaryColor),
+            ) {
+                TextMMD(
+                    text = stringResource(id = R.string.cancel),
+                    style = MaterialTheme.typography.titleSmall,
+                )
+            }
+            ElevatedButton(
+                onClick = {
+                    confirmClicked(enabledCategories.values.toList())
+                    addToLibraryClick()
+                    cancelClick()
+                },
+                colors =
+                    ButtonDefaults.elevatedButtonColors(
+                        containerColor = themeColorState.primaryColor
+                    ),
+            ) {
+                TextMMD(
+                    text = acceptText.value,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.surface,
+                )
             }
         }
     }

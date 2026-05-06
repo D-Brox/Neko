@@ -18,14 +18,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,87 +65,78 @@ fun ArtworkSheet(
     shareClick: (Artwork) -> Unit,
     resetClick: () -> Unit,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration,
-        LocalTextSelectionColors provides themeColorState.textSelectionColors,
-    ) {
-        var currentImage by
-            remember(alternativeArtwork) {
-                mutableStateOf(
-                    alternativeArtwork.firstOrNull { it.active } ?: alternativeArtwork.firstOrNull()
-                )
-            }
+    var currentImage by
+        remember(alternativeArtwork) {
+            mutableStateOf(
+                alternativeArtwork.firstOrNull { it.active } ?: alternativeArtwork.firstOrNull()
+            )
+        }
 
-        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-        val (imageHeight, thumbnailSize, gradientHeight) =
-            remember(screenHeight) {
-                Triple(screenHeight * 0.7f, Size.squareCoverLarge, Size.squareCoverLarge / 2f)
-            }
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val (imageHeight, thumbnailSize, gradientHeight) =
+        remember(screenHeight) {
+            Triple(screenHeight * 0.7f, Size.squareCoverLarge, Size.squareCoverLarge / 2f)
+        }
 
-        BaseSheet(themeColor = themeColorState, maxSheetHeightPercentage = .9f) {
-            if (alternativeArtwork.isEmpty() || currentImage == null) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    TextMMD(
-                        text = stringResource(R.string.no_artwork_found),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            } else {
-                val context = LocalContext.current
-
+    BaseSheet(themeColor = themeColorState, maxSheetHeightPercentage = .9f) {
+        if (alternativeArtwork.isEmpty() || currentImage == null) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 TextMMD(
-                    text = currentImage!!.description,
-                    modifier = Modifier.padding(horizontal = Size.small),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.labelLarge,
+                    text = stringResource(R.string.no_artwork_found),
+                    textAlign = TextAlign.Center,
                 )
+            }
+        } else {
+            val context = LocalContext.current
 
-                val mainImageRequest =
-                    remember(currentImage) {
-                        ImageRequest.Builder(context).data(currentImage).build()
-                    }
-                Box(
-                    modifier =
-                        Modifier.fillMaxWidth()
-                            .padding(horizontal = Size.small)
-                            .heightIn(imageHeight / 2, imageHeight),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    AsyncImage(
-                        model = mainImageRequest,
-                        contentDescription = stringResource(R.string.artwork),
-                        contentScale = ContentScale.Fit,
-                    )
-                }
+            TextMMD(
+                text = currentImage!!.description,
+                modifier = Modifier.padding(horizontal = Size.small),
+            )
 
-                Column(verticalArrangement = Arrangement.Bottom) {
-                    Gap(Size.tiny)
-                    ActionButtons(
-                        inLibrary = inLibrary,
-                        themeColorState = themeColorState,
-                        onSave = { currentImage?.let(saveClick) },
-                        onSet = { currentImage?.let(setClick) },
-                        onReset = resetClick,
-                        onShare = { currentImage?.let(shareClick) },
-                    )
-                    if (alternativeArtwork.size > 1) {
-                        Gap(Size.small)
-                        LazyRowMMD(horizontalArrangement = Arrangement.spacedBy(Size.tiny)) {
-                            item { Gap(Size.tiny) }
-                            items(alternativeArtwork, key = { it.cover }) { artwork ->
-                                ArtworkThumbnail(
-                                    artwork = artwork,
-                                    themeColorState = themeColorState,
-                                    thumbnailSize = thumbnailSize,
-                                    gradientHeight = gradientHeight,
-                                    onClick = { currentImage = artwork },
-                                )
-                            }
-                            item { Gap(Size.tiny) }
-                        }
-                    }
+            val mainImageRequest =
+                remember(currentImage) { ImageRequest.Builder(context).data(currentImage).build() }
+            Box(
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .padding(horizontal = Size.small)
+                        .heightIn(imageHeight / 2, imageHeight),
+                contentAlignment = Alignment.Center,
+            ) {
+                AsyncImage(
+                    model = mainImageRequest,
+                    contentDescription = stringResource(R.string.artwork),
+                    contentScale = ContentScale.Fit,
+                )
+            }
+
+            Column(verticalArrangement = Arrangement.Bottom) {
+                Gap(Size.tiny)
+                ActionButtons(
+                    inLibrary = inLibrary,
+                    themeColorState = themeColorState,
+                    onSave = { currentImage?.let(saveClick) },
+                    onSet = { currentImage?.let(setClick) },
+                    onReset = resetClick,
+                    onShare = { currentImage?.let(shareClick) },
+                )
+                if (alternativeArtwork.size > 1) {
                     Gap(Size.small)
+                    LazyRowMMD(horizontalArrangement = Arrangement.spacedBy(Size.tiny)) {
+                        item { Gap(Size.tiny) }
+                        items(alternativeArtwork, key = { it.cover }) { artwork ->
+                            ArtworkThumbnail(
+                                artwork = artwork,
+                                themeColorState = themeColorState,
+                                thumbnailSize = thumbnailSize,
+                                gradientHeight = gradientHeight,
+                                onClick = { currentImage = artwork },
+                            )
+                        }
+                        item { Gap(Size.tiny) }
+                    }
                 }
+                Gap(Size.small)
             }
         }
     }

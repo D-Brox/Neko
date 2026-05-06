@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -34,59 +32,55 @@ fun LibrarySortSheet(
     librarySortClicked: (LibrarySort) -> Unit,
     themeColorState: ThemeColorState = defaultThemeColorState(),
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        val maxLazyHeight = LocalConfiguration.current.screenHeightDp * .6
+    val maxLazyHeight = LocalConfiguration.current.screenHeightDp * .6
 
-        BaseSheet(themeColor = themeColorState) {
-            val paddingModifier = Modifier.padding(horizontal = Size.small)
+    BaseSheet(themeColor = themeColorState) {
+        val paddingModifier = Modifier.padding(horizontal = Size.small)
 
-            Gap(Size.medium)
-            TextMMD(
-                modifier = paddingModifier.fillMaxWidth(),
-                text = stringResource(R.string.sort_by),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-            Gap(Size.medium)
-            LazyColumnMMD(
-                modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp)
-            ) {
-                items(
-                    items = LibrarySort.filteredEntries(),
-                    key = { librarySort -> librarySort.stringRes() },
-                ) { librarySort ->
-                    val textColor =
-                        if (currentLibrarySort == librarySort)
-                            MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = NekoColors.disabledAlphaHighContrast
+        Gap(Size.medium)
+        TextMMD(
+            modifier = paddingModifier.fillMaxWidth(),
+            text = stringResource(R.string.sort_by),
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+        )
+        Gap(Size.medium)
+        LazyColumnMMD(
+            modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp)
+        ) {
+            items(
+                items = LibrarySort.filteredEntries(),
+                key = { librarySort -> librarySort.stringRes() },
+            ) { librarySort ->
+                val textColor =
+                    if (currentLibrarySort == librarySort)
+                        MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = NekoColors.disabledAlphaHighContrast
+                        )
+                    else MaterialTheme.colorScheme.onSurface
+
+                Row(
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .clickable(
+                                enabled = librarySort != currentLibrarySort,
+                                onClick = { librarySortClicked(librarySort) },
                             )
-                        else MaterialTheme.colorScheme.onSurface
-
-                    Row(
-                        modifier =
-                            Modifier.fillMaxWidth()
-                                .clickable(
-                                    enabled = librarySort != currentLibrarySort,
-                                    onClick = { librarySortClicked(librarySort) },
-                                )
-                                .padding(horizontal = Size.small, vertical = Size.smedium),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            imageVector = librarySort.composeIcon(),
-                            contentDescription = null,
-                            tint = textColor,
-                            modifier = Modifier.size(Size.large),
-                        )
-                        Gap(Size.medium)
-                        TextMMD(
-                            text = stringResource(librarySort.stringRes()),
-                            color = textColor,
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
-                    }
+                            .padding(horizontal = Size.small, vertical = Size.smedium),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        imageVector = librarySort.composeIcon(),
+                        contentDescription = null,
+                        tint = textColor,
+                        modifier = Modifier.size(Size.large),
+                    )
+                    Gap(Size.medium)
+                    TextMMD(
+                        text = stringResource(librarySort.stringRes()),
+                        color = textColor,
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 }
             }
         }

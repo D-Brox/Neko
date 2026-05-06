@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -56,127 +54,117 @@ fun DisplayOptionsSheet(
     showLibraryButtonBarToggled: () -> Unit,
     themeColorState: ThemeColorState = defaultThemeColorState(),
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        BaseSheet(themeColor = themeColorState) {
-            val paddingModifier = Modifier.padding(horizontal = Size.small)
+    BaseSheet(themeColor = themeColorState) {
+        val paddingModifier = Modifier.padding(horizontal = Size.small)
 
-            Gap(Size.small)
-            TextMMD(
-                modifier = paddingModifier.fillMaxWidth(),
-                text = stringResource(R.string.display_options),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-            Gap(Size.large)
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(Size.medium),
+        Gap(Size.small)
+        TextMMD(
+            modifier = paddingModifier.fillMaxWidth(),
+            text = stringResource(R.string.display_options),
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+        )
+        Gap(Size.large)
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(Size.medium),
+        ) {
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
+                horizontalArrangement = Arrangement.Center,
             ) {
-                Row(
-                    Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    LibraryDisplayMode.entries().forEach { libraryDisplayMode ->
-                        val isChecked = libraryDisplayMode == currentLibraryDisplayMode
-                        ButtonMMD(
-                            onClick = { libraryDisplayModeClick(libraryDisplayMode) },
-                            modifier =
-                                Modifier.weight(
-                                    if (libraryDisplayMode == LibraryDisplayMode.ComfortableGrid)
-                                        1.25f
-                                    else 1f
-                                ),
-                            colors =
-                                if (isChecked) ButtonDefaultsMMD.buttonColors()
-                                else ButtonDefaultsMMD.outlinedButtonColors(),
-                        ) {
-                            TextMMD(text = libraryDisplayMode.toUiText().asString())
-                        }
+                LibraryDisplayMode.entries().forEach { libraryDisplayMode ->
+                    val isChecked = libraryDisplayMode == currentLibraryDisplayMode
+                    ButtonMMD(
+                        onClick = { libraryDisplayModeClick(libraryDisplayMode) },
+                        modifier =
+                            Modifier.weight(
+                                if (libraryDisplayMode == LibraryDisplayMode.ComfortableGrid) 1.25f
+                                else 1f
+                            ),
+                        colors =
+                            if (isChecked) ButtonDefaultsMMD.buttonColors()
+                            else ButtonDefaultsMMD.outlinedButtonColors(),
+                    ) {
+                        TextMMD(text = libraryDisplayMode.toUiText().asString())
                     }
                 }
+            }
 
-                if (currentLibraryDisplayMode != LibraryDisplayMode.List) {
-                    var sliderPosition by rememberSaveable {
-                        mutableFloatStateOf(((rawColumnCount + .5f) * 2f).roundToInt().toFloat())
-                    }
+            if (currentLibraryDisplayMode != LibraryDisplayMode.List) {
+                var sliderPosition by rememberSaveable {
+                    mutableFloatStateOf(((rawColumnCount + .5f) * 2f).roundToInt().toFloat())
+                }
 
-                    Column(modifier = Modifier.padding(horizontal = Size.medium)) {
-                        val context = LocalContext.current
-                        val isPortrait = !context.isLandscape()
-                        val numberOfColumns =
-                            numberOfColumns(rawValue = sliderPosition, forText = true)
-                        val numberOfColumnsAlt =
-                            numberOfColumns(
-                                rawValue = sliderPosition,
-                                forText = true,
-                                useHeight = true,
-                            )
-                        TextMMD(
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            text =
-                                "Grid size: Portrait: ${if (isPortrait) numberOfColumns else numberOfColumnsAlt} ${Constants.SEPARATOR} Landscape: ${if (isPortrait) numberOfColumnsAlt else numberOfColumns}",
+                Column(modifier = Modifier.padding(horizontal = Size.medium)) {
+                    val context = LocalContext.current
+                    val isPortrait = !context.isLandscape()
+                    val numberOfColumns = numberOfColumns(rawValue = sliderPosition, forText = true)
+                    val numberOfColumnsAlt =
+                        numberOfColumns(rawValue = sliderPosition, forText = true, useHeight = true)
+                    TextMMD(
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        text =
+                            "Grid size: Portrait: ${if (isPortrait) numberOfColumns else numberOfColumnsAlt} ${Constants.SEPARATOR} Landscape: ${if (isPortrait) numberOfColumnsAlt else numberOfColumns}",
+                    )
+                    Gap(Size.tiny)
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        SliderMMD(
+                            modifier = Modifier.weight(1f),
+                            value = sliderPosition,
+                            onValueChange = { sliderPosition = it },
+                            onValueChangeFinished = {
+                                rawColumnCountChanged((sliderPosition / 2f) - .5f)
+                            },
+                            steps = 8,
+                            valueRange = 0f..7f,
                         )
                         Gap(Size.tiny)
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            SliderMMD(
-                                modifier = Modifier.weight(1f),
-                                value = sliderPosition,
-                                onValueChange = { sliderPosition = it },
-                                onValueChangeFinished = {
-                                    rawColumnCountChanged((sliderPosition / 2f) - .5f)
-                                },
-                                steps = 8,
-                                valueRange = 0f..7f,
-                            )
-                            Gap(Size.tiny)
-                            TextButton(
-                                onClick = {
-                                    sliderPosition = 3f
-                                    rawColumnCountChanged((sliderPosition / 2f) - .5f)
-                                },
-                                shape = ButtonDefaultsMMD.shape,
-                            ) {
-                                TextMMD(stringResource(R.string.reset))
-                            }
+                        TextButton(
+                            onClick = {
+                                sliderPosition = 3f
+                                rawColumnCountChanged((sliderPosition / 2f) - .5f)
+                            },
+                            shape = ButtonDefaultsMMD.shape,
+                        ) {
+                            TextMMD(stringResource(R.string.reset))
                         }
                     }
                 }
-
-                HorizontalDividerMMD()
-
-                ToggleRow(
-                    enabled = unreadBadgesEnabled,
-                    onClick = unreadBadgesToggled,
-                    text = stringResource(id = R.string.unread_badge),
-                )
-
-                ToggleRow(
-                    enabled = downloadBadgesEnabled,
-                    onClick = downloadBadgesToggled,
-                    text = stringResource(R.string.download_badge),
-                )
-
-                ToggleRow(
-                    enabled = showStartReadingButtonEnabled,
-                    onClick = startReadingButtonToggled,
-                    text = stringResource(R.string.show_start_reading_button),
-                )
-                HorizontalDividerMMD()
-                ToggleRow(
-                    enabled = showLibraryButtonBarEnabled,
-                    onClick = showLibraryButtonBarToggled,
-                    text = stringResource(R.string.show_library_action_bar),
-                )
-
-                ToggleRow(
-                    enabled = horizontalCategoriesEnabled,
-                    onClick = horizontalCategoriesToggled,
-                    text = stringResource(R.string.horizontal_categories),
-                )
             }
+
+            HorizontalDividerMMD()
+
+            ToggleRow(
+                enabled = unreadBadgesEnabled,
+                onClick = unreadBadgesToggled,
+                text = stringResource(id = R.string.unread_badge),
+            )
+
+            ToggleRow(
+                enabled = downloadBadgesEnabled,
+                onClick = downloadBadgesToggled,
+                text = stringResource(R.string.download_badge),
+            )
+
+            ToggleRow(
+                enabled = showStartReadingButtonEnabled,
+                onClick = startReadingButtonToggled,
+                text = stringResource(R.string.show_start_reading_button),
+            )
+            HorizontalDividerMMD()
+            ToggleRow(
+                enabled = showLibraryButtonBarEnabled,
+                onClick = showLibraryButtonBarToggled,
+                text = stringResource(R.string.show_library_action_bar),
+            )
+
+            ToggleRow(
+                enabled = horizontalCategoriesEnabled,
+                onClick = horizontalCategoriesToggled,
+                text = stringResource(R.string.horizontal_categories),
+            )
         }
     }
 }

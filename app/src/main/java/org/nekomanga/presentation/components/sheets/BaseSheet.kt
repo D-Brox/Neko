@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -28,10 +27,7 @@ fun BaseSheet(
     bottomPaddingAroundContent: Dp = Size.mediumLarge,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColor.rippleConfiguration,
-        LocalTextSelectionColors provides themeColor.textSelectionColors,
-    ) {
+    CompositionLocalProvider(LocalTextSelectionColors provides themeColor.textSelectionColors) {
         val screenHeight = LocalConfiguration.current.screenHeightDp
         val maxSheetHeight = screenHeight * maxSheetHeightPercentage
         val minSheetHeight = screenHeight * minSheetHeightPercentage

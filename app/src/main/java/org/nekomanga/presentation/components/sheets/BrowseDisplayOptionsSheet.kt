@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -38,121 +36,109 @@ fun BrowseDisplayOptionsSheet(
     themeColorState: ThemeColorState = defaultThemeColorState(),
     bottomContentPadding: Dp = Size.medium,
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        val maxLazyHeight = LocalConfiguration.current.screenHeightDp * .9
+    val maxLazyHeight = LocalConfiguration.current.screenHeightDp * .9
 
-        BaseSheet(themeColor = themeColorState, bottomPaddingAroundContent = bottomContentPadding) {
-            val paddingModifier = Modifier.padding(horizontal = Size.small)
+    BaseSheet(themeColor = themeColorState, bottomPaddingAroundContent = bottomContentPadding) {
+        val paddingModifier = Modifier.padding(horizontal = Size.small)
 
-            Gap(Size.small)
-            TextMMD(
-                modifier = paddingModifier.fillMaxWidth(),
-                text = stringResource(R.string.display_options),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-            Gap(Size.large)
-            LazyColumnMMD(
-                modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp),
-                verticalArrangement = Arrangement.spacedBy(Size.medium),
-            ) {
-                if (showIsList) {
-                    item {
-                        TextMMD(
-                            text = stringResource(R.string.display_as),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium),
-                        )
-                    }
-                    item {
-                        Row(
-                            Modifier.fillMaxWidth()
-                                .padding(horizontal = Size.medium)
-                                .selectableGroup(),
-                            horizontalArrangement = Arrangement.Center,
-                        ) {
-                            ButtonMMD(
-                                onClick = switchDisplayClick,
-                                modifier = Modifier.weight(1f),
-                                colors =
-                                    if (isList) ButtonDefaultsMMD.buttonColors()
-                                    else ButtonDefaultsMMD.outlinedButtonColors(),
-                            ) {
-                                TextMMD(text = stringResource(R.string.list))
-                            }
-                            ButtonMMD(
-                                onClick = switchDisplayClick,
-                                modifier = Modifier.weight(1f),
-                                colors =
-                                    if (!isList) ButtonDefaultsMMD.buttonColors()
-                                    else ButtonDefaultsMMD.outlinedButtonColors(),
-                            ) {
-                                TextMMD(text = stringResource(R.string.grid))
-                            }
-                        }
-                    }
-                }
+        Gap(Size.small)
+        TextMMD(
+            modifier = paddingModifier.fillMaxWidth(),
+            text = stringResource(R.string.display_options),
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+        )
+        Gap(Size.large)
+        LazyColumnMMD(
+            modifier = Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp),
+            verticalArrangement = Arrangement.spacedBy(Size.medium),
+        ) {
+            if (showIsList) {
                 item {
                     TextMMD(
-                        text = stringResource(R.string.filter_results),
+                        text = stringResource(R.string.display_as),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium),
                     )
                 }
-
                 item {
                     Row(
                         Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
-                        horizontalArrangement = Arrangement.spacedBy(Size.small),
+                        horizontalArrangement = Arrangement.Center,
                     ) {
                         ButtonMMD(
-                            onClick = {
-                                libraryEntryVisibilityClick(
+                            onClick = switchDisplayClick,
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                if (isList) ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(R.string.list))
+                        }
+                        ButtonMMD(
+                            onClick = switchDisplayClick,
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                if (!isList) ButtonDefaultsMMD.buttonColors()
+                                else ButtonDefaultsMMD.outlinedButtonColors(),
+                        ) {
+                            TextMMD(text = stringResource(R.string.grid))
+                        }
+                    }
+                }
+            }
+            item {
+                TextMMD(
+                    text = stringResource(R.string.filter_results),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = Size.medium),
+                )
+            }
+
+            item {
+                Row(
+                    Modifier.fillMaxWidth().padding(horizontal = Size.medium).selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(Size.small),
+                ) {
+                    ButtonMMD(
+                        onClick = {
+                            libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY)
+                        },
+                        modifier = Modifier.weight(1f),
+                        colors =
+                            if (
+                                currentLibraryEntryVisibility ==
                                     LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
-                                )
-                            },
-                            modifier = Modifier.weight(1f),
-                            colors =
-                                if (
-                                    currentLibraryEntryVisibility ==
-                                        LibraryEntryVisibility.SHOW_NOT_IN_LIBRARY
-                                )
-                                    ButtonDefaultsMMD.buttonColors()
-                                else ButtonDefaultsMMD.outlinedButtonColors(),
-                        ) {
-                            TextMMD(text = stringResource(R.string.hide_library_manga))
-                        }
-                        ButtonMMD(
-                            onClick = {
-                                libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL)
-                            },
-                            modifier = Modifier.weight(1f),
-                            colors =
-                                if (
-                                    currentLibraryEntryVisibility == LibraryEntryVisibility.SHOW_ALL
-                                )
-                                    ButtonDefaultsMMD.buttonColors()
-                                else ButtonDefaultsMMD.outlinedButtonColors(),
-                        ) {
-                            TextMMD(text = stringResource(R.string.show_all_manga))
-                        }
-                        ButtonMMD(
-                            onClick = {
-                                libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_IN_LIBRARY)
-                            },
-                            modifier = Modifier.weight(1f),
-                            colors =
-                                if (
-                                    currentLibraryEntryVisibility ==
-                                        LibraryEntryVisibility.SHOW_IN_LIBRARY
-                                )
-                                    ButtonDefaultsMMD.buttonColors()
-                                else ButtonDefaultsMMD.outlinedButtonColors(),
-                        ) {
-                            TextMMD(text = stringResource(R.string.show_library_manga))
-                        }
+                            )
+                                ButtonDefaultsMMD.buttonColors()
+                            else ButtonDefaultsMMD.outlinedButtonColors(),
+                    ) {
+                        TextMMD(text = stringResource(R.string.hide_library_manga))
+                    }
+                    ButtonMMD(
+                        onClick = { libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_ALL) },
+                        modifier = Modifier.weight(1f),
+                        colors =
+                            if (currentLibraryEntryVisibility == LibraryEntryVisibility.SHOW_ALL)
+                                ButtonDefaultsMMD.buttonColors()
+                            else ButtonDefaultsMMD.outlinedButtonColors(),
+                    ) {
+                        TextMMD(text = stringResource(R.string.show_all_manga))
+                    }
+                    ButtonMMD(
+                        onClick = {
+                            libraryEntryVisibilityClick(LibraryEntryVisibility.SHOW_IN_LIBRARY)
+                        },
+                        modifier = Modifier.weight(1f),
+                        colors =
+                            if (
+                                currentLibraryEntryVisibility ==
+                                    LibraryEntryVisibility.SHOW_IN_LIBRARY
+                            )
+                                ButtonDefaultsMMD.buttonColors()
+                            else ButtonDefaultsMMD.outlinedButtonColors(),
+                    ) {
+                        TextMMD(text = stringResource(R.string.show_library_manga))
                     }
                 }
             }

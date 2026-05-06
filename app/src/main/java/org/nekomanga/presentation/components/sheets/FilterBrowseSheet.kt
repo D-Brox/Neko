@@ -22,11 +22,9 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -87,302 +85,296 @@ fun FilterBrowseSheet(
     bottomContentPadding: Dp = Size.medium,
     themeColorState: ThemeColorState = defaultThemeColorState(),
 ) {
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration
-    ) {
-        var originalLanguageExpanded by remember { mutableStateOf(false) }
-        var contentRatingExpanded by remember { mutableStateOf(false) }
-        var publicationDemographicExpanded by remember { mutableStateOf(false) }
-        var statusExpanded by remember { mutableStateOf(false) }
-        var sortExpanded by remember { mutableStateOf(false) }
-        var tagExpanded by remember { mutableStateOf(false) }
-        var otherExpanded by remember { mutableStateOf(false) }
+    var originalLanguageExpanded by remember { mutableStateOf(false) }
+    var contentRatingExpanded by remember { mutableStateOf(false) }
+    var publicationDemographicExpanded by remember { mutableStateOf(false) }
+    var statusExpanded by remember { mutableStateOf(false) }
+    var sortExpanded by remember { mutableStateOf(false) }
+    var tagExpanded by remember { mutableStateOf(false) }
+    var otherExpanded by remember { mutableStateOf(false) }
 
-        var showSaveFilterDialog by remember { mutableStateOf(false) }
+    var showSaveFilterDialog by remember { mutableStateOf(false) }
 
-        val nameOfEnabledFilter by
-            rememberSaveable(filters, savedFilters) {
-                mutableStateOf(
-                    savedFilters
-                        .firstOrNull { Json.decodeFromString<DexFilters>(it.dexFilters) == filters }
-                        ?.name ?: ""
-                )
-            }
-
-        val disabled by
-            remember(filters.queryMode) { mutableStateOf(filters.queryMode != QueryType.Title) }
-
-        LaunchedEffect(key1 = filters.queryMode) {
-            if (filters.queryMode != QueryType.Title) {
-                originalLanguageExpanded = false
-                contentRatingExpanded = false
-                publicationDemographicExpanded = false
-                statusExpanded = false
-                sortExpanded = false
-                tagExpanded = false
-                otherExpanded = false
-            }
-        }
-
-        if (showSaveFilterDialog) {
-            SaveFilterDialog(
-                themeColorState = themeColorState,
-                currentSavedFilters = savedFilters,
-                onDismiss = { showSaveFilterDialog = false },
-                onConfirm = { saveClick(it) },
+    val nameOfEnabledFilter by
+        rememberSaveable(filters, savedFilters) {
+            mutableStateOf(
+                savedFilters
+                    .firstOrNull { Json.decodeFromString<DexFilters>(it.dexFilters) == filters }
+                    ?.name ?: ""
             )
         }
 
-        var queryText by remember(filters.query.text) { mutableStateOf(filters.query.text) }
+    val disabled by
+        remember(filters.queryMode) { mutableStateOf(filters.queryMode != QueryType.Title) }
 
-        BaseSheet(themeColor = themeColorState, bottomPaddingAroundContent = 0.dp) {
-            val paddingModifier = Modifier.padding(horizontal = Size.small)
+    LaunchedEffect(key1 = filters.queryMode) {
+        if (filters.queryMode != QueryType.Title) {
+            originalLanguageExpanded = false
+            contentRatingExpanded = false
+            publicationDemographicExpanded = false
+            statusExpanded = false
+            sortExpanded = false
+            tagExpanded = false
+            otherExpanded = false
+        }
+    }
 
-            Gap(Size.medium)
+    if (showSaveFilterDialog) {
+        SaveFilterDialog(
+            themeColorState = themeColorState,
+            currentSavedFilters = savedFilters,
+            onDismiss = { showSaveFilterDialog = false },
+            onConfirm = { saveClick(it) },
+        )
+    }
 
-            val titleRes =
-                when (filters.queryMode) {
-                    QueryType.Title -> {
-                        R.string.title
-                    }
-                    QueryType.Author -> {
-                        R.string.author
-                    }
-                    QueryType.Group -> {
-                        R.string.scanlator_group
-                    }
-                    QueryType.List -> {
-                        R.string.list_id
-                    }
+    var queryText by remember(filters.query.text) { mutableStateOf(filters.query.text) }
+
+    BaseSheet(themeColor = themeColorState, bottomPaddingAroundContent = 0.dp) {
+        val paddingModifier = Modifier.padding(horizontal = Size.small)
+
+        Gap(Size.medium)
+
+        val titleRes =
+            when (filters.queryMode) {
+                QueryType.Title -> {
+                    R.string.title
                 }
-            val items = remember {
-                listOf(QueryType.Title, QueryType.Author, QueryType.Group, QueryType.List)
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(Size.tiny),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                ButtonGroup(
-                    items = items,
-                    selectedItem = filters.queryMode,
-                    onItemClick = {
-                        queryText = ""
-                        filterChanged(Filter.Query("", it))
-                    },
-                ) { item ->
-                    val name =
-                        when (item) {
-                            QueryType.Title -> stringResource(id = R.string.title)
-                            QueryType.Author -> stringResource(id = R.string.author)
-                            QueryType.Group -> stringResource(id = R.string.scanlator_group)
-                            QueryType.List -> stringResource(id = R.string.list_id)
-                        }
-                    TextMMD(
-                        text = name,
-                        fontWeight = FontWeight.Medium,
-                        style = MaterialTheme.typography.labelLarge,
-                    )
+                QueryType.Author -> {
+                    R.string.author
+                }
+                QueryType.Group -> {
+                    R.string.scanlator_group
+                }
+                QueryType.List -> {
+                    R.string.list_id
                 }
             }
-
-            val isError =
-                remember(filters.query.text) {
-                    if (filters.queryMode != QueryType.List || filters.query.text.isBlank()) {
-                        false
-                    } else {
-                        !filters.query.text.isUUID()
+        val items = remember {
+            listOf(QueryType.Title, QueryType.Author, QueryType.Group, QueryType.List)
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(Size.tiny),
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            ButtonGroup(
+                items = items,
+                selectedItem = filters.queryMode,
+                onItemClick = {
+                    queryText = ""
+                    filterChanged(Filter.Query("", it))
+                },
+            ) { item ->
+                val name =
+                    when (item) {
+                        QueryType.Title -> stringResource(id = R.string.title)
+                        QueryType.Author -> stringResource(id = R.string.author)
+                        QueryType.Group -> stringResource(id = R.string.scanlator_group)
+                        QueryType.List -> stringResource(id = R.string.list_id)
                     }
-                }
-
-            SearchFooter(
-                themeColorState = themeColorState,
-                labelText = stringResource(id = titleRes),
-                showDivider = false,
-                title = queryText,
-                isError = isError,
-                textChanged = { text: String ->
-                    queryText = text
-                    filterChanged(filters.query.copy(text = text))
-                },
-                search = { filterClick() },
-            )
-
-            FilterRow(
-                items = filters.originalLanguage.toPersistentList(),
-                expanded = originalLanguageExpanded,
-                disabled = disabled,
-                headerClicked = { originalLanguageExpanded = !originalLanguageExpanded },
-                headerRes = R.string.original_language,
-                anyEnabled = filters.originalLanguage.any { it.state },
-                onClick = { originalLanguage ->
-                    filterChanged(originalLanguage.copy(state = !originalLanguage.state))
-                },
-                selected = { originalLanguage -> originalLanguage.state },
-                name = { originalLanguage -> originalLanguage.language.prettyPrint },
-            )
-
-            if (filters.contentRatingVisible) {
-                FilterRow(
-                    items = filters.contentRatings.toPersistentList(),
-                    expanded = contentRatingExpanded,
-                    disabled = disabled,
-                    headerClicked = { contentRatingExpanded = !contentRatingExpanded },
-                    headerRes = R.string.content_rating,
-                    anyEnabled =
-                        filters.contentRatings.any {
-                            (it.rating.key in defaultContentRatings && !it.state) ||
-                                it.rating.key !in defaultContentRatings && it.state
-                        },
-                    onClick = { rating -> filterChanged(rating.copy(state = !rating.state)) },
-                    selected = { rating -> rating.state },
-                    nameRes = { rating -> rating.rating.nameRes },
+                TextMMD(
+                    text = name,
+                    fontWeight = FontWeight.Medium,
+                    style = MaterialTheme.typography.labelLarge,
                 )
             }
+        }
 
+        val isError =
+            remember(filters.query.text) {
+                if (filters.queryMode != QueryType.List || filters.query.text.isBlank()) {
+                    false
+                } else {
+                    !filters.query.text.isUUID()
+                }
+            }
+
+        SearchFooter(
+            themeColorState = themeColorState,
+            labelText = stringResource(id = titleRes),
+            showDivider = false,
+            title = queryText,
+            isError = isError,
+            textChanged = { text: String ->
+                queryText = text
+                filterChanged(filters.query.copy(text = text))
+            },
+            search = { filterClick() },
+        )
+
+        FilterRow(
+            items = filters.originalLanguage.toPersistentList(),
+            expanded = originalLanguageExpanded,
+            disabled = disabled,
+            headerClicked = { originalLanguageExpanded = !originalLanguageExpanded },
+            headerRes = R.string.original_language,
+            anyEnabled = filters.originalLanguage.any { it.state },
+            onClick = { originalLanguage ->
+                filterChanged(originalLanguage.copy(state = !originalLanguage.state))
+            },
+            selected = { originalLanguage -> originalLanguage.state },
+            name = { originalLanguage -> originalLanguage.language.prettyPrint },
+        )
+
+        if (filters.contentRatingVisible) {
             FilterRow(
-                items = filters.publicationDemographics.toPersistentList(),
-                expanded = publicationDemographicExpanded,
+                items = filters.contentRatings.toPersistentList(),
+                expanded = contentRatingExpanded,
                 disabled = disabled,
-                headerClicked = {
-                    publicationDemographicExpanded = !publicationDemographicExpanded
-                },
-                headerRes = R.string.publication_demographic,
-                anyEnabled = filters.publicationDemographics.any { it.state },
-                onClick = { demo -> filterChanged(demo.copy(state = !demo.state)) },
-                selected = { demo -> demo.state },
-                nameRes = { demo -> demo.demographic.nameRes },
-            )
-
-            FilterRow(
-                items = filters.statuses.toPersistentList(),
-                expanded = statusExpanded,
-                disabled = disabled,
-                headerClicked = { statusExpanded = !statusExpanded },
-                headerRes = R.string.status,
-                anyEnabled = filters.statuses.any { it.state },
-                onClick = { status -> filterChanged(status.copy(state = !status.state)) },
-                selected = { status -> status.state },
-                nameRes = { status -> status.status.statusRes },
-            )
-
-            FilterRow(
-                items = filters.sort.toPersistentList(),
-                expanded = sortExpanded,
-                disabled = disabled,
-                headerClicked = { sortExpanded = !sortExpanded },
-                headerRes = R.string.sort,
-                anyEnabled = filters.sort.any { it.state && it.sort != MdSort.Best },
-                onClick = { sort -> filterChanged(sort.copy(state = !sort.state)) },
-                selected = { sort -> sort.state },
-                name = { sort -> sort.sort.displayName },
-            )
-
-            FilterTriStateRow(
-                items = filters.tags.toPersistentList(),
-                expanded = tagExpanded,
-                disabled = disabled,
-                headerClicked = { tagExpanded = !tagExpanded },
-                headerRes = R.string.tag,
-                anyEnabled = filters.tags.any { it.state != ToggleableState.Off },
-                toggleState = { newState, tag -> filterChanged(tag.copy(state = newState)) },
-                selected = { tag -> tag.state },
-                name = { tag -> tag.tag.prettyPrint },
-            )
-
-            OtherRow(
-                isExpanded = otherExpanded,
-                disabled = disabled,
-                themeColorState = themeColorState,
-                onHeaderClick = { otherExpanded = !otherExpanded },
-                filters = filters,
+                headerClicked = { contentRatingExpanded = !contentRatingExpanded },
+                headerRes = R.string.content_rating,
                 anyEnabled =
-                    (filters.tagExclusionMode != Filter.TagExclusionMode() ||
-                        filters.tagInclusionMode != Filter.TagInclusionMode() ||
-                        filters.hasAvailableChapters != Filter.HasAvailableChapters() ||
-                        filters.authorId.uuid.isNotBlank() ||
-                        filters.groupId.uuid.isNotBlank()),
-                filterChanged = filterChanged,
-                filterClick = filterClick,
-            )
-
-            Gap(Size.tiny)
-
-            SavedFilters(
-                visible = savedFilters.isNotEmpty(),
-                savedFilters = savedFilters,
-                nameOfEnabledFilter = nameOfEnabledFilter,
-                loadFilter = loadFilter,
-                deleteFilterClick = deleteFilterClick,
-                filterDefaultClick = filterDefaultClick,
-            )
-
-            Gap(Size.small)
-
-            Row(
-                modifier = paddingModifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                TextButton(
-                    onClick = {
-                        queryText = ""
-                        resetClick()
+                    filters.contentRatings.any {
+                        (it.rating.key in defaultContentRatings && !it.state) ||
+                            it.rating.key !in defaultContentRatings && it.state
                     },
+                onClick = { rating -> filterChanged(rating.copy(state = !rating.state)) },
+                selected = { rating -> rating.state },
+                nameRes = { rating -> rating.rating.nameRes },
+            )
+        }
+
+        FilterRow(
+            items = filters.publicationDemographics.toPersistentList(),
+            expanded = publicationDemographicExpanded,
+            disabled = disabled,
+            headerClicked = { publicationDemographicExpanded = !publicationDemographicExpanded },
+            headerRes = R.string.publication_demographic,
+            anyEnabled = filters.publicationDemographics.any { it.state },
+            onClick = { demo -> filterChanged(demo.copy(state = !demo.state)) },
+            selected = { demo -> demo.state },
+            nameRes = { demo -> demo.demographic.nameRes },
+        )
+
+        FilterRow(
+            items = filters.statuses.toPersistentList(),
+            expanded = statusExpanded,
+            disabled = disabled,
+            headerClicked = { statusExpanded = !statusExpanded },
+            headerRes = R.string.status,
+            anyEnabled = filters.statuses.any { it.state },
+            onClick = { status -> filterChanged(status.copy(state = !status.state)) },
+            selected = { status -> status.state },
+            nameRes = { status -> status.status.statusRes },
+        )
+
+        FilterRow(
+            items = filters.sort.toPersistentList(),
+            expanded = sortExpanded,
+            disabled = disabled,
+            headerClicked = { sortExpanded = !sortExpanded },
+            headerRes = R.string.sort,
+            anyEnabled = filters.sort.any { it.state && it.sort != MdSort.Best },
+            onClick = { sort -> filterChanged(sort.copy(state = !sort.state)) },
+            selected = { sort -> sort.state },
+            name = { sort -> sort.sort.displayName },
+        )
+
+        FilterTriStateRow(
+            items = filters.tags.toPersistentList(),
+            expanded = tagExpanded,
+            disabled = disabled,
+            headerClicked = { tagExpanded = !tagExpanded },
+            headerRes = R.string.tag,
+            anyEnabled = filters.tags.any { it.state != ToggleableState.Off },
+            toggleState = { newState, tag -> filterChanged(tag.copy(state = newState)) },
+            selected = { tag -> tag.state },
+            name = { tag -> tag.tag.prettyPrint },
+        )
+
+        OtherRow(
+            isExpanded = otherExpanded,
+            disabled = disabled,
+            themeColorState = themeColorState,
+            onHeaderClick = { otherExpanded = !otherExpanded },
+            filters = filters,
+            anyEnabled =
+                (filters.tagExclusionMode != Filter.TagExclusionMode() ||
+                    filters.tagInclusionMode != Filter.TagInclusionMode() ||
+                    filters.hasAvailableChapters != Filter.HasAvailableChapters() ||
+                    filters.authorId.uuid.isNotBlank() ||
+                    filters.groupId.uuid.isNotBlank()),
+            filterChanged = filterChanged,
+            filterClick = filterClick,
+        )
+
+        Gap(Size.tiny)
+
+        SavedFilters(
+            visible = savedFilters.isNotEmpty(),
+            savedFilters = savedFilters,
+            nameOfEnabledFilter = nameOfEnabledFilter,
+            loadFilter = loadFilter,
+            deleteFilterClick = deleteFilterClick,
+            filterDefaultClick = filterDefaultClick,
+        )
+
+        Gap(Size.small)
+
+        Row(
+            modifier = paddingModifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            TextButton(
+                onClick = {
+                    queryText = ""
+                    resetClick()
+                },
+                shape = RoundedCornerShape(Size.extraLarge),
+                colors =
+                    ButtonDefaults.textButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
+                    ),
+            ) {
+                Icon(imageVector = Icons.Default.RestartAlt, contentDescription = null)
+                Gap(Size.tiny)
+                TextMMD(
+                    text = stringResource(id = R.string.reset),
+                    style = MaterialTheme.typography.titleSmall,
+                )
+            }
+
+            if (nameOfEnabledFilter.isEmpty()) {
+                TextButton(
+                    onClick = { showSaveFilterDialog = true },
                     shape = RoundedCornerShape(Size.extraLarge),
                     colors =
                         ButtonDefaults.textButtonColors(
                             contentColor = MaterialTheme.colorScheme.primary
                         ),
                 ) {
-                    Icon(imageVector = Icons.Default.RestartAlt, contentDescription = null)
+                    Icon(imageVector = Icons.Default.Save, contentDescription = null)
                     Gap(Size.tiny)
                     TextMMD(
-                        text = stringResource(id = R.string.reset),
+                        text = stringResource(id = R.string.save),
                         style = MaterialTheme.typography.titleSmall,
-                    )
-                }
-
-                if (nameOfEnabledFilter.isEmpty()) {
-                    TextButton(
-                        onClick = { showSaveFilterDialog = true },
-                        shape = RoundedCornerShape(Size.extraLarge),
-                        colors =
-                            ButtonDefaults.textButtonColors(
-                                contentColor = MaterialTheme.colorScheme.primary
-                            ),
-                    ) {
-                        Icon(imageVector = Icons.Default.Save, contentDescription = null)
-                        Gap(Size.tiny)
-                        TextMMD(
-                            text = stringResource(id = R.string.save),
-                            style = MaterialTheme.typography.titleSmall,
-                        )
-                    }
-                }
-
-                ElevatedButton(
-                    onClick = filterClick,
-                    shape = RoundedCornerShape(Size.extraLarge),
-                    colors =
-                        ButtonDefaults.elevatedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.primary
-                        ),
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                    )
-                    Gap(Size.tiny)
-                    TextMMD(
-                        text = stringResource(id = R.string.filter),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
 
-            Gap(bottomContentPadding + Size.small)
+            ElevatedButton(
+                onClick = filterClick,
+                shape = RoundedCornerShape(Size.extraLarge),
+                colors =
+                    ButtonDefaults.elevatedButtonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                )
+                Gap(Size.tiny)
+                TextMMD(
+                    text = stringResource(id = R.string.filter),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+            }
         }
+
+        Gap(bottomContentPadding + Size.small)
     }
 }
 

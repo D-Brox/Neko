@@ -4,6 +4,8 @@ import android.text.format.DateUtils
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,8 +28,8 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.nekomanga.R
 import org.nekomanga.presentation.components.UiText
-import org.nekomanga.presentation.components.listcard.ExpressiveListCard
 import org.nekomanga.presentation.components.listcard.ListCardType
+import org.nekomanga.presentation.components.listcard.NekoListCard
 import org.nekomanga.presentation.screens.EmptyScreen
 import org.nekomanga.presentation.theme.Size
 
@@ -199,10 +201,35 @@ private fun Grouped(
                 val globalIndex = groupedBySeries.indexOf(feedManga)
 
                 item(key = "${groupIndex}-${feedManga.mangaId}-${latestChapter.chapter.id}") {
-                    // 7. Wrap UpdatesCard with ExpressiveListCard
-                    ExpressiveListCard(
+                    // 7. Wrap UpdatesCard with ElevatedCard
+                    val shape =
+                        when (listCardType) {
+                            ListCardType.Top ->
+                                RoundedCornerShape(
+                                    topStart = Size.medium,
+                                    topEnd = Size.medium,
+                                    bottomEnd = Size.tiny,
+                                    bottomStart = Size.tiny,
+                                )
+                            ListCardType.Center ->
+                                RoundedCornerShape(
+                                    topStart = Size.tiny,
+                                    topEnd = Size.tiny,
+                                    bottomEnd = Size.tiny,
+                                    bottomStart = Size.tiny,
+                                )
+                            ListCardType.Single -> RoundedCornerShape(Size.medium)
+                            ListCardType.Bottom ->
+                                RoundedCornerShape(
+                                    topStart = Size.tiny,
+                                    topEnd = Size.tiny,
+                                    bottomEnd = Size.medium,
+                                    bottomStart = Size.medium,
+                                )
+                        }
+                    ElevatedCard(
                         modifier = Modifier.padding(horizontal = Size.small),
-                        listCardType = listCardType, // Pass the calculated shape
+                        shape = shape,
                     ) {
                         UpdatesCard(
                             chapterItem = latestChapter,
@@ -313,7 +340,7 @@ private fun Ungrouped(
                 item(
                     key = "$dateString-$chapterIndex-${feedManga.mangaId}-${chapterItem.chapter.id}"
                 ) {
-                    ExpressiveListCard(
+                    NekoListCard(
                         modifier = Modifier.padding(horizontal = Size.small),
                         listCardType = listCardType, // Pass the correct type
                     ) {

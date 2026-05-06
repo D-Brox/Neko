@@ -16,18 +16,15 @@ import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,81 +74,76 @@ fun TrackingSearchSheet(
 
     var trackSearchItem by remember { mutableStateOf<TrackSearchItem?>(null) }
 
-    CompositionLocalProvider(
-        LocalRippleConfiguration provides themeColorState.rippleConfiguration,
-        LocalTextSelectionColors provides themeColorState.textSelectionColors,
-    ) {
-        Column(modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding()) {
-            Header(stringResource(id = R.string.select_an_entry), cancelClick)
+    Column(modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding()) {
+        Header(stringResource(id = R.string.select_an_entry), cancelClick)
 
-            when (trackSearchResult) {
-                is TrackSearchResult.Success -> {
-                    LazyColumnMMD(
-                        modifier =
-                            Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
+        when (trackSearchResult) {
+            is TrackSearchResult.Success -> {
+                LazyColumnMMD(
+                    modifier =
+                        Modifier.fillMaxWidth().requiredHeightIn(Size.none, maxLazyHeight.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    item { Gap(Size.tiny) }
+                    if (
+                        alreadySelectedTrack == null &&
+                            trackSearchResult.hasMatchingId &&
+                            trackSearchResult.trackSearchResult.size == 1
                     ) {
-                        item { Gap(Size.tiny) }
-                        if (
-                            alreadySelectedTrack == null &&
-                                trackSearchResult.hasMatchingId &&
-                                trackSearchResult.trackSearchResult.size == 1
-                        ) {
-                            trackSearchItemClick(trackSearchResult.trackSearchResult.first())
-                        }
-
-                        items(trackSearchResult.trackSearchResult) { item: TrackSearchItem ->
-                            TrackSearchItem(
-                                themeColorState = themeColorState,
-                                trackSearch = item,
-                                alreadySelectedTrack = alreadySelectedTrack,
-                                openInBrowser = openInBrowser,
-                                trackSearchItemClick = {
-                                    if (alreadySelectedTrack == null) {
-                                        trackSearchItemClick(it)
-                                    } else {
-                                        trackSearchItem = item
-                                    }
-                                },
-                            )
-
-                            if (trackSearchItem != null) {
-                                TrackingSwitchDialog(
-                                    themeColorState = themeColorState,
-                                    name = stringResource(id = service.nameRes),
-                                    oldName = alreadySelectedTrack?.title ?: "",
-                                    newName = trackSearchItem!!.trackItem.title,
-                                    onConfirm = { alsoRemoveFromTracker, isReplacing ->
-                                        trackingRemoved(alsoRemoveFromTracker, service)
-                                        if (isReplacing) {
-                                            trackSearchItemClick(trackSearchItem!!)
-                                        }
-                                        cancelClick()
-                                    },
-                                    onDismiss = { trackSearchItem = null },
-                                )
-                            }
-                        }
-
-                        item { Gap(Size.tiny) }
+                        trackSearchItemClick(trackSearchResult.trackSearchResult.first())
                     }
+
+                    items(trackSearchResult.trackSearchResult) { item: TrackSearchItem ->
+                        TrackSearchItem(
+                            themeColorState = themeColorState,
+                            trackSearch = item,
+                            alreadySelectedTrack = alreadySelectedTrack,
+                            openInBrowser = openInBrowser,
+                            trackSearchItemClick = {
+                                if (alreadySelectedTrack == null) {
+                                    trackSearchItemClick(it)
+                                } else {
+                                    trackSearchItem = item
+                                }
+                            },
+                        )
+
+                        if (trackSearchItem != null) {
+                            TrackingSwitchDialog(
+                                themeColorState = themeColorState,
+                                name = stringResource(id = service.nameRes),
+                                oldName = alreadySelectedTrack?.title ?: "",
+                                newName = trackSearchItem!!.trackItem.title,
+                                onConfirm = { alsoRemoveFromTracker, isReplacing ->
+                                    trackingRemoved(alsoRemoveFromTracker, service)
+                                    if (isReplacing) {
+                                        trackSearchItemClick(trackSearchItem!!)
+                                    }
+                                    cancelClick()
+                                },
+                                onDismiss = { trackSearchItem = null },
+                            )
+                        }
+                    }
+
+                    item { Gap(Size.tiny) }
                 }
-                else ->
-                    CenteredBox(
-                        themeColorState = themeColorState,
-                        trackSearchResult = trackSearchResult,
-                    )
             }
-            var searchText by remember { mutableStateOf(title) }
-            SearchFooter(
-                themeColorState = themeColorState,
-                labelText = stringResource(id = R.string.title),
-                title = searchText,
-                textChanged = { searchText = it },
-                search = searchTracker,
-            )
-            Gap(Size.mediumLarge)
+            else ->
+                CenteredBox(
+                    themeColorState = themeColorState,
+                    trackSearchResult = trackSearchResult,
+                )
         }
+        var searchText by remember { mutableStateOf(title) }
+        SearchFooter(
+            themeColorState = themeColorState,
+            labelText = stringResource(id = R.string.title),
+            title = searchText,
+            textChanged = { searchText = it },
+            search = searchTracker,
+        )
+        Gap(Size.mediumLarge)
     }
 }
 

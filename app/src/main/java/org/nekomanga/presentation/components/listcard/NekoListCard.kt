@@ -20,7 +20,7 @@ enum class ListCardType {
 }
 
 @Composable
-fun ExpressiveListCard(
+fun NekoListCard(
     modifier: Modifier = Modifier,
     listCardType: ListCardType,
     themeColorState: ThemeColorState = defaultThemeColorState(),
